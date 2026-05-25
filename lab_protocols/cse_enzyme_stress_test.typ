@@ -21,7 +21,7 @@
   ],
 )
 
-#set text(font: "New Computer Modern", size: 10pt, lang: "en")
+#set text(font: "STIX Two Text", size: 10pt, lang: "en")
 #set par(justify: true, leading: 0.6em)
 
 #set heading(numbering: "1.")
@@ -85,37 +85,61 @@
   ]
   #v(0.4em)
   #text(size: 10pt)[
-    Haavik Neurotargeting Research Group · Department of Biomedicine · UiB
+    Neurotargeting Research Group · Department of Biomedicine · UiB
   ]
 ]
 
 #v(0.5em)
 
 // =========================================================================
-= Purpose and scope
+
+= Background
+
 // =========================================================================
 
-This is the *characterisation* protocol for recombinant human cystathionine
-γ-lyase (CSE, gene name _CTH_, UniProt P32929). No one in the group has
-worked with this protein before. Before scaling up to the ~20 mg
-preparative campaign needed for the PAM screen, we need baseline data on
-how this specific construct, produced in this specific strain in this
-specific lab, behaves: how it expresses, how it folds, how it tolerates
-pH / temperature / salt / freeze-thaw, and whether the AzMC / methylene
-blue activity assay gives reproducible signal.
+Cystathionine γ-lyase (CSE; gene CTH; EC 4.4.1.1) is a pyridoxal-5'-phosphate (PLP)-dependent enzyme of fold type I that, together with cystathionine β-synthase (CBS) and 3-mercaptopyruvate sulfurtransferase (3-MST), produces the gasotransmitter hydrogen sulfide (H2S) in mammalian tissues. Native human CSE assembles as a homotetramer of ~44 kDa subunits (~176 kDa native), with one PLP cofactor covalently anchored to Lys212 via a Schiff base in each active site. Loss of CSE activity has been linked causally to Alzheimer's-disease-relevant phenotypes in mouse models, making CSE an emerging therapeutic target for neurodegeneration.
 
-*Output of this protocol:* 1–3 mg of single-step IMAC-purified, His-tagged
-CSE; documented biophysical QC envelope (oligomeric state, monodispersity,
-folding, thermal stability, identity, mass); documented activity envelope
-(Km, kcat, pH and T optima, freeze-thaw stability).
+When the goal is to characterise an enzyme — to measure activity, screen modulators, or determine 3D
+structure — it is typically necessary to produce milligram quantities of pure, folded protein. Escherichia coli
+is the first-choice heterologous host because of its growth rate, low cost, and the maturity of its expression
+toolkit. Cloning the gene of interest behind an inducible promoter, in frame with an affinity tag, makes it
+possible to over-produce the target and to capture it from a complex cell lysate.
 
-*This protocol is not for producing screening material.* It deliberately
-uses small culture volumes (200 mL), a single chromatographic step, and
-no tag cleavage. The His tag is retained throughout - it does not
-materially affect SEC-MALS, DLS, CD, DSF, intact mass, or activity, and
-removing it adds a day of dialysis and an extra column for no gain at
-this stage. The preparative protocol (Document B) handles tag cleavage
-and SEC polishing once expression and activity have been validated here.
+In this exercise we will work with the pNIC28-Bsa4 expression vector (Addgene #42365), which already
+carries the human CTH coding sequence behind a T7 promoter, fused N-terminally to a His6-TEV cassette
+(Figure 1). The vector confers kanamycin resistance. Expression will be carried out in E. coli
+BL21(DE3)-R3-pRARE2 (Addgene #26242), a derivative of BL21(DE3) that supplies seven rare-codon
+tRNAs from the pRARE2 plasmid (chloramphenicol selection) — useful for human cDNAs that contain
+codons rarely used in E. coli. Cloning steps below can be skipped if you start directly from the Addgene
+plasmid; the cloning protocol is retained for completeness and as a reference for any future re-cloning
+(e.g., for site-directed mutants).
+
+The PLP cofactor. CSE is only catalytically competent as the holoenzyme, with PLP bound to Lys212.
+Apo-CSE produced in PLP-limited E. coli cultures is folded but inactive and tends to be less stable. We
+therefore supplement growth media with 50–100 µM PLP and include PLP in all purification buffers.
+Holoenzyme quality can be tracked by the A415/A280 absorbance ratio (PLP–Schiff base absorbs near 415
+nm); a fully loaded tetramer is visibly yellow.
+Why cleave the His-tag? Unlike the BIO211 LytB protocol, where the N-terminal His6-tag is retained on
+the final protein, we will cleave the tag from CSE using TEV protease and capture the free protein in a
+reverse-IMAC step. There are three reasons. (i) An N-terminal extension can perturb the dynamics of
+fold-type I PLP enzymes — the N-terminal region of CSE sits near the dimer–dimer interface that frames
+the allosteric pocket relevant to PAM discovery, and we want functional and structural readouts to reflect
+physiological behaviour as closely as possible. (ii) The untagged protein is the correct starting material for
+downstream biophysical assays (MST, ITC, DSF, crystallography) where stray metal-affinity or
+polyhistidine effects can introduce artefacts. (iii) For functional comparisons against literature CSE activity
+values, the untagged form is the standard reference.
+
+Alignment with the SGC prep behind PDB 3COG. The expression and purification pipeline below is
+matched as closely as possible to the Structural Genomics Consortium prep that produced the published
+hCSE structure (PDB 3COG; Sun et al. 2009 J. Biol. Chem. 284, 3076–3085). Specifically: Terrific Broth
+medium for biomass; TCEP throughout (rather than DTT, which strips Ni2+ off the IMAC column and is less
+stable); 10% glycerol in every buffer; sodium phosphate for IMAC and HEPES for SEC; Roche Complete
+EDTA-free protease inhibitor in the lysis buffer; sonication on ice; and — importantly — Ni-IMAC capture
+before SEC, with TEV cleavage and reverse IMAC performed after the SEC polish. Polishing before
+cleavage means the cleavage reaction sees clean monodisperse material and the reverse-IMAC step has very little crud to fight through. The only explicit deviation from Sun et al. is that PLP is supplemented at
+induction (100 µM) and carried through every buffer (25 µM); the SGC methods section is silent on PLP,
+but the reported 12.2 mg/mL final concentration without apparent aggregation issues implies they kept the
+cofactor available somewhere in the pipeline.
 
 #note[
   The biophysical QC workflow in §5 follows the standard recombinant-protein
