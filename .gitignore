@@ -27,8 +27,7 @@ Desktop.ini
 $RECYCLE.BIN/
 
 # Typst build output (compiled from .typ sources; figures kept)
-thesis/*.pdf
-lab_protocols/*.pdf
+*.pdf
 
 # Editor / IDE
 .zed/
