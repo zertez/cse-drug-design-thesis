@@ -45,10 +45,13 @@
 
   // -- Typography --
   set text(
-    font: "Times New Roman",
+    font: "STIX Two Text",
     size: 12pt,
     lang: "en",
   )
+
+  show math.equation: set text(font: "STIX Two Math")
+  
   set par(
     leading: 0.75em,
     first-line-indent: 0pt,
@@ -113,8 +116,7 @@
       }
 
       #text(size: 12pt)[
-        This thesis is submitted in partial fulfilment of the requirements for the degree of
-        Master in Biomedical Sciences -- #emph[#study-track]
+        This thesis is submitted in partial fulfilment of the requirements for the degree of Master of Biomedicine
       ]
 
       #v(1cm)

@@ -5,7 +5,7 @@
 
 = Results
 
-== Structural Analysis of CBS and CSE
+== Structural Analysis of CSE
 
 #lorem(120)
 

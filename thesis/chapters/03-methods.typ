@@ -54,3 +54,5 @@ Unless otherwise stated, all chemicals were purchased from Sigma-Aldrich (Merck,
 === LC-MS / HPLC Analysis
 
 #lorem(60)
+
+$ integral_0^infinity e^(-x^2) dif x = sqrt(pi)/2 $
