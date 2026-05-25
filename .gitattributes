@@ -1,0 +1,13 @@
+# Ensure consistent line endings for text sources
+*.typ  text eol=lf
+*.bib  text eol=lf
+*.toml text eol=lf
+
+# Treat compiled output and figures as binary
+*.pdf    binary
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+
+# GitHub Linguist — classify this as a Typst repo
+*.typ linguist-language=Typst

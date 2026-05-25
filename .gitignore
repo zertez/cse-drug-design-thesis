@@ -1,0 +1,60 @@
+# Scientific papers (copyrighted, must not be committed)
+PDFs/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows (just in case)
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Typst build output (compiled from .typ sources; figures kept)
+thesis/*.pdf
+lab_protocols/*.pdf
+
+# Editor / IDE
+.zed/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python (analysis scripts, RDKit notebooks, etc.)
+__pycache__/
+*.py[cod]
+*$py.class
+.pixi/
+.venv/
+venv/
+env/
+*.egg-info/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Schrödinger Maestro working files
+*.maegz~
+*.bak
+*.tmp
+.maestro/
+phase_screen_*.log
