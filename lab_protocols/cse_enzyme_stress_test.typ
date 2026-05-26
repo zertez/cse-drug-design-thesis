@@ -15,8 +15,7 @@
   numbering: "1 / 1",
   header: [
     #set text(size: 8pt, fill: gray)
-    #align(right)[
-      CSE Enzyme Stress Test · Document A · v0.1 (draft)
+    #align(right)[Document A · v0.1 (draft)
     ]
   ],
 )
@@ -51,12 +50,12 @@
   [#text(weight: "bold")[You need:] \ #body],
 )
 
-#let qc(body) = block(
+#let nb(title: "NB!", body) = block(
   width: 100%,
   inset: 6pt,
   stroke: (left: 2pt + rgb("#b00020")),
   fill: rgb("#fdecea"),
-  [#text(weight: "bold", fill: rgb("#b00020"))[QC checkpoint. ] #body],
+  [#text(weight: "bold", fill: rgb("#b00020"))[#title ] #body],
 )
 
 #let note(title: "Note", body) = block(
@@ -64,7 +63,7 @@
   inset: 6pt,
   stroke: (left: 2pt + rgb("#1a73e8")),
   fill: rgb("#e8f0fe"),
-  [#text(weight: "bold", fill: rgb("#1a73e8"))[#title. ] #body],
+  [#text(weight: "bold", fill: rgb("#1a73e8"))[#title] #body],
 )
 
 #let tbd(body) = block(
@@ -136,7 +135,7 @@
 - *Potential Essential Additives:* TCEP (reducing agent), 10% Glycerol (cryoprotectant), Pyridoxal-5'-phosphate (PLP cofactor)
 - *Methodological Basis:* Adapted from the SGC protocol @sgc_protocol and addgenes protocols.
 
-#note(title: "Laboratory Implementation")[This is the first SOP for hCSE production in the group, adapted from the SGC pipeline. Expect revisions as we run it more times. The goal is to move hCSE production from one-off troubleshooting to a routine, reproducible workflow.]
+#note(title: "Laboratory Implementation:")[This is the first SOP for hCSE production in the group, adapted from the SGC pipeline. Expect revisions as we run it more times. The goal is to move hCSE production from one-off troubleshooting to a routine, reproducible workflow.]
 
 #line(length: 100%, stroke: 0.5pt)
 
@@ -169,40 +168,105 @@ Two items have been received from Addgene:
 - *pNIC28-Bsa4-CTHA* (42365): the hCSE expression construct, shipped as a bacterial stab in a cloning host. Kanamycin selection.
 - *BL21(DE3)-R3-pRARE2* (26242): the expression strain, shipped as a bacterial stab. Chloramphenicol selection (for pRARE2).
 
-Both arrive as stab cultures - bacteria stabbed into a column of LB agar in a small screw-cap vial. Cells grow along the puncture track and out across the surface. It is vital that the bacterial stabs are stored immediately at 4 °C upon arrival. The bacterial stabs can survive up to two weeks in this condition, if you need it for longer then it has to be transferred to glycerol stocks for long-term storage.
+Both arrive as stab cultures - bacteria stabbed into a column of LB agar in a small screw-cap vial. Cells grow along the puncture track and out across the surface. It is vital that the bacterial stabs are stored immediately at 4 °C upon arrival. The bacterial stabs can survive up to two weeks in this condition, if you need it for longer then it has to be transferred to glycerol stocks for long-term storage at -80 °C.
 
 = Procedure
 
-#checklist(
-  title: "Reagent and consumables checklist",
-  [LB agar plates + kanamycin (50 μg/mL), poured and labelled - for #42365],
-  [LB agar plates + chloramphenicol (34 μg/mL), poured and labelled - for #26242],
-  [LB broth, autoclaved, ≥ 20 mL available],
-  [Sterile 50% (v/v) glycerol in water, autoclaved, ≥ 5 mL available],
-  [Sterile cryovials, labelled (≥ 3 per strain, minimum 6 total)],
-  [Sterile inoculation loops or pipette tips],
-  [Kanamycin stock: 50 mg/mL in water, aliquoted at −20 °C],
-  [Chloramphenicol stock: 34 mg/mL in ethanol, aliquoted at −20 °C],
-  [Miniprep kit on hand],
-  [Sequencing primers ordered and received: pLIC-for, pLIC-rev],
-  [Liquid nitrogen or dry ice available for snap-freeze],
-  [−80 °C freezer space identified and labelled],
-)
+== Day 0: Plate and reagent preparation
+
+LB agar plates with antibiotic are required for Day 1 (streaking) and Day 3 QC (revive test). Plates are poured fresh ~1 week before Day 1 to ensure full antibiotic activity. Adapted from the Addgene plate-pouring protocol.
 
 #checklist(
-  title: "Day 1 - Procedure checklist",
-  [Stabs received and stored at 4 °C],
-  [42365 streaked onto LB + Kan plate],
-  [26482 streaked onto LB + Cam plate],
-  [Plates labelled: strain ID, date, antibiotic, initials],
-  [Plates incubated at 37 °C overnight],
-  [Original stabs returned to 4 °C as backup],
+  title: "Materials (per ~20 plates of each antibiotic)",
+  [Pre-mixed LB-agar powder: ~8 g per 220 mL batch (37 g/L formulation)],
+  [Sterile dH#sub[2]O, 220 mL per batch],
+  [Two 500 mL autoclavable bottles with vented caps],
+  [Sterile 60 mm x 15 mm petri dishes, ~25 per antibiotic (extra for spillage)],
+  [Kanamycin stock: 50 mg/mL in dH#sub[2]O, filter-sterilised, stored at -20 °C],
+  [Chloramphenicol stock: 34 mg/mL in 100% ethanol, stored at -20 °C, kept dark],
+  [Autoclave tape and lab tape for labelling],
+  [60 °C water bath],
+  [Bunsen burner or other small flame source],
+  [70% ethanol for bench sterilisation],
+  [Sealable plastic bags + absorbent material (e.g. paper towel) for storage],
 )
+
+== Prepare and autoclave molten agar
+
+1. For each antibiotic, weigh 8.14 g pre-mixed LB-agar powder into a separate 500 mL bottle.
+
+  #note[Calculation: 37 g/L formulation × 0.220 L = 8.14 g. Making 220 mL rather than 200 mL provides margin for spillage and measurement error.]
+
++ Add 220 mL sterile dH#sub[2]O to each bottle. Swirl to form a uniform suspension.
+
++ Loosely cap each bottle (do #underline[*NOT*] seal airtight) and cover the cap with aluminium foil. Apply autoclave tape and label with date, contents, and initials.
+
++ Autoclave at 121 °C, 20 psi, for ≥ 30 min.
+
++ After the cycle, crack the autoclave door for ~10 min to release steam and begin cooling. Use thermally insulated gloves to remove the bottles.
+
+#pagebreak()
+
+== Cool, add antibiotic, pour
+
+While the bottles are still hot, set up the pouring station:
+
+6. Spray a section of lab bench with 70% ethanol and wipe with a paper towel.
+
++ Position the flame at the bench. Stack ~22 labelled petri dishes per antibiotic next to the flame.
+
++ Label each plate base (not the lid - lids get swapped) with: antibiotic, pour date, initials. Batch labelling with coloured markers per antibiotic (e.g. blue for Kan, red for Cam) speeds this up.
+
++ Have the antibiotic stocks ready on ice (Kan) or in a dark tube rack (Cam).
+
++ Partially submerge each bottle in the 60 °C water bath for ≥ 5 min. Do *not* let water bath water touch the cap or neck of the bottle. Cooled agar should be warm to the touch but still fully liquid - if you cannot hold the bottle in a gloved hand, it is too hot to add antibiotic.
+
++ Working next to the flame, add antibiotic to each bottle at 1:1000:
+  - Kan bottle: 220 μL of 50 mg/mL kanamycin stock → 50 μg/mL final
+  - Cam bottle: 220 μL of 34 mg/mL chloramphenicol stock → 34 μg/mL final
+
++ Swirl each bottle gently to distribute the antibiotic evenly. Avoid creating bubbles.
+
++ Pour ~10 mL per plate (60 mm dish). For the first plate, measure with a pipette to calibrate by eye; pour subsequent plates directly from the bottle.
+
++ After pouring each plate, swirl gently to ensure even coverage and remove surface bubbles. Cap and stack.
+
++ Leave plates at room temperature to solidify (~30 min) and then dry overnight, agar-side up, with lids cracked slightly. This drying step is important - undried plates accumulate condensation on the lid.
+
+== Storage and validation
+
+16. Once dry, transfer plates to a sealed plastic bag with a folded paper towel as desiccant. Invert plates (agar-side up) inside the bag to prevent condensation pooling on the agar.
+
++ Label the bag with the antibiotic, pour date, and your initials.
+
++ Store at 4 °C. Chloramphenicol plates must be kept dark (opaque container or drawer); kanamycin plates are not light-sensitive.
+
++ Plates are valid for 1 month from the pour date. Discard any plates that show contamination, drying (cracks or shrinkage from plate edge), or condensation pooling on the agar.
+
+#nb[Before relying on a new batch for the Day 1 streak, validate it: streak a known antibiotic-resistant strain on one plate and a known sensitive strain on a second plate. Incubate overnight at 37 °C. Resistant strain should grow; sensitive strain should not. If both grow, the antibiotic is degraded or was not added. If neither grows, the antibiotic concentration may be too high or your control strain is non-viable.]
+
+
+
+== Day 1: Arrival and streak
+
+#nb(title: "NB!")[Remember to store the plasmids at 4 °C immediately once they arrive!]
+
++ On receipt, store both stabs at 4 °C. Streak the same day if possible.
++ Using a sterile loop, pick a small amount of growth from each stab and streak onto a fresh plate with the appropriate antibiotic: 42365 to LB + Kan; 26242 to LB + Cam.
++ Incubate plates overnight at 37 °C until single colonies appear (typically 14 to 18 h).
++ Return the original stabs to 4 °C as a backup. Do not discard until long-term stocks have been validated (Day 3 QC).
+
+== Day 2: Inoculate liquid cultures
+
+== Day 3: Branch into archival storage and plasmid backup
+
+=== Path A: Archival glycerol stocks (both strains)
+
+=== Path B: Plasmid DNA backup (42365 only)
 
 
 #bibliography(
   "protocols.bib",
   title: auto,
-
   style: "apa",
 )
