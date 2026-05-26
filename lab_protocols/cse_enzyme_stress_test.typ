@@ -24,7 +24,7 @@
 #set text(font: "STIX Two Text", size: 10pt, lang: "en")
 #set par(justify: true, leading: 0.6em)
 
-#set heading(numbering: "1.")
+#set heading()
 #show heading.where(level: 1): it => [
   #v(0.6em)
   #set text(size: 13pt, weight: "bold")
@@ -75,6 +75,41 @@
   [#text(weight: "bold", fill: rgb("#b88600"))[Decision pending. ] #body],
 )
 
+//  Checklist helpers
+#let checkbox = box(
+  width: 14pt,
+  height: 14pt,
+  stroke: 0.8pt + black,
+  baseline: 3pt,
+)
+
+#let checkitem(body) = block(
+  below: 0.5em,
+  grid(
+    columns: (auto, 1fr),
+    column-gutter: 8pt,
+    align: (horizon, horizon),
+    checkbox,
+    body,
+  ),
+)
+
+#let checklist(title: none, ..items) = block(
+  width: 100%,
+  inset: 10pt,
+  stroke: 0.5pt + black,
+  fill: rgb("#fafafa"),
+  [
+    #if title != none [
+      #text(weight: "bold", size: 10pt)[#title]
+      #v(0.4em)
+    ]
+    #for item in items.pos() {
+      checkitem(item)
+    }
+  ],
+)
+
 
 //  Title block
 #align(center)[
@@ -98,8 +133,8 @@
 - *Expression vector:* pNIC28-Bsa4 (Addgene #42365) | Kan#super[R]
 - *Expression Host:* *E. coli* BL21(DE3)-R3-pRARE2 (Addegg #26242) | Cam#super[R]
 - *Primary Scope:* Low-volume, high-purity production for baseline catalytic characterization, thermal stability profiling, and storage-stability validation
-- *Essential Additives:* TCEP (reducing agent), 10% Glycerol (cryoprotectant), Pyridoxal-5'-phosphate (PLP cofactor)
-- *Methodological Basis:* Adapted from the SGC protocol @sgc_protocol
+- *Potential Essential Additives:* TCEP (reducing agent), 10% Glycerol (cryoprotectant), Pyridoxal-5'-phosphate (PLP cofactor)
+- *Methodological Basis:* Adapted from the SGC protocol @sgc_protocol and addgenes protocols.
 
 #note(title: "Laboratory Implementation")[This is the first SOP for hCSE production in the group, adapted from the SGC pipeline. Expect revisions as we run it more times. The goal is to move hCSE production from one-off troubleshooting to a routine, reproducible workflow.]
 
@@ -108,23 +143,61 @@
 = Protocol Overview & Rationale
 
 == Target Characteristics & Structural Constraints
-This protocol outlines the heterologous expression, purification, and multi-tier quality control validation of human cystathionine $gamma$-lyase (hCSE). Native hCSE is a fold type I pyridoxal-5'-phosphate (PLP)-dependent homotetramer ($tilde$ 44 kDa subunits, $approx$ 176 kDa total assembly). Each active site requires a covalently bound PLP cofactor, anchored to Lys212 via a Schiff base linkage.
+This protocol covers heterologous expression, purification, and quality control of human cystathionine $gamma$-lyase (hCSE). Native hCSE is a fold type I PLP-dependent homotetramer ($tilde$ 44.5 kDa subunits, $tilde$ 178 kDa tetramer). Each active site carries a PLP cofactor covalently linked to Lys212 via a Schiff base (internal aldimine).
 
-To ensure high-fidelity downstream results, a standardized His-tag removal step via TEV protease is integrated into this pipeline. This strategy is implemented to eliminate potential interference from the polyhistidine moiety during subsequent ligand-binding assays and to ensure that the protein population used for screening is identical to the native-like state. 
+His-tag removal by TEV protease is included as a standard step. The N-terminal His6 tag introduced by pNIC28-Bsa4 is unlikely to interact with small-molecule ligands at the catalytic site or at the inter-subunit allosteric pocket described in on mechanistic grounds, but cleaving it eliminates the tag as a potential confound in downstream binding and activity readouts a priori. Using cleaved protein as the standard form across all biochemical and biophysical assays removes the need to control for tag effects post hoc and brings the screened protein sequence closer to the species modelled computationally.
 
-== Thermal Stability & Analytical Objectives
-A critical component of this QC pipeline is characterization of the enzyme's thermal landscape and stability constraints. Because PLP-dependent enzymes are sensitive to temperature-induced cofactor dissociation and subunit denaturation, this protocol targets two distinct thermal profiles:
+== Analytical Objectives
+Protein produced under this protocol feeds three downstream readouts:
 
-1. Physiological Activity Baseline: Characterizing the baseline catalytic activity strictly at human physiological temperature (37°C). This ensures that the enzymatic velocity, active-site kinetics, and allosteric pocket conformations directly reflect the physiological environment of human brain tissue, providing a biologically relevant baseline for downstream ligand screening.
-2. Thermal Shifts & Conformational Stability: Utilizing Differential Scanning Fluorimetry (DSF) to determine the baseline melting temperature (T#sub[m]) of the holoenzyme assembly. This profile serves as a quality gate to verify correct folding across different batches and maps how variations in pH and salt concentrations modulate the structural stability of the tetramer.
+1. Baseline catalytic characterization by the AzMC fluorometric H$#sub[2]$S assay.
+2. Batch-to-batch thermal stability monitoring by Differential Scanning Fluorimetry (DSF).
+3. Holoenzyme cofactor occupancy verification by A#sub[415]/A#sub[280] absorbance ratio.
 
-== Protocol Genesis & Implementation
+Two thermal characterizations are part of batch release:
 
+#text(weight: "bold")[Catalytic activity baseline at 37 °C.] Standard assay temperature for kinetic characterization. Enables direct comparison with published hCSE kinetic parameters and approximates physiological conditions.
 
+#text(weight: "bold")[Baseline melting temperature (T#sub[m]) by DSF.] Used as a quality gate to verify folding and tetramer assembly. A reproducible T#sub[m] within a defined tolerance window (Section [forward ref]) is required before a batch is released to ligand screening. Buffer optimisation by pH/salt DSF screens is run separately when needed and is not part of routine batch QC.
 
-Note on Laboratory Implementation:
-This document serves as the foundational Standard Operating Procedure (SOP) for hCSE production. This workflow represents the first implementation of the SGC-derived pipeline for this specific target in the neurotargeting research group, this protocol is subject to iterative refinement. The primary objective of this document is to transition hCSE production from a developmental phase to a standardized, reproducible, and high-throughput capable workflow.
+#pagebreak()
 
+= Strain and Plasmid Stock Management
+
+Two items have been received from Addgene:
+
+- *pNIC28-Bsa4-CTHA* (42365): the hCSE expression construct, shipped as a bacterial stab in a cloning host. Kanamycin selection.
+- *BL21(DE3)-R3-pRARE2* (26242): the expression strain, shipped as a bacterial stab. Chloramphenicol selection (for pRARE2).
+
+Both arrive as stab cultures - bacteria stabbed into a column of LB agar in a small screw-cap vial. Cells grow along the puncture track and out across the surface. It is vital that the bacterial stabs are stored immediately at 4 °C upon arrival. The bacterial stabs can survive up to two weeks in this condition, if you need it for longer then it has to be transferred to glycerol stocks for long-term storage.
+
+= Procedure
+
+#checklist(
+  title: "Reagent and consumables checklist",
+  [LB agar plates + kanamycin (50 μg/mL), poured and labelled - for #42365],
+  [LB agar plates + chloramphenicol (34 μg/mL), poured and labelled - for #26242],
+  [LB broth, autoclaved, ≥ 20 mL available],
+  [Sterile 50% (v/v) glycerol in water, autoclaved, ≥ 5 mL available],
+  [Sterile cryovials, labelled (≥ 3 per strain, minimum 6 total)],
+  [Sterile inoculation loops or pipette tips],
+  [Kanamycin stock: 50 mg/mL in water, aliquoted at −20 °C],
+  [Chloramphenicol stock: 34 mg/mL in ethanol, aliquoted at −20 °C],
+  [Miniprep kit on hand],
+  [Sequencing primers ordered and received: pLIC-for, pLIC-rev],
+  [Liquid nitrogen or dry ice available for snap-freeze],
+  [−80 °C freezer space identified and labelled],
+)
+
+#checklist(
+  title: "Day 1 - Procedure checklist",
+  [Stabs received and stored at 4 °C],
+  [42365 streaked onto LB + Kan plate],
+  [26482 streaked onto LB + Cam plate],
+  [Plates labelled: strain ID, date, antibiotic, initials],
+  [Plates incubated at 37 °C overnight],
+  [Original stabs returned to 4 °C as backup],
+)
 
 
 #bibliography(
