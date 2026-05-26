@@ -11,11 +11,11 @@
 
 // Example: multi-panel figure using subpar
 #subpar.grid(
-  figure(image("../figures/ATP_test.png"), caption: [CBS homodimer overview.]),
-  figure(image("../figures/ATP_test.png"), caption: [Active site detail.]),
+  figure(image("../figures/NADplus_test.png"), caption: [CBS homodimer overview.]),
+  figure(image("../figures/NADplus_test.png"), caption: [Active site detail.]),
 
-  figure(image("../figures/ATP_test.png"), caption: [CSE structural comparison.]),
-  figure(image("../figures/ATP_test.png"), caption: [AlphaFold3 overlay.]),
+  figure(image("../figures/NADplus_test.png"), caption: [CSE structural comparison.]),
+  figure(image("../figures/NADplus_test.png"), caption: [AlphaFold3 overlay.]),
 
   columns: (1fr, 1fr),
   caption: [Structural analysis of CBS and CSE. ...],

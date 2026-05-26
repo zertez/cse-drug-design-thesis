@@ -4,6 +4,8 @@
 //  Haavik Neurotargeting Research Group · Department of Biomedicine · UiB
 // 
 
+#import "@preview/cades:0.3.1": qr-code
+
 #set document(
   title: "CSE Enzyme Stress Test",
   author: "Marcus - Haavik Group, UiB Biomedicine",
@@ -38,7 +40,7 @@
 ]
 #show heading.where(level: 3): it => [
   #v(0.3em)
-  #set text(size: 10pt, weight: "bold", style: "italic")
+  #set text(size: 10pt, weight: "bold")
   #it
 ]
 
@@ -93,7 +95,36 @@
   ),
 )
 
-#let checklist(title: none, ..items) = block(
+//  Extended checklist helpers
+#let checkbox = box(
+  width: 14pt,
+  height: 14pt,
+  stroke: 0.8pt + black,
+  baseline: 3pt,
+)
+
+#let checkitem(body) = block(
+  below: 0.5em,
+  grid(
+    columns: (auto, 1fr),
+    column-gutter: 8pt,
+    align: (horizon, horizon),
+    checkbox,
+    body,
+  ),
+)
+
+#let checkgroup(title: none, ..items) = [
+  #if title != none [
+    #v(0.5em)
+    #text(weight: "bold", size: 9.5pt)[#title]
+  ]
+  #for item in items.pos() {
+    checkitem(item)
+  }
+]
+
+#let checklist(title: none, ..content) = block(
   width: 100%,
   inset: 10pt,
   stroke: 0.5pt + black,
@@ -103,11 +134,10 @@
       #text(weight: "bold", size: 10pt)[#title]
       #v(0.4em)
     ]
-    #for item in items.pos() {
-      checkitem(item)
-    }
+    #for c in content.pos() { c }
   ],
 )
+
 
 
 //  Title block
@@ -172,26 +202,51 @@ Both arrive as stab cultures - bacteria stabbed into a column of LB agar in a sm
 
 = Procedure
 
-== Day 0: Plate and reagent preparation
+== Day 1: Plate and reagent preparation
 
-LB agar plates with antibiotic are required for Day 1 (streaking) and Day 3 QC (revive test). Plates are poured fresh ~1 week before Day 1 to ensure full antibiotic activity. Adapted from the Addgene plate-pouring protocol.
 
-#checklist(
-  title: "Materials (per ~20 plates of each antibiotic)",
-  [Pre-mixed LB-agar powder: ~8 g per 220 mL batch (37 g/L formulation)],
-  [Sterile dH#sub[2]O, 220 mL per batch],
-  [Two 500 mL autoclavable bottles with vented caps],
-  [Sterile 60 mm x 15 mm petri dishes, ~25 per antibiotic (extra for spillage)],
-  [Kanamycin stock: 50 mg/mL in dH#sub[2]O, filter-sterilised, stored at -20 °C],
-  [Chloramphenicol stock: 34 mg/mL in 100% ethanol, stored at -20 °C, kept dark],
-  [Autoclave tape and lab tape for labelling],
-  [60 °C water bath],
-  [Bunsen burner or other small flame source],
-  [70% ethanol for bench sterilisation],
-  [Sealable plastic bags + absorbent material (e.g. paper towel) for storage],
+#grid(
+  columns: (1fr, auto),
+  column-gutter: 12pt,
+  align: (top, center),
+  [
+    LB agar plates with antibiotic are required for Day 1 (streaking) and Day 3 QC (revive test). Plates are poured fresh ~1 week before Day 1 to ensure full antibiotic activity. Adapted from the Addgene plate-pouring protocol; scan the QR code for Addgene's video walkthrough.
+  ],
+  [
+    #qr-code("https://www.youtube.com/watch?v=ey19jM6y7-c", width: 2cm)
+    #align(center)[#text(size: 7pt, fill: gray)[
+      Plate Pouring Protocol
+    ]]
+  ],
 )
 
-== Prepare and autoclave molten agar
+
+#checklist(
+  checkgroup(
+    title: "Equipment",
+    [Autoclave],
+    [60 °C water bath],
+    [Shaking incubator at 37 °C],
+    [-80 °C freezer space],
+  ),
+  checkgroup(
+    title: "Reagents",
+    [LB-agar powder, pre-mixed],
+    [Sterile dH#sub[2]O],
+    [Kanamycin stock: 50 mg/mL in dH#sub[2]O],
+    [Chloramphenicol stock: 34 mg/mL in EtOH, kept dark],
+  ),
+  checkgroup(
+    title: "Consumables",
+    [Sterile cryovials (≥ 6)],
+    [Sterile inoculation loops (platinum?), pipette tips],
+    [Petri dishes, 60 mm × 15 mm, sterile],
+  ),
+)
+
+#pagebreak()
+
+=== Prepare and autoclave molten agar
 
 1. For each antibiotic, weigh 8.14 g pre-mixed LB-agar powder into a separate 500 mL bottle.
 
@@ -203,17 +258,14 @@ LB agar plates with antibiotic are required for Day 1 (streaking) and Day 3 QC (
 
 + Autoclave at 121 °C, 20 psi, for ≥ 30 min.
 
-+ After the cycle, crack the autoclave door for ~10 min to release steam and begin cooling. Use thermally insulated gloves to remove the bottles.
-
-#pagebreak()
++ After the cycle, crack the autoclave door for $tilde$10 min to release steam and begin cooling. Use thermally insulated gloves to remove the bottles.
 
 == Cool, add antibiotic, pour
-
 While the bottles are still hot, set up the pouring station:
 
 6. Spray a section of lab bench with 70% ethanol and wipe with a paper towel.
 
-+ Position the flame at the bench. Stack ~22 labelled petri dishes per antibiotic next to the flame.
++ Position the flame at the bench. Stack $tilde$22 labelled petri dishes per antibiotic next to the flame.
 
 + Label each plate base (not the lid - lids get swapped) with: antibiotic, pour date, initials. Batch labelling with coloured markers per antibiotic (e.g. blue for Kan, red for Cam) speeds this up.
 
@@ -222,16 +274,16 @@ While the bottles are still hot, set up the pouring station:
 + Partially submerge each bottle in the 60 °C water bath for ≥ 5 min. Do *not* let water bath water touch the cap or neck of the bottle. Cooled agar should be warm to the touch but still fully liquid - if you cannot hold the bottle in a gloved hand, it is too hot to add antibiotic.
 
 + Working next to the flame, add antibiotic to each bottle at 1:1000:
-  - Kan bottle: 220 μL of 50 mg/mL kanamycin stock → 50 μg/mL final
-  - Cam bottle: 220 μL of 34 mg/mL chloramphenicol stock → 34 μg/mL final
+  - Kan bottle: 220 μL of 50 mg/mL kanamycin stock at 50 μg/mL final
+  - Cam bottle: 220 μL of 34 mg/mL chloramphenicol stock at 34 μg/mL final
 
 + Swirl each bottle gently to distribute the antibiotic evenly. Avoid creating bubbles.
 
-+ Pour ~10 mL per plate (60 mm dish). For the first plate, measure with a pipette to calibrate by eye; pour subsequent plates directly from the bottle.
++ Pour $tilde$10 mL per plate (60 mm dish). For the first plate, measure with a pipette to calibrate by eye; pour subsequent plates directly from the bottle.
 
 + After pouring each plate, swirl gently to ensure even coverage and remove surface bubbles. Cap and stack.
 
-+ Leave plates at room temperature to solidify (~30 min) and then dry overnight, agar-side up, with lids cracked slightly. This drying step is important - undried plates accumulate condensation on the lid.
++ Leave plates at room temperature to solidify ($tilde$30 min) and then dry overnight, agar-side up, with lids cracked slightly. This drying step is important - undried plates accumulate condensation on the lid.
 
 == Storage and validation
 
@@ -247,7 +299,7 @@ While the bottles are still hot, set up the pouring station:
 
 
 
-== Day 1: Arrival and streak
+== Day 2: Addgene Material Arriavl and Plate Streaking
 
 #nb(title: "NB!")[Remember to store the plasmids at 4 °C immediately once they arrive!]
 
