@@ -10,10 +10,10 @@
 #let plates_spare = 2
 
 // 60 mm dish holds 5-10 mL; 10 mL is standard here
-#let volume_per_plate_mL = 10
+#let volume_per_plate_mL = 15
 
 // 10% extra agar for bottle residue and pour loss
-#let pour_margin_factor = 1.10
+#let pour_margin_factor = 1.33
 
 // pre-mixed LB-agar formulation
 #let lb_agar_g_per_L = 37

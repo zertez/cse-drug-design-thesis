@@ -259,7 +259,7 @@ This SOP pours *#total_plates plates total (#plates_per_antibiotic per antibioti
   table.cell(colspan: 2, align: left)[*Total*], [*#total_plates*],
 )
 
-At #volume_per_plate_mL mL per 60 mm plate, this requires #{plates_per_antibiotic * volume_per_plate_mL} mL of molten agar per antibiotic; pour #agar_volume_per_antibiotic_mL mL to allow ~#{calc.round((pour_margin_factor - 1) * 100, digits: 0)}% margin for bottle residue and pouring loss.
+At #volume_per_plate_mL mL per plate, this requires #{plates_per_antibiotic * volume_per_plate_mL} mL of molten agar per antibiotic; pour #agar_volume_per_antibiotic_mL mL to allow ~#{calc.round((pour_margin_factor - 1) * 100, digits: 0)}% margin for bottle residue and pouring loss.
 
 
 1. For each antibiotic, weigh #lb_agar_mass_g g pre-mixed LB-agar powder into a 500mL bottle, one for each antibiotic.
@@ -309,8 +309,6 @@ At #volume_per_plate_mL mL per 60 mm plate, this requires #{plates_per_antibioti
 + Store at 4 °C. Chloramphenicol plates must be kept dark (opaque container or drawer); kanamycin plates are not light-sensitive.
 
 + Plates are valid for 1 month from the pour date, but check the plates continuously. Discard any plates that show contamination, drying (cracks or shrinkage from plate edge), or condensation pooling on the agar.
-
-#pagebreak()
 
 == Day 2: Stab arrival and plate streaking
 
@@ -386,7 +384,7 @@ After overnight incubation, the positive streak plates (LB+Kan with #42365; LB+C
       title: "Equipment & Consumables",
       [Shaking incubator, 37 °C, 200 rpm],
       [Sterile inoculation loops or toothpicks ($times$4)],
-      [Sterile 15 mL culture tubes ($times$2)],
+      [Sterile 50 mL culture tubes ($times$2)],
       [P10 sterile tips],
       [Bunsen burner / flame source],
     )
@@ -477,7 +475,7 @@ Both Addgene strains are archived in parallel. Four cryotubes per strain provide
 
 + Record cryobox location, position, and contents in the lab freezer log immediately.
 
-#pagebreak()
+
 == Day 5: Glycerol stock viability QC
 
 Confirm that the freezing step did not compromise viability. One stock per strain is sampled; the remaining three serve as the long-term archive.
