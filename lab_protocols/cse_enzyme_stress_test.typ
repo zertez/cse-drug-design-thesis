@@ -223,7 +223,7 @@ Both arrive as stab cultures - bacteria stabbed into a column of LB agar in a sm
       [Bunsen burner / flame source],
       [Ice for antibiotics],
       [Dark or foil-wrapped tube rack (for Cam stock)],
-      [Autoclave-safe 500 mL bottles ($times$2)],
+      [Autoclave-safe 500 mL bottles ($times$#n_antibiotics)],
       [Aluminium foil (for autoclave bottle caps)],
       [Autoclave tape + lab tape for labelling],
       [Sterile inoculation loops (4-6)],
@@ -259,7 +259,7 @@ This SOP pours *#total_plates plates total (#plates_per_antibiotic per antibioti
   table.cell(colspan: 2, align: left)[*Total*], [*#total_plates*],
 )
 
-At #volume_per_plate_mL mL per plate, this requires #{plates_per_antibiotic * volume_per_plate_mL} mL of molten agar per antibiotic; pour #agar_volume_per_antibiotic_mL mL to allow ~#{calc.round((pour_margin_factor - 1) * 100, digits: 0)}% margin for bottle residue and pouring loss.
+At #volume_per_plate_mL mL per plate, the #plates_per_antibiotic plates per antibiotic require #agar_volume_required_mL mL of molten agar; make up #agar_volume_per_antibiotic_mL mL per bottle (#agar_volume_total_mL mL total across #n_antibiotics bottles) to allow ~#pour_margin_percent% margin for bottle residue and pouring loss.
 
 
 1. For each antibiotic, weigh #lb_agar_mass_g g pre-mixed LB-agar powder into a 500mL bottle, one for each antibiotic.
@@ -294,7 +294,7 @@ At #volume_per_plate_mL mL per plate, this requires #{plates_per_antibiotic * vo
 
 + Swirl each bottle gently to distribute the antibiotic evenly. Avoid creating bubbles.
 
-+ Pour $tilde$10 mL per plate (60 mm dish). For the first plate, measure with a pipette to calibrate by eye; pour subsequent plates directly from the bottle.
++ Pour $tilde$#volume_per_plate_mL mL per plate (60 mm dish). For the first plate, measure with a pipette to calibrate by eye; pour subsequent plates directly from the bottle.
 
   #nb(title: "NB!")[\ If agar begins solidifying in the bottle stop pouring. Antibiotic has already been added, re-heating (microwave or autoclave) will degrade both kanamycin and chloramphenicol and the batch must be discarded. To avoid this, work briskly once the antibiotic is in - typical pour window from antibiotic addition to last plate is 10-15 min.]
 

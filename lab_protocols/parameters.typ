@@ -1,6 +1,6 @@
 //  Batch sizing parameters - edit these to rescale the protocol
 
-// per-bottle count
+// per-antibiotic plate count
 #let plates_per_antibiotic = 10
 
 // Kan and Cam, each in its own bottle
@@ -9,11 +9,14 @@
 // extra dishes labelled and stacked, not poured
 #let plates_spare = 2
 
-// 60 mm dish holds 5-10 mL; 10 mL is standard here
+// 60 mm dish holds 5-10 mL; 15 mL used here (per supervisor, current run)
 #let volume_per_plate_mL = 15
 
-// 10% extra agar for bottle residue and pour loss
-#let pour_margin_factor = 1.33
+// TARGET molten agar volume to make up PER ANTIBIOTIC BOTTLE (mL).
+// Set this directly to the volume you want to make. The pour margin is
+// derived from it below, so there is no percentage to tune by hand.
+// (At 10 plates x 15 mL this needs 150 mL minimum; 200 mL gives ~33% margin.)
+#let agar_volume_per_antibiotic_mL_target = 200
 
 // pre-mixed LB-agar formulation
 #let lb_agar_g_per_L = 37
@@ -22,10 +25,20 @@
 #let antibiotic_dilution = 1000
 
 //  Derived values - do not edit directly
-#let agar_volume_per_antibiotic_mL = calc.round(
-  plates_per_antibiotic * volume_per_plate_mL * pour_margin_factor,
-  digits: 0,
-)
+
+// agar strictly needed to fill the plates, no margin (10 x 15 = 150 mL)
+#let agar_volume_required_mL = plates_per_antibiotic * volume_per_plate_mL
+
+// the volume actually made per bottle = the target set above
+#let agar_volume_per_antibiotic_mL = agar_volume_per_antibiotic_mL_target
+
+// grand total made across all bottles (200 x 2 = 400 mL)
+#let agar_volume_total_mL = agar_volume_per_antibiotic_mL * n_antibiotics
+
+// pour margin implied by the target, for documentation
+#let pour_margin_factor = agar_volume_per_antibiotic_mL / agar_volume_required_mL
+#let pour_margin_percent = calc.round((pour_margin_factor - 1) * 100, digits: 0)
+
 #let lb_agar_mass_g = calc.round(
   lb_agar_g_per_L * agar_volume_per_antibiotic_mL / 1000,
   digits: 2,
