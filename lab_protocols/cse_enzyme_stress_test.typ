@@ -18,7 +18,7 @@
   numbering: "1 / 1",
   header: [
     #set text(size: 8pt, fill: gray)
-    #align(right)[Document A · v1.0 Author: Marcus D. Figenschou
+    #align(right)[Document A · v2.0 Author: Marcus D. Figenschou
     ]
   ],
 )
@@ -194,23 +194,11 @@ Both arrive as stab cultures - bacteria stabbed into a column of LB agar in a sm
 
 = Procedure
 
-== Day 1: Plate and reagent preparation
+== Day 1: Media preparation (autoclave batch)
 
+All media that need sterilising are prepared in one session on Day 1. The autoclave cycle is the slow, rate-limiting step of the whole workflow, so everything that has to pass through it - plate agar, starter/overnight broth, and the high-density expression broth - is batched into a single run rather than spread across the week.
 
-#grid(
-  columns: (1fr, auto),
-  column-gutter: 12pt,
-  align: (top, center),
-  [
-    LB agar plates with antibiotic are required for Day 1 (streaking) and Day 3 QC (revive test). Plates are poured fresh ~1 week before Day 1 to ensure full antibiotic activity. Adapted from the Addgene plate-pouring protocol - scan the QR code for Addgene's video walkthrough.
-  ],
-  [
-    #qr-code("https://www.youtube.com/watch?v=ey19jM6y7-c", width: 2cm)
-    #align(center)[#text(size: 7pt, fill: gray)[
-      Plate Pouring Protocol
-    ]]
-  ],
-)
+#note(title: "Storage rule")[\ Autoclaved media *without antibiotic* keep at 4 °C for up to $tilde$1 month. Antibiotic is added only at the point of use, never to a stored bottle - kanamycin and chloramphenicol both lose activity over weeks in solution, and antibiotic media cannot be re-autoclaved. *LB agar is the single exception:* it sets solid, so antibiotic must be mixed into the molten agar just before pouring. The antibiotic plates are therefore poured on Day 1 and used within their $tilde$1-month plate shelf life; both broths are stored plain and dosed per culture (Day 3 onward).]
 
 #checklist(
   cols: 2,
@@ -219,11 +207,13 @@ Both arrive as stab cultures - bacteria stabbed into a column of LB agar in a sm
       title: "Equipment & Consumables",
       [Autoclave],
       [60 °C water bath],
+      [Balance + weigh boats],
       [Static incubator at 37 °C],
       [Bunsen burner / flame source],
       [Ice for antibiotics],
       [Dark or foil-wrapped tube rack (for Cam stock)],
-      [Autoclave-safe 500 mL bottles ($times$#n_antibiotics)],
+      [Autoclave-safe 500 mL bottles ($times$#{n_agar_bottles + 1}: #n_agar_bottles agar + 1 TB)],
+      [Autoclave-safe 1 L bottles ($times$#n_lb_broth_bottles, for LB broth)],
       [Aluminium foil (for autoclave bottle caps)],
       [Autoclave tape + lab tape for labelling],
       [Sterile inoculation loops (4-6)],
@@ -234,7 +224,10 @@ Both arrive as stab cultures - bacteria stabbed into a column of LB agar in a sm
   [
     #checkgroup(
       title: "Reagents",
-      [LB-agar powder, pre-mixed (verify g/L on bottle label)],
+      [LB-agar powder, Luria/Miller (verify g/L on bottle label)],
+      [LB broth (Lennox) powder, e.g. Sigma L7658],
+      [TB modified powder, e.g. Sigma T0918],
+      [Glycerol (TB carbon source; *not* the 50% cryo-glycerol of Day 4)],
       [Sterile dH#sub[2]O],
       [Kanamycin stock: 50 mg/mL in dH#sub[2]O, 0.22 μm filter-sterilised, $-$20 °C],
       [Chloramphenicol stock: 34 mg/mL in EtOH, 0.22 μm filter-sterilised, $-$20 °C, kept dark],
@@ -244,53 +237,72 @@ Both arrive as stab cultures - bacteria stabbed into a column of LB agar in a sm
 
 #pagebreak()
 
-=== Batch sizing
+=== Agar batch sizing
 
-This SOP pours *#total_plates plates total (#plates_per_antibiotic per antibiotic)*:
+This SOP pours *#total_plates plates total (#plates_per_antibiotic per condition, #n_agar_bottles conditions)*:
 
-#table(
-  columns: (1fr, 1fr, 0.6fr),
-  stroke: 0.5pt,
-  inset: 5pt,
-  align: (left, left, center),
-  [*Plate type*], [*Streaked with*], [*n*],
-  [LB+Kan], [#42365 (+) / #26242 ($-$)], [#{plates_per_antibiotic / 2} + #{plates_per_antibiotic / 2}],
-  [LB+Cam], [#26242 (+) / #42365 ($-$)], [#{plates_per_antibiotic / 2} + #{plates_per_antibiotic / 2}],
-  table.cell(colspan: 2, align: left)[*Total*], [*#total_plates*],
+At #volume_per_plate_mL mL per plate, the #plates_per_antibiotic plates per condition require #agar_volume_required_mL mL of molten agar; make up #agar_volume_per_antibiotic_mL mL per bottle (#agar_volume_total_mL mL total across #n_agar_bottles bottles).
+
+
+=== Procedure - Part A: Suspend and autoclave all media
+
+Weigh out every medium first, then run them through the autoclave together (#{n_agar_bottles + n_lb_broth_bottles + 1} bottles: #n_agar_bottles agar, #n_lb_broth_bottles LB broth, 1 TB).
+
+1. *LB agar ($times$#n_agar_bottles bottles: Kan, Cam, Kan+Cam).* Weigh #lb_agar_mass_g g LB-agar powder into each of #n_agar_bottles separate 500 mL bottles and add #agar_volume_per_antibiotic_mL mL sterile dH#sub[2]O to each. Swirl to a uniform suspension. Pre-label the bottles Kan, Cam, and Kan+Cam - they are identical until antibiotic is added at pouring.
+
+  #note[\ Calculation: #lb_agar_g_per_L g/L $times$ #{agar_volume_per_antibiotic_mL / 1000} L = #lb_agar_mass_g g per bottle. The #agar_volume_per_antibiotic_mL mL volume targets #plates_per_antibiotic plates at #volume_per_plate_mL mL each with margin for bottle residue. The Kan+Cam (double-selection) bottle is selection medium for the eventual transformed expression clone; pouring it from a full identical bottle banks plates for the later transformation step. Do *not* add antibiotic here - it goes into the molten agar at the pouring step (Part B).]
+
++ *LB broth ($times$#n_lb_broth_bottles bottles).* Weigh #lb_broth_mass_g g LB broth (Lennox) powder into each of #n_lb_broth_bottles separate 1 L bottles and add #lb_broth_volume_per_bottle_mL mL sterile dH#sub[2]O. Swirl to dissolve.
+
+  #note[\ Calculation: #lb_broth_g_per_L g/L $times$ #{lb_broth_volume_per_bottle_mL / 1000} L = #lb_broth_mass_g g per bottle. Use 1 L bottles, not 500 mL - #lb_broth_volume_per_bottle_mL mL needs autoclave headroom. One bottle is earmarked per strain workflow; both are stored *antibiotic-free*.]
+
++ *TB broth ($times$1 bottle).* Weigh #tb_broth_mass_g g TB modified powder into a 500 mL bottle, add #tb_broth_volume_mL mL sterile dH#sub[2]O *and #tb_glycerol_mL mL glycerol*, and swirl to dissolve.
+
+  #note[\ Calculation: #tb_broth_g_per_L g/L $times$ #{tb_broth_volume_mL / 1000} L = #tb_broth_mass_g g, plus glycerol at #tb_glycerol_mL_per_L mL/L = #tb_glycerol_mL mL. Glycerol is the TB carbon source and is heat-stable, so it goes in *before* autoclaving. Stored antibiotic-free; used for the expression culture in a later document.]
+
++ Loosely cap every bottle (do #underline[*NOT*] seal airtight) and cover each cap with aluminium foil. Apply autoclave tape and label each with medium, volume, date, and initials.
+
++ Autoclave all bottles together at 121 °C, 20 psi, for ≥ 30 min.
+
+*While the autoclave is running, set up the plate-pouring station near a burner (Part B).*
+
+=== Procedure - Part B: Pour antibiotic agar plates
+
+#grid(
+  columns: (1fr, auto),
+  column-gutter: 12pt,
+  align: (top, center),
+  [
+    Antibiotic is mixed into the molten agar just before pouring; the plates set with antibiotic locked in. Pour next to the flame. Adapted from the Addgene plate-pouring protocol - scan for the video walkthrough.
+  ],
+  [
+    #qr-code("https://www.youtube.com/watch?v=ey19jM6y7-c", width: 2cm)
+    #align(center)[#text(size: 7pt, fill: gray)[
+      Plate Pouring Protocol
+    ]]
+  ],
 )
 
-At #volume_per_plate_mL mL per plate, the #plates_per_antibiotic plates per antibiotic require #agar_volume_required_mL mL of molten agar; make up #agar_volume_per_antibiotic_mL mL per bottle (#agar_volume_total_mL mL total across #n_antibiotics bottles) to allow ~#pour_margin_percent% margin for bottle residue and pouring loss.
+1. Spray a section of lab bench with 70% ethanol and wipe with a paper towel.
 
++ Label each plate base (not the lid - lids get swapped) with: condition (Kan, Cam, or Kan+Cam), pour date, initials. Batch labelling with coloured markers per condition speeds this up.
 
-1. For each antibiotic, weigh #lb_agar_mass_g g pre-mixed LB-agar powder into a 500mL bottle, one for each antibiotic.
-
-  #note[\ Calculation: #lb_agar_g_per_L g/L formulation $times$ #{agar_volume_per_antibiotic_mL / 1000} L = #lb_agar_mass_g g. The #agar_volume_per_antibiotic_mL mL volume targets #plates_per_antibiotic plates at #volume_per_plate_mL mL each with margin for bottle residue.]
-
-+ Add #agar_volume_per_antibiotic_mL mL sterile dH#sub[2]O to each bottle. Swirl to form a uniform suspension.
-
-+ Loosely cap each bottle (do #underline[*NOT*] seal airtight) and cover the cap with aluminium foil. Apply autoclave tape and label with date, contents, and initials.
-
-+ Autoclave at 121 °C, 20 psi, for ≥ 30 min.
-
-*While the autoclave is running set up the plate pouring station near a burner*
-
-5. Spray a section of lab bench with 70% ethanol and wipe with a paper towel.
-
-+ Label each plate base (not the lid - lids get swapped) with: antibiotic, pour date, initials. Batch labelling with coloured markers per antibiotic (e.g. blue for Kan, red for Cam) speeds this up.
-
-+ Position the flame at the bench. Stack the *#dishes_per_antibiotic labelled petri dishes per antibiotic* next to the flame (#plates_per_antibiotic for the workflow + #plates_spare spare for pouring variation).
++ Position the flame at the bench. Stack the *#dishes_per_antibiotic labelled petri dishes per condition* ($times$#n_agar_bottles conditions) next to the flame (#plates_per_antibiotic for the workflow + #plates_spare spare for pouring variation).
 
 + Have both antibiotic stocks ready on ice. Foil-wrap the Cam tube or keep it in an opaque container to protect from light.
 
-+ Retrieve the molten agar from the autoclave.
++ Retrieve the *#n_agar_bottles agar bottles* from the autoclave (leave the broths to cool - they are handled in Part C).
 
   #note[\ Once the autoclave is complete, open the door and leave it partially open for $tilde$10 min. This will release steam and will let the gel-mix cool a little bit. *#underline[Use thermally insulated gloves to remove the bottles.]*]
 
-+ Partially submerge each bottle in the 60 °C water bath for ≥ 5 min. Do *not* let water bath water touch the cap or neck of the bottle. Cooled agar should be warm to the touch but still fully liquid - if you cannot hold the bottle in a gloved hand, it is too hot to add antibiotic.
++ Partially submerge each agar bottle in the 60 °C water bath for ≥ 5 min. Do *not* let water bath water touch the cap or neck of the bottle. Cooled agar should be warm to the touch but still fully liquid - if you cannot hold the bottle in a gloved hand, it is too hot to add antibiotic.
 
 + Working next to the flame, add antibiotic to each bottle at 1:#antibiotic_dilution:
   - Kan bottle: #antibiotic_volume_uL μL of 50 mg/mL kanamycin stock $arrow$ 50 μg/mL final
   - Cam bottle: #antibiotic_volume_uL μL of 34 mg/mL chloramphenicol stock $arrow$ 34 μg/mL final
+  - Kan+Cam bottle: #antibiotic_volume_uL μL kanamycin *and* #antibiotic_volume_uL μL chloramphenicol $arrow$ 50 + 34 μg/mL final
+
+  #note[\ The double-selection bottle takes both antibiotics, each at its own 1:#antibiotic_dilution - add them as two separate spikes and swirl between, rather than premixing. They do not interact; dosing independently keeps each at the correct final concentration.]
 
 + Swirl each bottle gently to distribute the antibiotic evenly. Avoid creating bubbles.
 
@@ -299,16 +311,28 @@ At #volume_per_plate_mL mL per plate, the #plates_per_antibiotic plates per anti
   #nb(title: "NB!")[\ If agar begins solidifying in the bottle stop pouring. Antibiotic has already been added, re-heating (microwave or autoclave) will degrade both kanamycin and chloramphenicol and the batch must be discarded. To avoid this, work briskly once the antibiotic is in - typical pour window from antibiotic addition to last plate is 10-15 min.]
 
 #pagebreak()
-14. After pouring each plate, swirl gently to ensure even coverage and remove surface bubbles. Cap and stack.
+10.  After pouring each plate, swirl gently to ensure even coverage and remove surface bubbles. Cap and stack.
 
 + Leave plates at room temperature to solidify ($tilde$30 min) and then dry overnight, agar-side up, with lids cracked slightly. This drying step is important - undried plates accumulate condensation on the lid.
 + Once dry, transfer plates to a sealed plastic bag with a folded paper towel as desiccant. Invert plates (agar-side up) inside the bag to prevent condensation pooling on the agar.
 
 + Label the bag with the antibiotic, pour date, and your initials.
 
-+ Store at 4 °C. Chloramphenicol plates must be kept dark (opaque container or drawer); kanamycin plates are not light-sensitive.
++ Store at 4 °C. Any Cam-containing plates - both LB+Cam and LB+Kan/Cam - must be kept dark (opaque container or drawer); LB+Kan plates are not light-sensitive.
 
 + Plates are valid for 1 month from the pour date, but check the plates continuously. Discard any plates that show contamination, drying (cracks or shrinkage from plate edge), or condensation pooling on the agar.
+
+=== Procedure - Part C: Cool and store broths
+
+The LB and TB broths leave the autoclave with the agar but need no pouring - just cool and shelve them.
+
+1. Let the LB broth ($times$#n_lb_broth_bottles) and TB broth bottles cool to room temperature on the bench, caps loosened and foil still on.
+
++ Confirm each bottle is clearly labelled (medium, volume, date, initials) and *antibiotic-free*. Tighten the caps once cool.
+
++ Store at 4 °C. The broths keep for up to $tilde$1 month antibiotic-free. Antibiotic is added per culture at the point of use (Day 3 onward), at 1:#antibiotic_dilution from the stocks above.
+
+  #nb(title: "NB!")[\ Never dose a stored broth bottle. Add antibiotic only to the aliquot you are about to use - e.g. 5 mL culture + 5 μL of the relevant stock $arrow$ 1:#antibiotic_dilution. A whole bottle dosed with antibiotic loses activity within weeks and cannot be re-sterilised.]
 
 == Day 2: Stab arrival and plate streaking
 
@@ -350,7 +374,7 @@ At #volume_per_plate_mL mL per plate, the #plates_per_antibiotic plates per anti
     )
   ],
 )
-
+#pagebreak()
 === Procedure
 
 1. Bring 4 LB+Kan plates and 4 LB+Cam plates to room temperature before streaking (cold agar gives uneven streak distribution). Pre-warm at 37 °C for 10 min if condensation is present.
@@ -370,6 +394,8 @@ At #volume_per_plate_mL mL per plate, the #plates_per_antibiotic plates per anti
 + Return both stabs to 4 °C immediately. *Do not discard* - they remain the only verified source of viable material until glycerol stocks are validated on Day 5.
 
 + Invert all 8 plates (agar-side up) and incubate at 37 °C for 14-18 h.
+
+#note(title: "Double-selection plates")[\ The LB+Kan/Cam plates are *not* part of revival streaking - neither Addgene parent is double-resistant (#42365 is Kan#super[R] only, #26242 is Cam#super[R] only), so both would simply fail to grow. Set the double plates aside at 4 °C for the later transformation step. If you want an explicit QC, streak one parent onto a double plate as a *double-negative control* - it should show no growth, confirming the double bottle selects as intended.]
 
 #pagebreak()
 
@@ -392,7 +418,7 @@ After overnight incubation, the positive streak plates (LB+Kan with #42365; LB+C
   [
     #checkgroup(
       title: "Reagents",
-      [LB broth, sterile (autoclaved)],
+      [LB broth, sterile (from Day 1 batch, antibiotic-free)],
       [Kanamycin stock: 50 mg/mL],
       [Chloramphenicol stock: 34 mg/mL],
     )
