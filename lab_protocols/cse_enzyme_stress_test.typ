@@ -18,7 +18,7 @@
   numbering: "1 / 1",
   header: [
     #set text(size: 8pt, fill: gray)
-    #align(right)[Document A · v2.0 Author: Marcus D. Figenschou
+    #align(right)[Document A · v3.0 Author: Marcus D. Figenschou
     ]
   ],
 )
@@ -237,7 +237,6 @@ All media that need sterilising are prepared in one session on Day 1. The autocl
   ],
 )
 
-#pagebreak()
 
 === Agar batch sizing
 
@@ -252,11 +251,11 @@ Weigh out every medium first, then run them through the autoclave together (#{n_
 
   #note[\ Calculation: #lb_agar_g_per_L g/L $times$ #{agar_volume_per_antibiotic_mL / 1000} L = #lb_agar_mass_g g per bottle. The #agar_volume_per_antibiotic_mL mL volume targets #plates_per_antibiotic plates at #volume_per_plate_mL mL each with margin for bottle residue. The Kan+Cam (double-selection) bottle is selection medium for the eventual transformed expression clone; pouring it from a full identical bottle banks plates for the later transformation step. Do *not* add antibiotic here - it goes into the molten agar at the pouring step (Part B).]
 
-+ LB broth ($times$#n_lb_broth_bottles bottles). Weigh #lb_broth_mass_g g LB broth (Lennox) powder into each of #n_lb_broth_bottles separate 1 L bottles and add #lb_broth_volume_per_bottle_mL mL sterile dH#sub[2]O. Swirl to dissolve.
++ LB broth ( bottles). Weigh #lb_broth_mass_g g LB broth (Lennox) powder into each of #n_lb_broth_bottles separate 1 L bottles and add #lb_broth_volume_per_bottle_mL mL sterile dH#sub[2]O. Swirl to dissolve.
 
   #note[\ Calculation: #lb_broth_g_per_L g/L $times$ #{lb_broth_volume_per_bottle_mL / 1000} L = #lb_broth_mass_g g per bottle. Use 1 L bottles, not 500 mL - #lb_broth_volume_per_bottle_mL mL needs autoclave headroom. One bottle is earmarked per strain workflow; both are stored *antibiotic-free*.]
 
-+ TB broth ($times$1 bottle). Weigh #tb_broth_mass_g g TB modified powder into a 500 mL bottle, add #tb_broth_volume_mL mL sterile dH#sub[2]O and #tb_glycerol_mL mL glycerol, and swirl to dissolve.
++ TB broth ($times$2 bottle). Weigh #tb_broth_mass_g g TB modified powder into a 500 mL bottle, add #tb_broth_volume_mL mL sterile dH#sub[2]O and #tb_glycerol_mL mL glycerol, and swirl to dissolve.
 
   #note[\ Calculation: #tb_broth_g_per_L g/L $times$ #{tb_broth_volume_mL / 1000} L = #tb_broth_mass_g g, plus glycerol at #tb_glycerol_mL_per_L mL/L = #tb_glycerol_mL mL. Glycerol is the TB carbon source and is heat-stable, so it goes in before autoclaving. Stored antibiotic-free; used for the expression culture in a later document.]
 
@@ -346,6 +345,7 @@ The LB and TB broths leave the autoclave with the agar but need no pouring - jus
 
 #pagebreak()
 
+
 == Day 2: Stab arrival and plate streaking
 
 #grid(
@@ -353,7 +353,7 @@ The LB and TB broths leave the autoclave with the agar but need no pouring - jus
   column-gutter: 12pt,
   align: (top, center),
   [
-    Streaking from the Addgene stabs serves two purposes simultaneously: (i) revival of the strains for downstream liquid culture, and (ii) bidirectional batch validation of the LB+Kan and LB+Cam plates via cross-streaking (see Day 1 Batch sizing). Adapted from the Addgene plate-streaking protocol - scan the QR code for the video walkthrough.
+    Streaking from the Addgene stabs serves two purposes simultaneously: (i) revival of the strains for downstream liquid culture, and (ii) bidirectional batch validation of the LB+Kan and LB+Cam plates via cross-streaking (see Day 1 Batch sizing). All plates are streaked together and incubated at 37 °C; because the two strains finish at different times, each plate is moved to 4 °C as its colonies are ready and held there until Day 3 - no staggered streaking or timing is required. Adapted from the Addgene plate-streaking protocol - scan the QR code for the video walkthrough.
   ],
   [
     #qr-code("https://www.youtube.com/watch?v=P6HlqmYEcZM", width: 2cm)
@@ -363,24 +363,32 @@ The LB and TB broths leave the autoclave with the agar but need no pouring - jus
   ],
 )
 
+#nb(title: "Growth Timelines & 4 °C Hold")[\
+Mach1 (Stab #42365) is one of the fastest cloning hosts available: isolated colonies are clearly visible $tilde 8$ h after plating at 37 °C. BL21(DE3)-R3-pRARE2 (Stab #26242) carries the pRARE2 helper plasmid under chloramphenicol selection and grows more slowly, typically needing $tilde 14-16$ h for comparable colonies; some constructs are slower still due to basal-expression toxicity.
+
+The two strains do *not* need to finish at the same time. Streak everything together at Hour 0 and incubate at 37 °C. As each plate develops good isolated colonies, move it to 4 °C - Mach1 first ($tilde 8$ h), BL21 the following morning. Both plates then sit ready in the fridge together until Day 3.
+
+Cold storage simply pauses the colonies; it does not harm them or require any "revival" step. A colony picked from a 4 °C plate inoculates a liquid culture exactly as well as a fresh one. Streaked plates hold reliably for $tilde$2 weeks at 4 °C (longer if sealed with Parafilm), so there is no need to time the streak or pick colonies the moment they appear.]
+
 #nb(title: "NB!")[\ Store both Addgene stabs at 4 °C immediately on arrival, or place on ice if streaking the same day. The stabs survive at 4 °C for up to 2 weeks, but glycerol stocks (Day 4) should be made within the first 5 days to maximise safety margin.]
 
 #checklist(
   cols: 2,
   [
     #checkgroup(
-      title: "Equipment & Consumables",
-      [Static incubator at 37 °C],
-      [Bunsen burner / flame source],
-      [Sterile inoculation loops],
-      [Ice bucket],
-    )
+  title: "Equipment & Consumables",
+  [Static incubator at 37 °C],
+  [Refrigerator at 4 °C (plate storage)],
+  [Sterile single-use plastic inoculating needles],
+  [Ice bucket],
+  [Parafilm (optional, for sealing stored plates)],
+)
   ],
   [
     #checkgroup(
       title: "Reagents & Materials",
-      [Addgene stab #42365 (cloning host with pNIC28-Bsa4-CTHA)],
-      [Addgene stab #26242 (BL21(DE3)-R3-pRARE2)],
+      [Addgene stab #42365 (Mach1 cloning host with pNIC28-Bsa4-CTHA)],
+      [Addgene stab #26242 (BL21(DE3)-R3-pRARE2 expression host)],
       [LB+Kan plates from day 1 batch],
       [LB+Cam plates from day 1 batch],
     )
@@ -389,23 +397,26 @@ The LB and TB broths leave the autoclave with the agar but need no pouring - jus
 #pagebreak()
 === Procedure
 
-1. Take the Kan#super[R] and Cam#super[R] plates out and leth them reach room temperature before streaking as cold agar gives uneven streak distribution. Pre-warm at 37 °C for 10 min if condensation is present.
+1. Take the Kan#super[R] and Cam#super[R] plates out and let them reach room temperature before streaking, as cold agar causes condensation and uneven streak distribution. Pre-warm at 37 °C for 10 min if heavy condensation is present.
 
-+ If using a platinum loop dip it in EtOH and quickly pass it through a flame, then allow $tilde$5 s to cool. Otherwise use sterile loop plastic loop instead. Remember to work as sterile as possible.
++  Set up your sterile workspace. Use a fresh, sterile single-use plastic needle for every plate and every quadrant sector to avoid transferring antibiotic residues between selections; discard each needle after use and do not flame them. Because a needle has no loop, drag it lightly when spreading each quadrant so the agar is not gouged.
 
-+ Pick a small amount of growth from the #42365 stab using the cooled loop. Streak onto:
-  - 2 Kan#super[R] plates (positive control + workflow source for colony picking on Day 3)
-  - 1 Cam#super[R] plates (negative cross-control - expect #underline[*no growth*] if Cam is functional)
++ Streaking Mach1 (Stab #42365): Pick a small amount of growth from the #42365 stab using a sterile loop. Perform a standard four-quadrant streak to ensure isolated single colonies on the following:
+  - 1 Kan#super[R] Plate (Mach1 workflow source): the plasmid-bearing host; this plate feeds the Day 3 miniprep culture.
+  - 1 Cam#super[R] Plate (Cross-Control): Expect #underline[no growth] if Cam selection is functional.
 
-  Use standard four-quadrant streaking on each plate to generate isolated single colonies. Flame the loop between plates. If not using a platinum loop just flip the plsatic loop around.
++ Streaking BL21 (Stab #26242): Using a fresh sterile loop, pick a small amount of growth from the #26242 stab. Perform a standard four-quadrant streak on the following:
+  - 2 LB+Cam Plates (BL21 - Plates A & B): Both are positive controls and your source for fresh colonies to make competent cells / transform on Day 3+.
+  - 1 LB+Kan Plate (Cross-Control): Expect #underline[no growth] if Kan selection is functional.
 
-+ Redo the stesp from step 3 but now with the #26242 stab. Streak onto:
-  - 2 LB+Cam plates (positive control + workflow source for colony picking on Day 3)
-  - 1 LB+Kan plates (negative cross-control - expect #underline[*no growth*] if Kan is functional)
++ Return both stabs to 4 °C immediately. #underline[Do not discard] - they remain your only verified source of viable starter material until the glycerol stocks are validated on Day 5.
 
-+ Return both stabs to 4 °C immediately. *#underline[Do not discard]* - they remain the only verified source of viable material until glycerol stocks are validated on Day 5.
++ Invert all plates (agar-side up) and incubate at 37 °C from Hour 0:
+  - Mach1 Kan#super[R] plate -> colonies $tilde 8$ h.
+  - Both BL21 Cam#super[R] positive plates -> colonies $tilde 14-16$ h.
+  - Both Mach1 and BL21 negative cross-control plates.
 
-+ Invert all the plates (agar-side up) and incubate at 37 °C for overnight.
++ As each plate develops good isolated colonies, move it to 4 °C (seal with Parafilm if storing more than a day or two). In practice the Mach1 plate is ready first and is fridged the same evening; the BL21 plates are fridged the following morning. Both then hold together at 4 °C until Day 3 - no revival step is needed before picking.
 
 #pagebreak()
 
@@ -413,14 +424,21 @@ The LB and TB broths leave the autoclave with the agar but need no pouring - jus
 
 After overnight incubation, the positive streak plates (LB+Kan with #42365; LB+Cam with #26242) should show isolated single colonies. The negative cross-control plates should show no growth - this confirms both antibiotic batches are functional. Pick one well-isolated colony per strain to seed a liquid culture.
 
+#nb(title: "CRITICAL LIQUID GROWTH RATE DELAY")[\
+Mach1 reaches full saturation within roughly 4 to 6 hours from a standard colony inoculation. Leaving it for a full 16 h overnight pushes it well past that point, into over-aging that lowers plasmid yield from the Day 4B miniprep this culture feeds. Conversely, BL21(DE3)-R3-pRARE2 requires a full 14–16 hours overnight to reach saturation, due to the metabolic load of the pRARE2 helper plasmid.
+To harvest both cultures at peak viability, use one of the following timing mechanisms:
+1. Staggered Timeline: Inoculate the Mach1 tube in the morning of Day 3 (harvests 5 hours later in the afternoon); inoculate the BL21 tube in the late evening of Day 3 (harvests the following morning).
+2. High Dilution Overnight: If inoculating both simultaneously in the evening, pick a normal single colony for BL21, but perform a 1:1000 micro-dilution of the picked colony for Mach1 to intentionally extend its lag phase through the night.
+]
+
 #checklist(
   cols: 2,
   [
     #checkgroup(
       title: "Equipment & Consumables",
       [Shaking incubator, 37 °C, 200 rpm],
-      [Sterile inoculation loops or toothpicks ($times$4)],
-      [Sterile 50 mL culture tubes ($times$2)],
+      [Sterile inoculation loops or toothpicks (x4)],
+      [Sterile 50 mL culture tubes (x2)],
       [P10 sterile tips],
       [Bunsen burner / flame source],
     )
@@ -435,23 +453,21 @@ After overnight incubation, the positive streak plates (LB+Kan with #42365; LB+C
   ],
 )
 
-== Procedure
+=== Procedure
 
 1. Near the flame, prepare two culture tubes:
-   - Cloning host tube: 10 mL LB + 10 μL Kan stock.
-   - Expression host tube: 10 mL LB + 10 μL Cam stock.
+   - Cloning host tube (Mach1): 10 mL LB + 10 μL Kan stock.
+   - Expression host tube (BL21): 10 mL LB + 10 μL Cam stock.
 
-+ Using a sterile loop or pipette tip, pick a single well-isolated colony from the Kan#super[R] positive plate (#42365). If using a pipette tip just drop the entire tip into the tube and gently swirl the tube.
+2. Using a sterile loop or pipette tip, pick a single well-isolated colony from the Kan#super[R] positive plate (#42365). If inoculating for a daytime sprint, drop the entire tip into the tube and gently swirl. If inoculating for an extended overnight run, lightly touch the colony and dilute into the medium minimally to avoid premature overgrowth.
 
   #note[\ Pick from a clearly isolated single colony, not a streak edge or confluent area. Clonal identity of every downstream glycerol stock depends on this step. If colonies are too dense to resolve a single one, re-streak from the backup plate before proceeding.]
 
-+ Redo step 2 for the expression host.
+3. Using a fresh sterile tip, pick a single well-isolated colony from the Cam#super[R] positive plate (#26242) and drop the tip directly into the BL21 culture tube.
 
-  
+4. Incubate both tubes at 37 °C on a shaking incubator set to 200 rpm, keeping the Mach1 incubation time restricted to 5–6 hours (or using the high-dilution overnight method) while letting the BL21 shake for a full 14–16 hours. Target OD#sub[600] = 2-4 (saturated culture) at the time of harvest. Ensure incubator slots are booked in advance if sharing shaker space.
 
-+ Incubate both tubes overnight at 37 °C on a shaking incubator set to 200 rpm. Target OD#sub[600] = 2-4 (saturated culture) the next morning. Check if you need to book one
-
-  #note[\ Overnight saturated culture is the standard input for glycerol stocks. Late-log phase (OD#sub[600] $tilde$1.5-2) gives marginally higher post-thaw viability but requires daytime monitoring; saturated overnight culture is the practical default and post-thaw viability remains $gt$95% for *E. coli* under standard glycerol freezing.]
+  #note[\ Overnight saturated culture is the standard input for glycerol stocks. Late-log phase (OD#sub[600] $tilde$ 1.5-2) gives marginally higher post-thaw viability but requires rigorous daytime monitoring; saturated culture is the practical default and post-thaw viability remains $gt$ 95% for E. coli under standard glycerol freezing.]
 
 #pagebreak()
 
@@ -610,7 +626,7 @@ All steps are carried out at room temperature. Unless stated otherwise, every ce
 
 
 
-
+#pagebreak()
 
 == Day 5: Glycerol stock viability QC
 
