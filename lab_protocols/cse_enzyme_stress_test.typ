@@ -622,7 +622,7 @@ All steps are carried out at room temperature. Unless stated otherwise, every ce
 
 #note(title: "Alternative")[\ The user guide also documents a *vacuum-manifold* route through the bind/wash steps (cell lysis and lysate clearing are identical). If a standard vacuum manifold is available it can replace the bind/wash spins; the elution step is the same. The centrifugation route above is the default here.]
 
-#nb(title: "Looking ahead - EndA")[\ This prep is from the *Mach1 cloning host*, which is endA#super[$-$], so the standard wash gives clean DNA. When you later re-isolate the plasmid from the *#26242 expression clone*, that strain (BL21(DE3)) is endA#super[+]: run the preliminary *Wash Solution I (R1611) + isopropanol* wash before the ethanol washes, or the plasmid comes out nicked and degraded.]
+#nb(title: "Looking ahead - EndA")[\ This prep is from the *Mach1 cloning host*, which is endA#super[-], so the standard wash gives clean DNA. When you later re-isolate the plasmid from the *#26242 expression clone*, that strain (BL21(DE3)) is endA#super[+]: run the preliminary *Wash Solution I (R1611) + isopropanol* wash before the ethanol washes, or the plasmid comes out nicked and degraded.]
 
 
 
