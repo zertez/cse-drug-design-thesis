@@ -66,7 +66,7 @@
   agar_volume_per_antibiotic_mL * 1000 / antibiotic_dilution,
   digits: 0,
 )
-#let dishes_per_antibiotic = plates_per_antibiotic + plates_spare
+#let dishes_per_antibiotic = plates_per_antibiotic
 #let total_plates = plates_per_antibiotic * n_agar_bottles
 #let total_dishes = dishes_per_antibiotic * n_agar_bottles
 

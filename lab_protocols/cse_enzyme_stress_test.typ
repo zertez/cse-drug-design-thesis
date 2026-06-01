@@ -194,6 +194,8 @@ Both arrive as stab cultures - bacteria stabbed into a column of LB agar in a sm
 
 = Procedure
 
+#nb[\ Before you go through this protocol check that you have everything needed such as materials and equipemnt. Especially check if you need to book equipment in advance!]
+
 == Day 1: Media preparation (autoclave batch)
 
 All media that need sterilising are prepared in one session on Day 1. The autoclave cycle is the slow, rate-limiting step of the whole workflow, so everything that has to pass through it - plate agar, starter/overnight broth, and the high-density expression broth - is batched into a single run rather than spread across the week.
@@ -239,8 +241,6 @@ All media that need sterilising are prepared in one session on Day 1. The autocl
 
 === Agar batch sizing
 
-This SOP pours *#total_plates plates total (#plates_per_antibiotic per condition, #n_agar_bottles conditions)*:
-
 At #volume_per_plate_mL mL per plate, the #plates_per_antibiotic plates per condition require #agar_volume_required_mL mL of molten agar; make up #agar_volume_per_antibiotic_mL mL per bottle (#agar_volume_total_mL mL total across #n_agar_bottles bottles).
 
 
@@ -248,24 +248,28 @@ At #volume_per_plate_mL mL per plate, the #plates_per_antibiotic plates per cond
 
 Weigh out every medium first, then run them through the autoclave together (#{n_agar_bottles + n_lb_broth_bottles + 1} bottles: #n_agar_bottles agar, #n_lb_broth_bottles LB broth, 1 TB).
 
-1. *LB agar ($times$#n_agar_bottles bottles: Kan, Cam, Kan+Cam).* Weigh #lb_agar_mass_g g LB-agar powder into each of #n_agar_bottles separate 500 mL bottles and add #agar_volume_per_antibiotic_mL mL sterile dH#sub[2]O to each. Swirl to a uniform suspension. Pre-label the bottles Kan, Cam, and Kan+Cam - they are identical until antibiotic is added at pouring.
+1. LB agar ($times$#n_agar_bottles bottles: Kan, Cam, Kan+Cam). Weigh #lb_agar_mass_g g LB-agar powder into each of #n_agar_bottles separate 500 mL bottles and add #agar_volume_per_antibiotic_mL mL sterile dH#sub[2]O to each. Swirl to a uniform suspension. Pre-label the bottles Kan, Cam, and Kan+Cam - they are identical until antibiotic is added at pouring.
 
   #note[\ Calculation: #lb_agar_g_per_L g/L $times$ #{agar_volume_per_antibiotic_mL / 1000} L = #lb_agar_mass_g g per bottle. The #agar_volume_per_antibiotic_mL mL volume targets #plates_per_antibiotic plates at #volume_per_plate_mL mL each with margin for bottle residue. The Kan+Cam (double-selection) bottle is selection medium for the eventual transformed expression clone; pouring it from a full identical bottle banks plates for the later transformation step. Do *not* add antibiotic here - it goes into the molten agar at the pouring step (Part B).]
 
-+ *LB broth ($times$#n_lb_broth_bottles bottles).* Weigh #lb_broth_mass_g g LB broth (Lennox) powder into each of #n_lb_broth_bottles separate 1 L bottles and add #lb_broth_volume_per_bottle_mL mL sterile dH#sub[2]O. Swirl to dissolve.
++ LB broth ($times$#n_lb_broth_bottles bottles). Weigh #lb_broth_mass_g g LB broth (Lennox) powder into each of #n_lb_broth_bottles separate 1 L bottles and add #lb_broth_volume_per_bottle_mL mL sterile dH#sub[2]O. Swirl to dissolve.
 
   #note[\ Calculation: #lb_broth_g_per_L g/L $times$ #{lb_broth_volume_per_bottle_mL / 1000} L = #lb_broth_mass_g g per bottle. Use 1 L bottles, not 500 mL - #lb_broth_volume_per_bottle_mL mL needs autoclave headroom. One bottle is earmarked per strain workflow; both are stored *antibiotic-free*.]
 
-+ *TB broth ($times$1 bottle).* Weigh #tb_broth_mass_g g TB modified powder into a 500 mL bottle, add #tb_broth_volume_mL mL sterile dH#sub[2]O *and #tb_glycerol_mL mL glycerol*, and swirl to dissolve.
++ TB broth ($times$1 bottle). Weigh #tb_broth_mass_g g TB modified powder into a 500 mL bottle, add #tb_broth_volume_mL mL sterile dH#sub[2]O and #tb_glycerol_mL mL glycerol, and swirl to dissolve.
 
-  #note[\ Calculation: #tb_broth_g_per_L g/L $times$ #{tb_broth_volume_mL / 1000} L = #tb_broth_mass_g g, plus glycerol at #tb_glycerol_mL_per_L mL/L = #tb_glycerol_mL mL. Glycerol is the TB carbon source and is heat-stable, so it goes in *before* autoclaving. Stored antibiotic-free; used for the expression culture in a later document.]
+  #note[\ Calculation: #tb_broth_g_per_L g/L $times$ #{tb_broth_volume_mL / 1000} L = #tb_broth_mass_g g, plus glycerol at #tb_glycerol_mL_per_L mL/L = #tb_glycerol_mL mL. Glycerol is the TB carbon source and is heat-stable, so it goes in before autoclaving. Stored antibiotic-free; used for the expression culture in a later document.]
 
 + Loosely cap every bottle (do #underline[*NOT*] seal airtight) and cover each cap with aluminium foil. Apply autoclave tape and label each with medium, volume, date, and initials.
 
++ Find a water bottle that matches the biggest bottle inside of the autoclave. Place the integrated thermometer into this as this is the reference temperature for the autoclaver.
+
 + Autoclave all bottles together at 121 °C, 20 psi, for ≥ 30 min.
-
-*While the autoclave is running, set up the plate-pouring station near a burner (Part B).*
-
+#v(10em)
+#align(center)[
+  *While the autoclave is running, set up the plate-pouring station near a burner for part B.*
+]
+#pagebreak()
 === Procedure - Part B: Pour antibiotic agar plates
 
 #grid(
@@ -285,40 +289,46 @@ Weigh out every medium first, then run them through the autoclave together (#{n_
 
 1. Spray a section of lab bench with 70% ethanol and wipe with a paper towel.
 
-+ Label each plate base (not the lid - lids get swapped) with: condition (Kan, Cam, or Kan+Cam), pour date, initials. Batch labelling with coloured markers per condition speeds this up.
++ Label each plate base (not the lid - lids get swapped) with conditions:
+  - Kan#super[R] - two positives (+) and one negative (-)
+  - Cam#super[R] - two positives (+) and one negative (-)
+  - Kan#super[R]/Cam#super[R] - two positives (+) and one negative (-)
+  - Pour date
+  - Initials
 
-+ Position the flame at the bench. Stack the *#dishes_per_antibiotic labelled petri dishes per condition* ($times$#n_agar_bottles conditions) next to the flame (#plates_per_antibiotic for the workflow + #plates_spare spare for pouring variation).
++ Position the flame at the bench. Stack the labelled petri dishes per condition next to the flame.
 
-+ Have both antibiotic stocks ready on ice. Foil-wrap the Cam tube or keep it in an opaque container to protect from light.
++ Have both antibiotic stocks ready on ice. Keep the chloramphenicol tube away from direct sunlight, normal laboratory LED lighting is of no concern during working.
 
 + Retrieve the *#n_agar_bottles agar bottles* from the autoclave (leave the broths to cool - they are handled in Part C).
 
   #note[\ Once the autoclave is complete, open the door and leave it partially open for $tilde$10 min. This will release steam and will let the gel-mix cool a little bit. *#underline[Use thermally insulated gloves to remove the bottles.]*]
 
-+ Partially submerge each agar bottle in the 60 °C water bath for ≥ 5 min. Do *not* let water bath water touch the cap or neck of the bottle. Cooled agar should be warm to the touch but still fully liquid - if you cannot hold the bottle in a gloved hand, it is too hot to add antibiotic.
++ Let the agar bottles cool until you can touch it, but it has to be hot still at 55 °C.
 
 + Working next to the flame, add antibiotic to each bottle at 1:#antibiotic_dilution:
-  - Kan bottle: #antibiotic_volume_uL μL of 50 mg/mL kanamycin stock $arrow$ 50 μg/mL final
-  - Cam bottle: #antibiotic_volume_uL μL of 34 mg/mL chloramphenicol stock $arrow$ 34 μg/mL final
-  - Kan+Cam bottle: #antibiotic_volume_uL μL kanamycin *and* #antibiotic_volume_uL μL chloramphenicol $arrow$ 50 + 34 μg/mL final
+  - Kan bottle: #antibiotic_volume_uL μL of 50 mg/mL kanamycin stock
+  - Cam bottle: #antibiotic_volume_uL μL of 34 mg/mL chloramphenicol stock
+  - Kan+Cam bottle: #antibiotic_volume_uL μL kanamycin *and* #antibiotic_volume_uL μL chloramphenicol
 
-  #note[\ The double-selection bottle takes both antibiotics, each at its own 1:#antibiotic_dilution - add them as two separate spikes and swirl between, rather than premixing. They do not interact; dosing independently keeps each at the correct final concentration.]
+  #note[\ The double-selection bottle takes both antibiotics, each at its own 1:#antibiotic_dilution - add them as two separate spikes and swirl between, rather than premixing. They do not interact, dosing independently keeps each at the correct final concentration.]
 
 + Swirl each bottle gently to distribute the antibiotic evenly. Avoid creating bubbles.
 
-+ Pour $tilde$#volume_per_plate_mL mL per plate (60 mm dish). For the first plate, measure with a pipette to calibrate by eye; pour subsequent plates directly from the bottle.
++ Use a pipetteboy with a 50 mL strip and apply $tilde$#volume_per_plate_mL mL per plate.
 
   #nb(title: "NB!")[\ If agar begins solidifying in the bottle stop pouring. Antibiotic has already been added, re-heating (microwave or autoclave) will degrade both kanamycin and chloramphenicol and the batch must be discarded. To avoid this, work briskly once the antibiotic is in - typical pour window from antibiotic addition to last plate is 10-15 min.]
 
 #pagebreak()
-10.  After pouring each plate, swirl gently to ensure even coverage and remove surface bubbles. Cap and stack.
 
-+ Leave plates at room temperature to solidify ($tilde$30 min) and then dry overnight, agar-side up, with lids cracked slightly. This drying step is important - undried plates accumulate condensation on the lid.
-+ Once dry, transfer plates to a sealed plastic bag with a folded paper towel as desiccant. Invert plates (agar-side up) inside the bag to prevent condensation pooling on the agar.
+10.  After pouring each plate, swirl gently to ensure even coverage and remove surface bubbles. Cap and stack. Work briskly, it is not an exact science, an agar plate can suddenly solidify compared to other plates out of nowhere.
 
-+ Label the bag with the antibiotic, pour date, and your initials.
 
-+ Store at 4 °C. Any Cam-containing plates - both LB+Cam and LB+Kan/Cam - must be kept dark (opaque container or drawer); LB+Kan plates are not light-sensitive.
++ Leave plates at room temperature to solidify, takes roughly 30 min. Once solidified, invert the plates (agar-side up) and place them directly into a sealed plastic bag. Keep them inverted so any future condensation collects on the lid, not the agar surface. You can place a folded paper towel in the bag to help absorb excess moisture.
+
++ Label the bag with the antibiotics, pour date, and your initials. Then spray the outside of the bag with 70% EtOH.
+
++ Store at 4 °C. Again keep any Chloramphenicol-containing plates (LB+Cam and LB+Kan/Cam) away from direct sunlight.
 
 + Plates are valid for 1 month from the pour date, but check the plates continuously. Discard any plates that show contamination, drying (cracks or shrinkage from plate edge), or condensation pooling on the agar.
 
@@ -333,6 +343,8 @@ The LB and TB broths leave the autoclave with the agar but need no pouring - jus
 + Store at 4 °C. The broths keep for up to $tilde$1 month antibiotic-free. Antibiotic is added per culture at the point of use (Day 3 onward), at 1:#antibiotic_dilution from the stocks above.
 
   #nb(title: "NB!")[\ Never dose a stored broth bottle. Add antibiotic only to the aliquot you are about to use - e.g. 5 mL culture + 5 μL of the relevant stock $arrow$ 1:#antibiotic_dilution. A whole bottle dosed with antibiotic loses activity within weeks and cannot be re-sterilised.]
+
+#pagebreak()
 
 == Day 2: Stab arrival and plate streaking
 
@@ -360,7 +372,7 @@ The LB and TB broths leave the autoclave with the agar but need no pouring - jus
       title: "Equipment & Consumables",
       [Static incubator at 37 °C],
       [Bunsen burner / flame source],
-      [Sterile inoculation loops ($times$4, one per streak)],
+      [Sterile inoculation loops],
       [Ice bucket],
     )
   ],
@@ -369,33 +381,31 @@ The LB and TB broths leave the autoclave with the agar but need no pouring - jus
       title: "Reagents & Materials",
       [Addgene stab #42365 (cloning host with pNIC28-Bsa4-CTHA)],
       [Addgene stab #26242 (BL21(DE3)-R3-pRARE2)],
-      [LB+Kan plates from Day 1 batch ($times$#plates_used_day2_per_antibiotic)],
-      [LB+Cam plates from Day 1 batch ($times$#plates_used_day2_per_antibiotic)],
+      [LB+Kan plates from day 1 batch],
+      [LB+Cam plates from day 1 batch],
     )
   ],
 )
 #pagebreak()
 === Procedure
 
-1. Bring 4 LB+Kan plates and 4 LB+Cam plates to room temperature before streaking (cold agar gives uneven streak distribution). Pre-warm at 37 °C for 10 min if condensation is present.
+1. Take the Kan#super[R] and Cam#super[R] plates out and leth them reach room temperature before streaking as cold agar gives uneven streak distribution. Pre-warm at 37 °C for 10 min if condensation is present.
 
-+ Working near the flame, flame-sterilise an inoculation loop. Allow $tilde$5 s to cool.
++ If using a platinum loop dip it in EtOH and quickly pass it through a flame, then allow $tilde$5 s to cool. Otherwise use sterile loop plastic loop instead. Remember to work as sterile as possible.
 
-+ Pick a small amount of growth from the *#42365 stab* using the cooled loop. Streak onto:
-  - *2 LB+Kan plates* (positive control + workflow source for colony picking on Day 3)
-  - *2 LB+Cam plates* (negative cross-control - expect *no growth* if Cam is functional)
++ Pick a small amount of growth from the #42365 stab using the cooled loop. Streak onto:
+  - 2 Kan#super[R] plates (positive control + workflow source for colony picking on Day 3)
+  - 1 Cam#super[R] plates (negative cross-control - expect #underline[*no growth*] if Cam is functional)
 
-  Use standard four-quadrant streaking on each plate to generate isolated single colonies. Flame the loop between plates.
+  Use standard four-quadrant streaking on each plate to generate isolated single colonies. Flame the loop between plates. If not using a platinum loop just flip the plsatic loop around.
 
-+ Flame the loop again and allow to cool. Pick from the *#26242 stab*. Streak onto:
-  - *2 LB+Cam plates* (positive control + workflow source for colony picking on Day 3)
-  - *2 LB+Kan plates* (negative cross-control - expect *no growth* if Kan is functional)
++ Redo the stesp from step 3 but now with the #26242 stab. Streak onto:
+  - 2 LB+Cam plates (positive control + workflow source for colony picking on Day 3)
+  - 1 LB+Kan plates (negative cross-control - expect #underline[*no growth*] if Kan is functional)
 
-+ Return both stabs to 4 °C immediately. *Do not discard* - they remain the only verified source of viable material until glycerol stocks are validated on Day 5.
++ Return both stabs to 4 °C immediately. *#underline[Do not discard]* - they remain the only verified source of viable material until glycerol stocks are validated on Day 5.
 
-+ Invert all 8 plates (agar-side up) and incubate at 37 °C for 14-18 h.
-
-#note(title: "Double-selection plates")[\ The LB+Kan/Cam plates are *not* part of revival streaking - neither Addgene parent is double-resistant (#42365 is Kan#super[R] only, #26242 is Cam#super[R] only), so both would simply fail to grow. Set the double plates aside at 4 °C for the later transformation step. If you want an explicit QC, streak one parent onto a double plate as a *double-negative control* - it should show no growth, confirming the double bottle selects as intended.]
++ Invert all the plates (agar-side up) and incubate at 37 °C for overnight.
 
 #pagebreak()
 
@@ -419,8 +429,8 @@ After overnight incubation, the positive streak plates (LB+Kan with #42365; LB+C
     #checkgroup(
       title: "Reagents",
       [LB broth, sterile (from Day 1 batch, antibiotic-free)],
-      [Kanamycin stock: 50 mg/mL],
-      [Chloramphenicol stock: 34 mg/mL],
+      [Kanamycin stock at 50 mg/mL],
+      [Chloramphenicol stock at 34 mg/mL],
     )
   ],
 )
@@ -428,22 +438,24 @@ After overnight incubation, the positive streak plates (LB+Kan with #42365; LB+C
 == Procedure
 
 1. Near the flame, prepare two culture tubes:
-   - *Tube 1 (cloning host):* 5 mL LB + 5 μL Kan stock $arrow$ 50 μg/mL final. Label "#42365 / Kan / [date] / [initials]".
-   - *Tube 2 (expression host):* 5 mL LB + 5 μL Cam stock $arrow$ 34 μg/mL final. Label "#26242 / Cam / [date] / [initials]".
+   - Cloning host tube: 10 mL LB + 10 μL Kan stock.
+   - Expression host tube: 10 mL LB + 10 μL Cam stock.
 
-+ Using a sterile loop, pick a *single well-isolated colony* from the LB+Kan positive plate (#42365). Inoculate into Tube 1. Swirl the loop briefly in the medium.
++ Using a sterile loop or pipette tip, pick a single well-isolated colony from the Kan#super[R] positive plate (#42365). If using a pipette tip just drop the entire tip into the tube and gently swirl the tube.
 
   #note[\ Pick from a clearly isolated single colony, not a streak edge or confluent area. Clonal identity of every downstream glycerol stock depends on this step. If colonies are too dense to resolve a single one, re-streak from the backup plate before proceeding.]
 
-+ Flame the loop. Using a fresh sterile loop, pick a single isolated colony from the LB+Cam positive plate (#26242). Inoculate into Tube 2.
++ Redo step 2 for the expression host.
 
-+ Incubate both tubes overnight at 37 °C, 200 rpm. Target OD#sub[600] = 2-4 (saturated culture) the next morning.
+  
+
++ Incubate both tubes overnight at 37 °C on a shaking incubator set to 200 rpm. Target OD#sub[600] = 2-4 (saturated culture) the next morning. Check if you need to book one
 
   #note[\ Overnight saturated culture is the standard input for glycerol stocks. Late-log phase (OD#sub[600] $tilde$1.5-2) gives marginally higher post-thaw viability but requires daytime monitoring; saturated overnight culture is the practical default and post-thaw viability remains $gt$95% for *E. coli* under standard glycerol freezing.]
 
 #pagebreak()
 
-== Day 4: Archival glycerol stocks
+== Day 4A: Archival glycerol stocks
 
 Both Addgene strains are archived in parallel. Four cryotubes per strain provides redundancy against tube failure, freezer accidents, and freeze-thaw degradation - *not* biological replicates. All four stocks for a given strain are clonally identical, derived from the same single colony via the same overnight culture.
 
@@ -470,19 +482,14 @@ Both Addgene strains are archived in parallel. Four cryotubes per strain provide
   ],
 )
 
-#nb(title: "NB!")[\ Use *screw-cap* cryotubes, not snap-top. Snap-top tubes can open spontaneously at $-$80 °C and release the stock.]
+#nb(title: "NB!")[\ Use *screw-cap* cryotubes, not snap-top. Snap-top tubes can open spontaneously at $-$80 °C and release the stock. Make sure they have been steralized!]
 
 === Procedure
 
 1. Label 8 cryotubes (4 per strain) on *both the side wall and the cap* with a solvent-resistant cryo marker. Each label must include:
-   - Strain ID (#42365 or #26242)
-   - Antibiotic (Kan or Cam)
-   - Stock number (e.g. "1/4", "2/4", ...)
-   - Date of freezing
-   - Initials
 
    #note[\
-   Adhesive labels detach at $-$80 °C over months. Writing directly on the tube with a cryo-rated marker is the lab standard. Labelling both the wall *and* the cap ensures identification even if a label face is rubbed off during handling.]
+   Adhesive labels detach at $-$80 °C over months. Writing directly on the tube with a cryo-rated marker is the lab standard. Labelling both the wall *and* the cap ensures identification even if a label face is rubbed off during handling. Or use a labeling machine if available.]
 
 + Pre-chill the 8 labelled cryotubes on ice.
 
@@ -494,12 +501,115 @@ Both Addgene strains are archived in parallel. Four cryotubes per strain provide
 
 + Cap tightly. Vortex briefly (2-3 s) to fully mix - confirm a single uniform solution with no glycerol layer at the bottom.
 
-  #nb[\ Incomplete mixing leaves a glycerol gradient inside the tube, which results in uneven cryoprotection and lower post-thaw viability. The Addgene protocol specifies shaking 5-6 times until uniform; vortexing achieves the same with less risk of inverting cap-down.]
+  #nb[\ Incomplete mixing leaves a glycerol gradient inside the tube, which results in uneven cryoprotection and lower post-thaw viability.]
 
 #pagebreak()
 5.  Snap-freeze in liquid nitrogen, then transfer to $-$80 °C. If LN#sub[2] is not available, transfer directly from ice to $-$80 °C - post-thaw viability is comparable for *E. coli* under either method.
 
-+ Record cryobox location, position, and contents in the lab freezer log immediately.
+
+== Day 4B - Plasmid isolation from the cloning host (GeneJET miniprep)
+
+#grid(
+  columns: (1fr, auto),
+  column-gutter: 12pt,
+  align: (top, center),
+  [
+    With a saturated overnight of the #42365 cloning host in hand (LB + Kan, from the Day 3 inoculation), the plasmid is isolated by SDS/alkaline lysis and silica-column capture using the Thermo Scientific GeneJET Plasmid Miniprep Kit (K0502/K0503; User Guide MAN0012655). The eluate feeds directly into the verification digest and Sanger submission, and is the material later transformed into the #26242 expression host. Scan for the full kit user guide.
+  ],
+  [
+    #qr-code("https://documents.thermofisher.com/TFS-Assets/LSG/manuals/MAN0012655_GeneJET_Plasmid_Miniprep_UG.pdf", width: 2cm)
+    #align(center)[#text(size: 7pt, fill: gray)[
+      GeneJET User Guide
+    ]]
+  ],
+)
+
+#note(title: "Copy number")[\ The kit's own vector table classes *pBR322 and its derivatives as low-copy* (10-50 copies/cell). pNIC28-Bsa4 is built on pET28a, a pBR322 derivative, so it is *low-copy*: use the upper end of the kit's range ($tilde$5-10 mL of saturated overnight) and expect modest yields, not the pUC-level output of a high-copy cloning vector. The column binds up to $tilde$20 μg dsDNA; for genuinely high-copy plasmids Thermo warns against exceeding 5 mL, which is not a constraint at this copy number but is the reason not to scale the input endlessly.]
+
+#nb(title: "First-use kit prep")[\ Two reagents must be completed before the first prep or the run fails silently:
+- Add ethanol (96-100%) to the Wash Solution concentrate - 35 mL into the 20 mL K0502 bottle, or 170 mL into the 100 mL K0503 bottle - then tick the checkbox on the bottlecap.
+- Add the supplied RNase A to the Resuspension Solution and mix; store that bottle at 4 °C (stable 6 months). Skipping this leaves RNA in the eluate.]
+
+#note(title: "Before each use")[\ Check the Lysis and Neutralization Solutions for salt precipitation. If any is present, warm the solution to 37 °C to redissolve, then cool back to 25 °C before use. Wear gloves throughout - the Lysis and Neutralization Solutions are irritants.]
+
+#checklist(
+  cols: 2,
+  [
+    #checkgroup(
+      title: "Equipment & Consumables",
+      [Microcentrifuge (≥ 12 000 $times$ g)],
+      [Benchtop centrifuge + 15 mL tube for harvest, _or_ a 1.5 mL tube for sequential harvest spins],
+      [Vortex mixer],
+      [GeneJET spin columns + collection tubes (in kit)],
+      [Sterile 1.5 mL microcentrifuge tubes],
+      [RNase-free micropipette tips (P200, P1000)],
+      [Disposable gloves],
+      [NanoDrop / UV spectrophotometer],
+    )
+  ],
+  [
+    #checkgroup(
+      title: "Reagents (GeneJET Kit, K0502/K0503)",
+      [#42365 cloning-host overnight (LB + Kan, Day 3)],
+      [Resuspension Solution (+ RNase A added)],
+      [Lysis Solution],
+      [Neutralization Solution],
+      [Wash Solution (+ ethanol added, first use)],
+      [Elution Buffer (10 mM Tris-HCl, pH 8.5) or nuclease-free water],
+      [Ethanol, 96-100% (for the first-use Wash Solution prep)],
+      [Wash Solution I (R1611) + isopropanol - only if EndA#super[+]; not needed here],
+    )
+  ],
+)
+
+#pagebreak()
+
+=== Procedure
+
+All steps are carried out at room temperature. Unless stated otherwise, every centrifugation is in a microcentrifuge at ≥ 12 000 $times$ g.
+
+1. *Harvest.* Pellet $tilde$5-10 mL of the saturated #42365 overnight and remove *all* residual medium - leftover LB carries into the lysate and impairs the prep.
+   - 1.5 mL-tube route: spin at $tilde$6800 $times$ g (8000 rpm) for 2 min, decant, and repeat onto the same pellet until the full volume is spun.
+   - 15 mL-tube route: spin at 3000-5000 $times$ g for $tilde$10 min on a benchtop centrifuge; then resuspend in the 250 μL Resuspension Solution (next step) and transfer the suspension to a 1.5 mL tube.
+
+  #note[\ Use a *12-16 h* overnight, not an over-aged one - an old culture is the single most common cause of low yield. If you ever switch from LB to a rich medium like TB, cap growth at $tilde$12 h and reduce the input volume.]
+
++ *Resuspend.* Add 250 μL Resuspension Solution to the pellet and vortex (or pipette up and down) until *completely homogeneous* - no visible clumps.
+
+  #note[\ Incomplete resuspension is the most common low-yield cause. Fully disperse the pellet before adding the Lysis Solution; no clumps should remain.]
+
++ *Lyse.* Add 250 μL Lysis Solution and mix by gently inverting the tube 4-6 times until the suspension turns viscous and slightly clear. Do *not* vortex.
+
+  #nb[\ Never vortex after the Lysis Solution - shear liberates genomic DNA that co-purifies. Keep this step under *5 min*: over-lysis denatures the plasmid, and denatured plasmid runs *ahead* of the supercoiled band on a gel and *will not cut* - directly sabotaging the verification digest this prep feeds into.]
+
++ *Neutralize.* Add 350 μL Neutralization Solution and *immediately* invert 4-6 times, gently but thoroughly (to avoid localised precipitation). The lysate turns cloudy as a fluffy white precipitate (SDS, protein, genomic DNA) forms.
+
++ *Clear the lysate.* Centrifuge for 5 min to pellet the cell debris and chromosomal DNA. A compact white pellet collects against the tube wall.
+
++ *Bind.* Decant or pipette the cleared supernatant onto a GeneJET spin column, *avoiding the white precipitate*. Centrifuge 1 min, discard the flow-through, and return the column to the same collection tube.
+
+  #note[\ EndA#super[+] strains only: a preliminary wash with 500 μL Wash Solution I + isopropanol (spin 30-60 s, discard) precedes the ethanol washes to strip nuclease activity. Mach1 is endA#super[$-$], so skip it here - see the closing note.]
+
++ *Wash ($times$2).* Add 500 μL Wash Solution (ethanol-supplemented), centrifuge 30-60 s, and discard the flow-through. Repeat once, for two washes total.
+
++ *Dry the membrane.* Discard the flow-through, then centrifuge the empty column for 1 min to drive off residual Wash Solution.
+
+  #nb[\ Do not skip the dry spin. Carried-over ethanol inhibits restriction digestion and Sanger sequencing - the two steps this plasmid is headed straight into.]
+
++ *Elute.* Transfer the column to a clean, labelled 1.5 mL tube. Dispense 50 μL Elution Buffer (or nuclease-free water) onto the *centre* of the membrane, without touching the membrane with the tip. Incubate 2 min, then centrifuge 2 min. The flow-through is the purified plasmid; discard the column.
+
+  #note[\ To raise concentration from this low-copy prep, elute in 30-35 μL instead of 50, or re-apply the first eluate to the membrane for a second pass. An optional second elution with fresh buffer recovers another $tilde$10-20% but dilutes the sample. Prewarming Elution Buffer to 70 °C is only needed for constructs $gt$20 kb - not the case for the $tilde$6.6 kb #42365 plasmid.]
+
++ *Quantify.* Measure on the NanoDrop: expect A#sub[260]/A#sub[280] $tilde$1.8 and A#sub[260]/A#sub[230] $gt$ 2.0. Record concentration and volume.
+
++ *Store.* Keep the eluate at $-$20 °C until the verification digest and Sanger submission.
+
+#note(title: "Alternative")[\ The user guide also documents a *vacuum-manifold* route through the bind/wash steps (cell lysis and lysate clearing are identical). If a standard vacuum manifold is available it can replace the bind/wash spins; the elution step is the same. The centrifugation route above is the default here.]
+
+#nb(title: "Looking ahead - EndA")[\ This prep is from the *Mach1 cloning host*, which is endA#super[$-$], so the standard wash gives clean DNA. When you later re-isolate the plasmid from the *#26242 expression clone*, that strain (BL21(DE3)) is endA#super[+]: run the preliminary *Wash Solution I (R1611) + isopropanol* wash before the ethanol washes, or the plasmid comes out nicked and degraded.]
+
+
+
 
 
 == Day 5: Glycerol stock viability QC
@@ -542,8 +652,6 @@ Confirm that the freezing step did not compromise viability. One stock per strai
 + *Read-out (next morning):* single colonies on both plates confirm viable archival stocks. The Addgene stabs may now be discarded (or retained at 4 °C for an additional 1-week safety margin if storage space allows).
 
   #nb(title: "If no growth:")[Re-test a second cryotube from the same strain. If the second stock also fails, the freezing step is the likely failure mode (incomplete mixing, glycerol concentration error, freezer malfunction). Do *not* discard the original Addgene stab - re-streak from the stab and repeat Days 3-5 with corrected procedure.]
-
-=== Path B: Plasmid DNA backup (42365 only) 
 
 
 #bibliography(
