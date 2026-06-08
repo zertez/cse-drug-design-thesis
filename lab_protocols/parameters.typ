@@ -46,16 +46,14 @@
 #let tb_glycerol_mL_per_L = 8
 
 
-// One overnight culture per picked colony (clone). Stocks are aliquots of that single culture, so n_stocks_per_clone does NOT add cultures.
-
-// Mach1 (#42365) + BL21 (#26242)
-#let n_strains = 2
-// colonies picked -> parallel overnight cultures
-#let n_clones_per_strain = 3
-// glycerol cryotubes banked per culture
-#let n_stocks_per_clone = 3
-// LB working volume per overnight tube (see aeration note)
-#let culture_volume_mL = 50
+//  Day 3 cultures / Day 4 glycerol-stock sizing (asymmetric: Mach1 screened, BL21 not)
+// One overnight culture per picked colony. Stocks are aliquots of that one
+// culture, so stocks-per-clone do NOT add cultures.
+#let n_clones_mach1 = 3            // #42365 colonies picked -> parallel cultures (Sanger screen)
+#let n_stocks_per_clone_mach1 = 3  // provisional cryotubes per Mach1 clone
+#let n_clones_bl21 = 1             // #26242: single colony, empty host, no screen needed
+#let n_stocks_per_clone_bl21 = 4   // archival redundancy for the one BL21 clone
+#let culture_volume_mL = 50        // LB working volume per overnight tube
 #let cryotubes_spare = 2
 
 //  Derived values - do not edit directly
@@ -104,11 +102,12 @@
 )
 
 //  Day 3 / Day 4 culture + stock sizing - derived
-#let n_cultures_total = n_clones_per_strain * n_strains
-#let n_stocks_per_strain = n_clones_per_strain * n_stocks_per_clone
-#let n_stocks_total = n_stocks_per_strain * n_strains
-#let n_cryotubes_order = n_stocks_total + cryotubes_spare
+#let n_cultures_total = n_clones_mach1 + n_clones_bl21                  // 4
+#let n_stocks_mach1 = n_clones_mach1 * n_stocks_per_clone_mach1         // 9
+#let n_stocks_bl21 = n_clones_bl21 * n_stocks_per_clone_bl21           // 4
+#let n_stocks_total = n_stocks_mach1 + n_stocks_bl21                    // 13
+#let n_cryotubes_order = n_stocks_total + cryotubes_spare               // 15
 #let antibiotic_per_culture_uL = calc.round(
   culture_volume_mL * 1000 / antibiotic_dilution,
   digits: 0,
-)
+)                                                                       // 50 uL at 1:1000

@@ -413,24 +413,18 @@ The LB and TB broths leave the autoclave with the agar but need no pouring - jus
 
 == Day 3: Inoculate liquid cultures
 
-After overnight incubation, the positive streak plates (LB+Kan with #42365, LB+Cam with #26242) show isolated single colonies; the negative cross-control plates show no growth, confirming both antibiotic batches are functional. Pick #n_clones_per_strain well-isolated colonies per strain - clones C1-C#(n_clones_per_strain) (Mach1) and B1-B#(n_clones_per_strain) (BL21) - each seeding its own overnight. #n_cultures_total cultures total.
-
-#nb(title: "CRITICAL LIQUID GROWTH RATE DELAY")[\
-Mach1 saturates in roughly 4-6 h from a standard colony inoculation; a full 16 h overnight over-ages it and lowers plasmid yield from the Day 4B minipreps these cultures feed. BL21(DE3)-R3-pRARE2 needs a full 14-16 h to saturate, owing to the metabolic load of pRARE2. To harvest both at peak viability:
-1. Staggered timeline: inoculate the #n_clones_per_strain Mach1 tubes on the morning of Day 3 (harvest $tilde$5 h later); inoculate the #n_clones_per_strain BL21 tubes in the late evening (harvest next morning).
-2. High-dilution overnight: if inoculating everything together in the evening, pick the BL21 colonies directly, but for each Mach1 pick resuspend the colony and carry a 1:1000 micro-dilution into its tube to extend lag phase through the night.
-]
+After overnight incubation, the positive streak plates (LB+Kan with #42365, LB+Cam with #26242) show isolated single colonies; the negative cross-control plates show no growth, confirming both antibiotic batches are functional. Pick #n_clones_mach1 well-isolated Mach1 colonies (clones C1-C#(n_clones_mach1)) and #n_clones_bl21 BL21 colony, each seeding its own overnight - #n_cultures_total cultures total.
 
 #checklist(
   cols: 2,
   [
     #checkgroup(
       title: "Equipment & Consumables",
-      [Shaking incubator, 37 °C, 200 rpm (book in advance)],
-      [Something to pick colonies with],
-      [Sterile #culture_volume_mL mL culture tubes ($times$#n_cultures_total)],
+      [Shaking incubator, 37 °C, 200 rpm],
+      [Sterile inoculation loops or toothpicks],
+      [Sterile #culture_volume_mL mL culture tubes],
       [P10 / P200 sterile tips],
-      [Flame source],
+      [Bunsen burner / flame source],
     )
   ],
   [
@@ -446,18 +440,16 @@ Mach1 saturates in roughly 4-6 h from a standard colony inoculation; a full 16 h
 === Procedure
 
 1. Near the flame, prepare #n_cultures_total culture tubes:
-   - Cloning host (Mach1, #42365): #n_clones_per_strain tubes, C1-C#(n_clones_per_strain), each #culture_volume_mL mL LB + #antibiotic_per_culture_uL μL Kan stock.
-   - Expression host (BL21, #26242): #n_clones_per_strain tubes, B1-B#(n_clones_per_strain), each #culture_volume_mL mL LB + #antibiotic_per_culture_uL μL Cam stock.
+   - Cloning host (Mach1, #42365): #n_clones_mach1 tubes, C1-C#(n_clones_mach1), each #culture_volume_mL mL LB + #antibiotic_per_culture_uL μL Kan stock.
+   - Expression host (BL21, #26242): #n_clones_bl21 tube (B1), #culture_volume_mL mL LB + #antibiotic_per_culture_uL μL Cam stock.
 
-+ From the Kan#super[R] positive plate (#42365), pick #n_clones_per_strain separate well-isolated colonies into C1-C#(n_clones_per_strain) - one colony per tube, fresh tip each.
++ From the Kan#super[R] positive plate (#42365), pick #n_clones_mach1 separate well-isolated colonies into C1-C#(n_clones_mach1) - one colony per tube, fresh tip each.
 
   #note[\ Pick clearly isolated single colonies, not streak edges or confluent areas. Clonal identity of every downstream stock and miniprep depends on this. If colonies are too dense to resolve, re-streak from the backup plate first.]
 
-+ From the Cam#super[R] positive plate (#26242), pick #n_clones_per_strain separate well-isolated colonies into B1-B#(n_clones_per_strain) - one colony per tube, fresh tip each.
++ From the Cam#super[R] positive plate (#26242), pick one well-isolated colony into B1.
 
-+ Incubate at 37 °C, 200 rpm. Hold the Mach1 tubes to 5-6 h (or use the high-dilution overnight); let the BL21 tubes run a full 14-16 h.
-
-+ Target OD#sub[600] = 2-4 (saturated) at harvest.
++ Incubate at 37 °C, 180-200 rpm. Hold the Mach1 tubes to 5-6 h (or use the high-dilution overnight), let the BL21 tube run a full 14-16 h. Target OD#sub[600] = 2-4 (saturated) at harvest. Book shaker slots in advance if sharing.
 
   #note[\ Saturated overnight is the standard glycerol-stock input. Late-log (OD#sub[600] $tilde$1.5-2) gives marginally better post-thaw viability but needs daytime monitoring; saturated is the practical default and post-thaw viability stays $gt$95% for #emph[E. coli].]
 
@@ -465,9 +457,11 @@ Mach1 saturates in roughly 4-6 h from a standard colony inoculation; a full 16 h
 
 == Day 4A: Archival glycerol stocks
 
-Stocks are banked *per clone*, not per strain. Each of the #n_cultures_total Day 3 cultures (C1-C#(n_clones_per_strain) for Mach1, B1-B#(n_clones_per_strain) for BL21) yields #n_stocks_per_clone cryotubes from its own overnight - #n_stocks_per_strain per strain, #n_stocks_total total. The #n_stocks_per_clone tubes of any one clone are clonally identical: redundancy against tube failure, freezer accidents, and freeze-thaw degradation, not biological replicates.
+Stocks are banked *per clone*. The #n_clones_mach1 Mach1 cultures (C1-C#(n_clones_mach1)) each yield #n_stocks_per_clone_mach1 cryotubes - #n_stocks_mach1 Mach1 tubes total - and the single BL21 culture (B1) yields #n_stocks_bl21. #n_stocks_total tubes in all. The tubes of any one clone are clonally identical: redundancy against tube failure, freezer accidents, and freeze-thaw degradation, not biological replicates.
 
-The Mach1 (#42365) stocks are *provisional* until the Day 4B Sanger result identifies the verified clone - nothing on this strain enters the long-term archive unsequenced. The BL21 (#26242) stocks need no sequence gate: every Cam#super[R] colony carries pRARE2 and is the same construct-free host.
+The Mach1 (#42365) stocks are *provisional* until the Day 4B Sanger result identifies the verified clone - nothing on this strain enters the long-term archive unsequenced. The BL21 (#26242) stocks need no sequence gate: the colony's Cam#super[R] growth already confirms pRARE2 in a construct-free host.
+
+#note(title: "What survives the gate")[\ After Sanger, keep the verified Mach1 clone's #n_stocks_per_clone_mach1 tubes and discard the other #{(n_clones_mach1 - 1) * n_stocks_per_clone_mach1} (the rejected clones). All #n_stocks_bl21 BL21 tubes are kept - no gate, single clone. Long-term archive retained: #n_stocks_per_clone_mach1 (Mach1, verified) + #n_stocks_bl21 (BL21) = #{n_stocks_per_clone_mach1 + n_stocks_bl21} tubes.]
 
 #checklist(
   cols: 2,
@@ -496,13 +490,13 @@ The Mach1 (#42365) stocks are *provisional* until the Day 4B Sanger result ident
 
 === Procedure
 
-1. Label #n_stocks_total cryotubes on both side wall and cap with a solvent-resistant cryo marker (or labeller): #n_stocks_per_clone tubes per clone, C1-C#(n_clones_per_strain) and B1-B#(n_clones_per_strain), each label carrying clone ID, strain, date, and initials.
+1. Label #n_stocks_total cryotubes on both side wall and cap with a solvent-resistant cryo marker (or labeller): #n_stocks_per_clone_mach1 tubes per Mach1 clone (C1-C#(n_clones_mach1)) and #n_stocks_bl21 for the BL21 clone (B1), each label carrying clone ID, strain, date, and initials.
 
   #note[\ Adhesive labels detach at -80 °C over months; write directly on the tube and label wall + cap so identity survives if a face is rubbed during handling. A labelling machine is fine if available.]
 
 + Pre-chill all #n_stocks_total labelled cryotubes on ice.
 
-+ To each cryotube add 500 μL sterile 50% glycerol + 500 μL of *that clone's* Day 3 overnight (Kan cultures C1-C#(n_clones_per_strain) into their C-3labelled tubes; Cam cultures B1-B#(n_clones_per_strain) into their B-labelled tubes). Final glycerol concentration 25% (v/v).
++ To each cryotube add 500 μL sterile 50% glycerol + 500 μL of *that clone's* Day 3 overnight (Kan cultures C1-C#(n_clones_mach1) into their C-labelled tubes; the BL21 culture into the #n_stocks_bl21 B1 tubes). Final glycerol concentration 25% (v/v).
 
 + Cap tightly. Vortex briefly (2-3 s) to fully mix - confirm a single uniform solution with no glycerol layer at the bottom.
 
@@ -614,7 +608,92 @@ All steps are carried out at room temperature. Unless stated otherwise, every ce
 
 #nb(title: "Looking ahead - EndA")[\ This prep is from the Mach1 cloning host, which is endA#super[-], so the standard wash gives clean DNA. When you later re-isolate the plasmid from the #26242 expression clone, that strain (BL21(DE3)) is endA#super[+]: run the preliminary Wash Solution I (R1611) + isopropanol wash before the ethanol washes, or the plasmid comes out nicked and degraded.]
 
+#pagebreak()
 
+== Day 5B: Preparation of chemically competent BL21(DE3)-R3-pRARE2 (Inoue method, 30 mL scale)
+
+The expression host is rendered chemically competent by the Inoue method (routinely 10#super[7]-10#super[8] cfu/μg). This is scaled to a 30 mL culture yielding $tilde$50 aliquots - enough to cover the hCSE transformation and re-tests - rather than the litre-scale prep that produces several hundred. The culture-to-final-resuspension ratio ($tilde$12:1) is held at the textbook value; only the absolute volumes shrink, so per-aliquot competence is unchanged. The QC-confirmed BL21 glycerol stock from Day 5 is the starter source.
+
+#nb(title: "Strain-specific: keep chloramphenicol in")[\ BL21(DE3)-R3-pRARE2 carries the resident pRARE2 plasmid (Cam#super[R]), which supplies the rare-codon tRNAs for hCSE expression. The published Inoue prep is run antibiotic-free; here, chloramphenicol (34 μg/mL) is kept in *both* the starter and the main culture. Drop it and a fraction of cells shed pRARE2 over the overnight, leaving a competent stock that is partly rare-codon-deficient - which then quietly erodes hCSE yield downstream. Cam does not impair the resistant population, so competence is unaffected.]
+
+#nb(title: "Snap-freeze is not optional here")[\ Unlike a plain glycerol stock - where slow freezing to -80 °C costs only viability and E. coli tolerates it - competent cells lose *transformation efficiency* on slow freezing. Aliquots go straight into liquid nitrogen, then to -80 °C. Ice-to-freezer is a fallback that will cost you efficiency.]
+
+#note(title: "Timing")[\ Spans an overnight plus the following morning. Inoculate the starter and main culture in the afternoon/evening, grow overnight at 18 °C, then harvest the next morning once OD#sub[600] reaches $tilde$0.4-0.5. Reserve $tilde$2 h of uninterrupted cold work for the harvest - it cannot be paused partway.]
+
+=== Buffers & reagents
+
+All competence buffers are *filter-sterilised, never autoclaved* - autoclaving Inoue TB precipitates and oxidises the manganese and kills the prep.
+
+- SOB medium ($tilde$100 mL): 2 g tryptone, 0.5 g yeast extract, 0.05 g NaCl, 0.25 mL 1 M KCl. Make up to $tilde$98 mL, autoclave, cool, then add 1 mL sterile 1 M MgCl#sub[2] + 1 mL sterile 1 M MgSO#sub[4] (10 mM each, final).
+
+- Inoue transformation buffer (TB) (100 mL, kept ice-cold): 1.09 g MnCl#sub[2]·4H#sub[2]O (55 mM), 0.22 g CaCl#sub[2]·2H#sub[2]O (15 mM), 1.86 g KCl (250 mM), 2 mL 0.5 M PIPES pH 6.7 (10 mM, final). Dissolve the salts in water, add the PIPES stock last, bring to volume, filter-sterilise (0.22 μm), store at 4 °C. One batch covers several preps - only $tilde$13 mL is used per 30 mL prep.
+
+- 0.5 M PIPES (100 mL): dissolve 15.1 g PIPES in $tilde$80 mL water; it will not clear until the pH is raised - add KOH to pH 6.7, bring to 100 mL, store at -20 °C in aliquots.
+
+- DMSO: molecular-biology grade, $tilde$7% (v/v) final. Solid below $tilde$18 °C - bring to room temperature before adding.
+
+#checklist(
+  cols: 2,
+  [
+    #checkgroup(
+      title: "Equipment & Consumables",
+      [Refrigerated centrifuge + rotor for 50 mL tubes ($tilde$2500 $times$ g, 4 °C)],
+      [Shaking incubator, 18 °C],
+      [Spectrophotometer (OD#sub[600]) + cuvettes],
+      [125-250 mL flask (for the 30 mL culture)],
+      [Sterile 50 mL centrifuge tubes ($times$1-2)],
+      [Ice-water bath; cold-room access],
+      [Liquid nitrogen + dewar],
+      [Pre-chilled 0.5 mL aliquot tubes ($times$$tilde$55); repeat pipettor],
+    )
+  ],
+  [
+    #checkgroup(
+      title: "Reagents",
+      [BL21(DE3)-R3-pRARE2 glycerol stock (Day 4A, QC-confirmed Day 5)],
+      [SOB medium, sterile (+ Mg added)],
+      [Inoue TB, ice-cold, filter-sterilised],
+      [Chloramphenicol stock, 34 mg/mL],
+      [DMSO, molecular-biology grade],
+    )
+  ],
+)
+
+=== Procedure
+
+All steps from the chill onward are on ice or in the cold room. The single most important rule: the cells must not warm up again once chilled.
+
+1. Reserve blank. Set aside $tilde$5 mL sterile SOB at 4 °C for tomorrow's OD blank.
+
++ Starter (afternoon). Inoculate 3 mL SOB + 3 μL Cam stock with a scrape from the BL21 glycerol stock. Shake at 37 °C, 200 rpm, until visibly turbid ($tilde$4-6 h).
+
++ Main culture (evening). In a 125-250 mL flask, inoculate 30 mL SOB + 30 μL Cam stock with $tilde$0.3 mL of the starter. Shake at 18 °C, 200 rpm, overnight. Keep the flask $lt.eq$ 1/4 full for aeration.
+
+  #note[\ The 18 °C growth is slow by design and central to the method's efficiency; room temperature is an acceptable fallback if no 18 °C incubator is free, at somewhat lower efficiency.]
+
++ Monitor OD (next morning). Read OD#sub[600] every $tilde$45 min, blanking against the reserved SOB. Target OD#sub[600] = 0.4-0.5.
+
+  #nb[\ Do not overshoot. Competence falls off sharply above OD#sub[600] $tilde$0.5 - pull at $tilde$0.45 if you can catch it.]
+
++ Chill. At target OD, sit the flask in an ice-water bath 10 min. *Everything from here is cold.*
+
++ Harvest. Pellet at $tilde$2500 $times$ g, 10 min, 4 °C, in a 50 mL tube. Decant the medium fully.
+
++ First Inoue wash. Gently resuspend the pellet in 10 mL ice-cold Inoue TB. Swirl, do not vortex.
+
++ Re-pellet. Spin again at $tilde$2500 $times$ g, 10 min, 4 °C. Decant.
+
++ Final resuspension. Gently resuspend in 2.5 mL ice-cold Inoue TB.
+
++ DMSO. Add 0.18 mL room-temperature DMSO ($tilde$7% final) dropwise while swirling. Incubate on ice 10 min.
+
+  #nb[\ Add DMSO slowly with mixing - a local DMSO spike is toxic. Do not vortex.]
+
++ Aliquot & snap-freeze. On ice, dispense 50 μL aliquots into pre-chilled tubes ($tilde$50 from 2.68 mL, with margin for loss) and drop each immediately into liquid nitrogen. A two-person line (one fills, one caps and freezes) keeps it fast and cold. Store at -80 °C.
+
++ Efficiency QC. Before committing the batch, thaw one aliquot and transform a known mass (10-100 pg) of a control plasmid (pUC19, or the #42365 prep) per the transformation protocol, then calculate cfu/μg. Expect $gt.eq$ 10#super[7] for usable cells, $tilde$10#super[8] for a good prep.
+
+#note(title: "What this does and does not do")[\ This produces competent expression host only - nothing is transformed yet. The verified #42365 miniprep (Day 4B) is the DNA introduced in the transformation that follows, with Kan + Cam dual selection.]
 
 #pagebreak()
 
@@ -658,91 +737,6 @@ Confirm that the freezing step did not compromise viability. One stock per strai
 + *Read-out (next morning):* single colonies on both plates confirm viable archival stocks. The Addgene stabs may now be discarded (or retained at 4 °C for an additional 1-week safety margin if storage space allows).
 
   #nb(title: "If no growth:")[Re-test a second cryotube from the same strain. If the second stock also fails, the freezing step is the likely failure mode (incomplete mixing, glycerol concentration error, freezer malfunction). Do *not* discard the original Addgene stab - re-streak from the stab and repeat Days 3-5 with corrected procedure.]
-
-#pagebreak()
-
-== Day 5B: Preparation of chemically competent BL21(DE3)-R3-pRARE2 (Inoue method)
-
-The expression host is rendered chemically competent by the Inoue method, which reaches high transformation efficiency (routinely 10#super[7]-10#super[8] cfu/μg) without electroporation. The viability-confirmed BL21 glycerol stock from Day 5 is the starter source. BL21(DE3) is less naturally competent than a cloning strain, so the slow low-temperature growth and the ice-cold Inoue buffer washes below are what carry the efficiency - they are not optional refinements.
-
-#nb(title: "Strain-specific: keep chloramphenicol in")[\ BL21(DE3)-R3-pRARE2 carries the resident pRARE2 plasmid (Cam#super[R]), which supplies the rare-codon tRNAs needed for hCSE expression. The textbook Inoue prep is run antibiotic-free; here, chloramphenicol (34 μg/mL) is kept in *both* the starter and the main culture. Drop it and a fraction of cells shed pRARE2 over the overnight growth, leaving a competent stock that is partly rare-codon-deficient - which then quietly erodes hCSE yield downstream. Cam does not impair the resistant population, so competence is unaffected.]
-
-#note(title: "Timing")[\ This spans an overnight plus the following morning. Inoculate starter and main culture in the afternoon/evening, grow overnight at 18 °C, then harvest and process the next morning once OD#sub[600] reaches $tilde$0.4-0.6. Reserve $tilde$3 h of uninterrupted cold-room time for the harvest morning - it cannot be paused partway.]
-
-=== Buffers & reagents
-
-All competence buffers are *filter-sterilised, never autoclaved* - autoclaving Inoue TB precipitates the manganese and kills the prep.
-
-- SOB medium (1 L): 20 g tryptone, 5 g yeast extract, 0.5 g NaCl, 2.5 mL 1 M KCl. Make up to $tilde$980 mL, autoclave, cool, then add 10 mL sterile 1 M MgCl#sub[2] + 10 mL sterile 1 M MgSO#sub[4] (10 mM each, final).
-
-- Inoue transformation buffer (TB) (1 L, kept ice-cold): 10.88 g MnCl#sub[2]·4H#sub[2]O (55 mM), 2.20 g CaCl#sub[2]·2H#sub[2]O (15 mM), 18.64 g KCl (250 mM), 20 mL 0.5 M PIPES pH 6.7 (10 mM, final). Dissolve the salts in water, add the PIPES stock last, bring to volume, filter-sterilise (0.22 μm), store at 4 °C.
-
-- 0.5 M PIPES (100 mL): dissolve 15.1 g PIPES in $tilde$80 mL water; it will not fully clear until the pH is raised - add KOH to pH 6.7, bring to 100 mL, store at -20 °C.
-
-- DMSO: molecular-biology grade, used at $tilde$7% (v/v) final. Solid below $tilde$18 °C, so bring to room temperature before adding.
-
-#checklist(
-  cols: 2,
-  [
-    #checkgroup(
-      title: "Equipment & Consumables",
-      [Refrigerated centrifuge + rotor for 250 mL bottles ($tilde$2500 $times$ g, 4 °C)],
-      [Shaking incubator, 18 °C],
-      [Spectrophotometer (OD#sub[600]) + cuvettes],
-      [1 L Erlenmeyer flask (for the 250 mL culture)],
-      [Sterile 250 mL centrifuge bottles ($times$1-2)],
-      [Ice-water bath; cold-room access],
-      [Liquid nitrogen + dewar],
-      [Pre-chilled 1.5 mL (or 0.5 mL) aliquot tubes; repeat/multichannel pipettor],
-    )
-  ],
-  [
-    #checkgroup(
-      title: "Reagents",
-      [BL21(DE3)-R3-pRARE2 glycerol stock (Day 4A, QC-confirmed Day 5)],
-      [SOB medium, sterile (+ Mg added)],
-      [Inoue TB, ice-cold, filter-sterilised],
-      [Chloramphenicol stock, 34 mg/mL],
-      [DMSO, molecular-biology grade],
-    )
-  ],
-)
-
-=== Procedure
-
-All steps from the chill onward are on ice or in the cold room. The single most important rule is that the cells must not warm up again once chilled.
-
-1. Starter (afternoon). Inoculate 5 mL SOB (or LB) + 5 μL Cam stock with a scrape from the BL21 glycerol stock. Shake at 37 °C, 200 rpm, until visibly turbid ($tilde$4-6 h).
-
-+ Main culture (evening). In a 1 L flask, inoculate 250 mL SOB + 250 μL Cam stock with $tilde$1-2 mL of the starter. Shake at 18 °C, 200 rpm, overnight.
-
-  #note[\ Keep the flask no more than a quarter full for aeration. The 18 °C growth is slow by design and is central to the method's efficiency; room temperature is an acceptable fallback if no 18 °C incubator is free, but expect somewhat lower efficiency.]
-
-+ Monitor OD (next morning). Read OD#sub[600] every $tilde$45 min, blanking against sterile SOB. Target OD#sub[600] = 0.4-0.6.
-
-  #nb[\ Do not overshoot. Competence falls off sharply above OD#sub[600] $tilde$0.6 - if the culture runs past target the prep is compromised. Pull it at $tilde$0.5 if you can catch it.]
-
-+ Chill. At target OD, sit the flask in an ice-water bath for 10 min. *Everything from here is cold; the cells must not warm up again.*
-
-+ Harvest. Pellet at $tilde$2500 $times$ g, 10 min, 4 °C. Decant the medium fully.
-
-+ First Inoue wash. Gently resuspend the pellet in 80 mL ice-cold Inoue TB. Swirl, do not vortex. Keep on ice.
-
-+ Re-pellet. Spin again at $tilde$2500 $times$ g, 10 min, 4 °C. Decant.
-
-+ Final resuspension. Gently resuspend in 20 mL ice-cold Inoue TB.
-
-+ DMSO. Add 1.5 mL room-temperature DMSO ($tilde$7% final) dropwise while swirling. Incubate on ice 10 min.
-
-  #nb[\ Add the DMSO slowly with mixing - a local DMSO spike is toxic to the cells. Do not vortex.]
-
-+ Aliquot & snap-freeze. Working on ice, dispense 50 μL aliquots into pre-chilled tubes and drop each immediately into liquid nitrogen. A two-person line (one fills, one caps and freezes) keeps it fast and cold. Store at -80 °C.
-
-  #note[\ 250 mL yields a large number of aliquots - expected for the Inoue method, and it means one prep supplies the group for months. To make fewer, scale the culture down (e.g. 100 mL → 8 mL final resuspension → 0.6 mL DMSO); the buffer ratios stay the same.]
-
-+ Efficiency QC. Before committing the batch, thaw one aliquot and transform a known mass (e.g. 10-100 pg) of a control plasmid (pUC19, or the #42365 prep) per the transformation protocol, then calculate cfu/μg. Expect ≥ 10#super[7] cfu/μg for usable cells and $tilde$10#super[8] for a good prep.
-
-#note(title: "What this does and does not do")[\ This produces competent expression host only - nothing is transformed yet. The #42365 miniprep from Day 4B is the DNA introduced into these cells in the transformation step that follows, with Kan + Cam dual selection.]
 
 
 #bibliography(
