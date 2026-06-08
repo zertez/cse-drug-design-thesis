@@ -10,7 +10,7 @@
 // agar bottles / selection conditions poured: Kan, Cam, and Kan+Cam (double).
 // The double bottle is banked for transformant selection at the later
 // transformation step; it is not used in the Day 2-5 revival workflow.
-#let n_agar_bottles = 3
+#let n_agar_bottles = 4
 
 // extra dishes labelled and stacked, not poured
 #let plates_spare = 2
@@ -25,7 +25,7 @@
 #let agar_volume_per_antibiotic_mL_target = 200
 
 // pre-mixed LB-agar formulation
-#let lb_agar_g_per_L = 37
+#let lb_agar_g_per_L = 40
 
 // 1:1000 stock-to-final
 #let antibiotic_dilution = 1000
@@ -41,8 +41,22 @@
 // TB modified - high-density expression medium (used in a later document).
 // Glycerol is the carbon source and is added before autoclaving.
 #let tb_broth_volume_mL = 200
-#let tb_broth_g_per_L = 47.6          // Sigma T0918: 47.6 g/L + 8 mL/L glycerol
+// Sigma T0918: 47.6 g/L + 8 mL/L glycerol
+#let tb_broth_g_per_L = 47.6
 #let tb_glycerol_mL_per_L = 8
+
+
+// One overnight culture per picked colony (clone). Stocks are aliquots of that single culture, so n_stocks_per_clone does NOT add cultures.
+
+// Mach1 (#42365) + BL21 (#26242)
+#let n_strains = 2
+// colonies picked -> parallel overnight cultures
+#let n_clones_per_strain = 3
+// glycerol cryotubes banked per culture
+#let n_stocks_per_clone = 3
+// LB working volume per overnight tube (see aeration note)
+#let culture_volume_mL = 50
+#let cryotubes_spare = 2
 
 //  Derived values - do not edit directly
 
@@ -87,4 +101,14 @@
 #let tb_glycerol_mL = calc.round(
   tb_glycerol_mL_per_L * tb_broth_volume_mL / 1000,
   digits: 2,
+)
+
+//  Day 3 / Day 4 culture + stock sizing - derived
+#let n_cultures_total = n_clones_per_strain * n_strains
+#let n_stocks_per_strain = n_clones_per_strain * n_stocks_per_clone
+#let n_stocks_total = n_stocks_per_strain * n_strains
+#let n_cryotubes_order = n_stocks_total + cryotubes_spare
+#let antibiotic_per_culture_uL = calc.round(
+  culture_volume_mL * 1000 / antibiotic_dilution,
+  digits: 0,
 )
