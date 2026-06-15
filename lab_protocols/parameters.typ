@@ -34,13 +34,13 @@
 
 // LB broth (Lennox) - starter / overnight cultures. Two bottles, one
 // earmarked per strain workflow; antibiotic added per culture at point of use.
-#let lb_broth_volume_per_bottle_mL = 500
-#let n_lb_broth_bottles = 2
+#let lb_broth_volume_per_bottle_mL = 200
+#let n_lb_broth_bottles = 1
 #let lb_broth_g_per_L = 20.6          // Sigma L7658 EZMix: 20.6 g/L
 
 // TB modified - high-density expression medium (used in a later document).
 // Glycerol is the carbon source and is added before autoclaving.
-#let tb_broth_volume_mL = 200
+#let tb_broth_volume_mL = 500
 // Sigma T0918: 47.6 g/L + 8 mL/L glycerol
 #let tb_broth_g_per_L = 47.6
 #let tb_glycerol_mL_per_L = 8

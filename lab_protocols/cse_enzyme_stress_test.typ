@@ -18,7 +18,7 @@
   numbering: "1 / 1",
   header: [
     #set text(size: 8pt, fill: gray)
-    #align(right)[Document A · v3.0 Author: Marcus D. Figenschou
+    #align(right)[Document A · v5.0 Author: Marcus D. Figenschou
     ]
   ],
 )
@@ -250,7 +250,7 @@ Weigh out every medium first, then run them through the autoclave together (#{n_
 
   #note[\ Calculation: #lb_agar_g_per_L g/L $times$ #{agar_volume_per_antibiotic_mL / 1000} L = #lb_agar_mass_g g per bottle. The #agar_volume_per_antibiotic_mL mL volume targets #plates_per_antibiotic plates at #volume_per_plate_mL mL each with margin for bottle residue. The Kan+Cam (double-selection) bottle is selection medium for the eventual transformed expression clone, pouring it from a full identical bottle banks plates for the later transformation step. Do *not* add antibiotic here - it goes into the molten agar at the pouring step (Part B).]
 
-+ LB broth ( bottles). Weigh #lb_broth_mass_g g LB broth (Lennox) powder into each of #n_lb_broth_bottles separate 1 L bottles and add #lb_broth_volume_per_bottle_mL mL sterile dH#sub[2]O. Swirl to dissolve.
++ LB broth ( bottles). Weigh #lb_broth_mass_g g LB broth (Lennox) powder into each of #n_lb_broth_bottles separate 500 mL bottles and add #lb_broth_volume_per_bottle_mL mL sterile dH#sub[2]O. Swirl to dissolve.
 
   #note[\ Calculation: #lb_broth_g_per_L g/L $times$ #{lb_broth_volume_per_bottle_mL / 1000} L = #lb_broth_mass_g g per bottle. Use 1 L bottles, not 500 mL - #lb_broth_volume_per_bottle_mL mL needs autoclave headroom. One bottle is earmarked per strain workflow, both are stored *antibiotic-free*.]
 
@@ -783,7 +783,7 @@ _If you re-elute or re-measure the miniprep, update `tf_miniprep_ng_uL` in `para
 
 #pagebreak()
 
-== Day 7: Banking the expression strain (#strain_express_short)
+== Day 7: Long term storage of #strain_express_short
 
 The Kan + Cam colonies from Day 5B are the finished expression strain: BL21(DE3)-R3-pRARE2 now carrying pNIC28-Bsa4-CTHA. This day repeats the Day 3/4 workflow (pick colonies, grow overnights, make glycerol stocks), with three modifications:
 
