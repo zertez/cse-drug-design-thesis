@@ -8,7 +8,7 @@
 #import "parameters.typ": *
 
 #set document(
-  title: "CSE Enzyme Stress Test",
+  title: "Expression, Purification, and Analytical Quality Control of Human Cystathionine γ-Lyase (hCSE)",
   author: "Marcus - Haavik Group, UiB Biomedicine",
 )
 
