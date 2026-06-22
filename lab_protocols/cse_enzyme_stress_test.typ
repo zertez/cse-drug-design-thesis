@@ -229,8 +229,8 @@ All media that need sterilising are prepared in one session on Day 1. The autocl
       [LB broth (Lennox) powder, e.g. Sigma L7658],
       [TB modified powder, e.g. Sigma T0918],
       [Glycerol (TB carbon source, *not* the 50% cryo-glycerol of Day 4)],
-      [Sterile dH#sub[2]O],
-      [Kanamycin stock: 50 mg/mL in dH#sub[2]O, 0.22 μm filter-sterilised, -20 °C],
+      [Sterile Milli-Q water],
+      [Kanamycin stock: 50 mg/mL in Milli-Q water, 0.22 μm filter-sterilised, -20 °C],
       [Chloramphenicol stock: 34 mg/mL in EtOH, 0.22 μm filter-sterilised, -20 °C],
     )
   ],
@@ -246,15 +246,15 @@ At #volume_per_plate_mL mL per plate, the #plates_per_antibiotic plates per cond
 
 Weigh out every medium first, then run them through the autoclave together (#{n_agar_bottles + n_lb_broth_bottles + 1} bottles: #n_agar_bottles agar, #n_lb_broth_bottles LB broth, 1 TB).
 
-1. LB agar ($times$#n_agar_bottles bottles: Kan, Cam, Kan+Cam). Weigh out #lb_agar_mass_g g LB-agar powder into each of #n_agar_bottles separate 500 mL bottles and add #agar_volume_per_antibiotic_mL mL sterile dH#sub[2]O to each. Swirl to a uniform suspension. Pre-label the bottles Kan, Cam, and Kan+Cam - they are identical until antibiotic is added at pouring.
+1. LB agar ($times$#n_agar_bottles bottles: Kan, Cam, Kan+Cam). Weigh out #lb_agar_mass_g g LB-agar powder into each of #n_agar_bottles separate 500 mL bottles and add #agar_volume_per_antibiotic_mL mL sterile Milli-Q water to each. Swirl to a uniform suspension. Pre-label the bottles Kan, Cam, and Kan+Cam - they are identical until antibiotic is added at pouring.
 
   #note[\ Calculation: #lb_agar_g_per_L g/L $times$ #{agar_volume_per_antibiotic_mL / 1000} L = #lb_agar_mass_g g per bottle. The #agar_volume_per_antibiotic_mL mL volume targets #plates_per_antibiotic plates at #volume_per_plate_mL mL each with margin for bottle residue. The Kan+Cam (double-selection) bottle is selection medium for the eventual transformed expression clone, pouring it from a full identical bottle banks plates for the later transformation step. Do *not* add antibiotic here - it goes into the molten agar at the pouring step (Part B).]
 
-+ LB broth ( bottles). Weigh #lb_broth_mass_g g LB broth (Lennox) powder into each of #n_lb_broth_bottles separate 500 mL bottles and add #lb_broth_volume_per_bottle_mL mL sterile dH#sub[2]O. Swirl to dissolve.
++ LB broth ( bottles). Weigh #lb_broth_mass_g g LB broth (Lennox) powder into each of #n_lb_broth_bottles separate 500 mL bottles and add #lb_broth_volume_per_bottle_mL mL sterile Milli-Q water. Swirl to dissolve.
 
   #note[\ Calculation: #lb_broth_g_per_L g/L $times$ #{lb_broth_volume_per_bottle_mL / 1000} L = #lb_broth_mass_g g per bottle. Use 1 L bottles, not 500 mL - #lb_broth_volume_per_bottle_mL mL needs autoclave headroom. One bottle is earmarked per strain workflow, both are stored *antibiotic-free*.]
 
-+ TB broth ($times$2 bottle). Weigh #tb_broth_mass_g g TB modified powder into a 500 mL bottle, add #tb_broth_volume_mL mL sterile dH#sub[2]O and #tb_glycerol_mL mL glycerol, and swirl to dissolve.
++ TB broth ($times$2 bottle). Weigh #tb_broth_mass_g g TB modified powder into a 500 mL bottle, add #tb_broth_volume_mL mL sterile Milli-Q water and #tb_glycerol_mL mL glycerol, and swirl to dissolve.
 
   #note[\ Calculation: #tb_broth_g_per_L g/L $times$ #{tb_broth_volume_mL / 1000} L = #tb_broth_mass_g g, plus glycerol at #tb_glycerol_mL_per_L mL/L = #tb_glycerol_mL mL. Glycerol is the TB carbon source and is heat-stable, so it goes in before autoclaving. Stored antibiotic-free, used for the expression culture in a later document.]
 
@@ -616,7 +616,7 @@ Prepare the three solutions in the order below. SOB and the PIPES stock can both
 
 #nb(title: "Two opposite sterilisation rules")[\ *Inoue TB - filter-sterilise only, never autoclave.* Heat oxidises the Mn#super[2+] and kills the prep; freshly made buffer is colourless, so discard any batch with a tan/brown tint or precipitate. \ *Mg stock (2 M MgCl#sub[2]) - autoclave.* It is a heat-stable inorganic salt; it goes into the SOB *after* the base is autoclaved only because it precipitates with media components during the cycle, not because it is heat-labile.]
 
-*A. SOB medium ($tilde$#cc_sob_make_mL mL) — main growth culture (+ OD blank); autoclave; may be made ahead.*
+*A. SOB medium ($tilde$#cc_sob_make_mL mL) - main growth culture (+ OD blank); autoclave; may be made ahead.*
 
 1. Dissolve #massfmt(cc_sob_tryptone_g) tryptone and #massfmt(cc_sob_yeast_g) yeast extract in $tilde$40 mL water.
 + Add #cc_sob_nacl_stock_mL mL 1 M NaCl and #cc_sob_kcl_stock_mL mL 1 M KCl from stock (these replace weighing the sub-100 mg NaCl/KCl by hand), then make up to $tilde$#cc_sob_base_mL mL.
@@ -625,21 +625,21 @@ Prepare the three solutions in the order below. SOB and the PIPES stock can both
 
 _NaCl is 0.5 g/L, not the 5 g/L misprint on the Untergasser sheet. The Mg (competence-supporting, omitted from that bare recipe) is supplied here as 20 mM MgCl#sub[2] in place of the canonical 10 mM MgCl#sub[2] + 10 mM MgSO#sub[4] - equivalent total Mg#super[2+]. The starter runs in LB, not SOB._
 
-*1 M NaCl and 1 M KCl stocks — standing lab reagents; make ahead if not on hand.*
+*1 M NaCl and 1 M KCl stocks - standing lab reagents; make ahead if not on hand.*
 
 1. 1 M NaCl: dissolve #massfmt(cc_nacl_stock_mass_g) NaCl in water to #cc_salt_stock_make_mL mL; autoclave.
 + 1 M KCl: dissolve #massfmt(cc_kcl_stock_mass_g) KCl in water to #cc_salt_stock_make_mL mL; autoclave.
 
 _Both keep at room temperature. Each SOB batch uses #cc_sob_nacl_stock_mL mL NaCl and #cc_sob_kcl_stock_mL mL KCl, so #cc_salt_stock_make_mL mL of each lasts a long time. These are the salts that were awkward to weigh as solids (#massfmt(cc_sob_nacl_g) NaCl, #massfmt(cc_sob_kcl_g) KCl per batch), which is why they are pipetted from stock instead._
 
-*2 M MgCl#sub[2] stock ($tilde$#cc_mgcl2_stock_make_mL mL) — make ahead; autoclave separately; standing lab reagent.*
+*2 M MgCl#sub[2] stock ($tilde$#cc_mgcl2_stock_make_mL mL) - make ahead; autoclave separately; standing lab reagent.*
 
 1. Dissolve #massfmt(cc_mgcl2_stock_mass_g) anhydrous MgCl#sub[2] in $tilde$35 mL water (strongly exothermic - add slowly and let it cool), then make up to #cc_mgcl2_stock_make_mL mL.
 + Autoclave (cap loosened) in its own bottle, *never combined with the SOB base*. Store at room temperature.
 
 _Each SOB batch uses only #cc_sob_mgcl2_mL mL, so #cc_mgcl2_stock_make_mL mL covers $tilde$#cc_mgcl2_preps_supplied preps. If using the hexahydrate (MgCl#sub[2]·6H#sub[2]O, MW 203.30) instead, weigh 20.33 g for the same #cc_mgcl2_stock_make_mL mL._
 
-*B. 0.5 M PIPES stock (100 mL) — make ahead; keeps frozen for months.*
+*B. 0.5 M PIPES stock (100 mL) - make ahead; keeps frozen for months.*
 
 1. Dissolve 15.1 g PIPES in $tilde$80 mL water (it will not clear until the pH is raised).
 + Titrate to pH 6.7 with KOH. If you overshoot, bring it back down with HCl.
@@ -647,7 +647,7 @@ _Each SOB batch uses only #cc_sob_mgcl2_mL mL, so #cc_mgcl2_stock_make_mL mL cov
 
 _This is the one stable, manganese-free component: a single frozen batch supplies many preps and feeds the Inoue TB below._
 
-*C. Inoue Transformation Buffer (Inoue TB, $tilde$#cc_inoue_make_mL mL) — MAKE FRESH on the day; keep ice-cold.*
+*C. Inoue Transformation Buffer (Inoue TB, $tilde$#cc_inoue_make_mL mL) - MAKE FRESH on the day; keep ice-cold.*
 
 1. Dissolve #massfmt(cc_inoue_mncl2_g) MnCl#sub[2]·4H#sub[2]O (55 mM), #massfmt(cc_inoue_cacl2_g) anhydrous CaCl#sub[2] (15 mM) and #massfmt(cc_inoue_kcl_g) KCl (250 mM) in water.
 + Add #cc_inoue_pipes_mL mL of the 0.5 M PIPES stock last (10 mM final) and bring to volume.
@@ -655,7 +655,7 @@ _This is the one stable, manganese-free component: a single frozen batch supplie
 
 _Only $tilde$#calc.round(cc_inoue_usage_mL, digits: 1) mL is used per prep; the batch is sized up so the salt masses stay weighable - discard the surplus, and once it is mixed do *not* store it. CaCl#sub[2] is the anhydrous form; for the dihydrate (CaCl#sub[2]·2H#sub[2]O, MW 147.02) weigh #massfmt(cc_inoue_cacl2_dihydrate_g) instead for the same batch._
 
-*D. DMSO — have on hand.* Molecular-biology grade, added to $tilde$#calc.round(cc_dmso_fraction * 100, digits: 0)% (v/v) final at the resuspension step. Solid below $tilde$18 °C, so bring it to room temperature before use.
+*D. DMSO - have on hand.* Molecular-biology grade, added to $tilde$#calc.round(cc_dmso_fraction * 100, digits: 0)% (v/v) final at the resuspension step. Solid below $tilde$18 °C, so bring it to room temperature before use.
 
 #pagebreak()
 
@@ -827,9 +827,269 @@ The Kan + Cam colonies from Day 5B are the finished expression strain: BL21(DE3)
 
 + Store the glycerol stocks at -80 °C.
 
+#pagebreak()
+
+== Day 8: Expression culture growth and IPTG induction
+
+Both expression flasks (#ind_n_flasks $times$ #ind_flask_volume_mL mL TB, pNIC28-Bsa4-CTHA in BL21(DE3)-R3-pRARE2) are inoculated and shaking from the previous step. Day 8 takes them through growth to late log, the down-shift to #ind_induction_temp_C °C, IPTG induction, and overnight expression. The pellet is harvested the following morning.
+
+#nb[\ Induction commits the batch - once IPTG is in, the overnight runs to completion. Before starting, confirm three things: the #ind_iptg_stock_M M IPTG stock is thawed and in date, the #ind_induction_temp_C °C shaking incubator is booked overnight, and a centrifuge + rotor are reserved for the morning harvest.]
+
+#checklist(
+  cols: 2,
+  [
+    #checkgroup(
+      title: "Equipment",
+      [#ind_growth_temp_C °C shaking incubator (#ind_shake_rpm rpm)],
+      [#ind_induction_temp_C °C shaking incubator (booked, overnight)],
+      [Spectrophotometer + cuvettes (OD#sub[600])],
+      [P100/P200 + sterile tips],
+      [Ice],
+      [Centrifuge + rotor for harvest (booked)],
+      [Tared centrifuge bottles / 50 mL conicals],
+      [Balance (wet-pellet mass)],
+    )
+  ],
+  [
+    #checkgroup(
+      title: "Reagents",
+      [IPTG, #ind_iptg_stock_M M stock, 0.22 μm filtered, -20 °C],
+      [Sterile TB (OD#sub[600] blank)],
+      [The growing TB expression cultures],
+    )
+  ],
+)
+
+=== Growth, induction, and harvest
+
+1. Monitor growth. Blank the spectrophotometer against sterile TB, then draw a small aseptic sample from each flask and read OD#sub[600]. Hold the cultures at #ind_growth_temp_C °C / #ind_shake_rpm rpm until OD#sub[600] $approx$ #ind_target_OD.
+
+  #note[\ TB is a rich medium, so the induction OD is high: the SGC target is OD#sub[600] #ind_target_OD ± 1 (acceptable window $tilde$1–3) @sgc_protocol. Do *not* apply the lean-LB "induce at 0.6" habit here - at OD 0.6 in TB the culture is still early and final yield suffers.]
+
++ Down-shift to #ind_induction_temp_C °C. Move both flasks to the #ind_induction_temp_C °C incubator at #ind_shake_rpm rpm and hold $tilde$#ind_cooldown_min min, until the medium has cooled and equilibrated. Induce *after* the down-shift, never while the culture is still at #ind_growth_temp_C °C.
+
+  #note[\ Low-temperature induction slows the T7 transcription/translation rate so that folding and tetramer assembly keep pace - the regime that gives soluble, correctly PLP-loaded hCSE rather than inclusion bodies. The cool-down is part of the step: adding IPTG to hot medium defeats the purpose.]
+
++ Induce. Add IPTG to #ind_iptg_final_mM mM final - #ind_iptg_per_flask_uL μL of the #ind_iptg_stock_M M stock per #ind_flask_volume_mL mL flask. Swirl to mix.
+
+  #note[\ Calculation: #ind_iptg_final_mM mM from a #ind_iptg_stock_M M stock is a #ind_iptg_dilution_fold$times$ dilution, i.e. #ind_iptg_per_flask_uL μL into each #ind_flask_volume_mL mL flask. The #ind_iptg_per_flask_uL μL added is a < 0.05% volume change and is ignored. #ind_iptg_final_mM mM is the SGC platform induction level @sgc_protocol - the same pipeline that produced the deposited hCSE structures (PDB 2NMP, 3COG, 3ELP) from this exact construct, not a CSE-specific deviation.]
+
++ Express. Continue overnight at #ind_induction_temp_C °C / #ind_shake_rpm rpm.
+
++ Harvest (next morning). Spin the cultures at #ind_harvest_g $times$ g for #ind_harvest_min min at #ind_harvest_temp_C °C. Pour off and dispose of the supernatant.
+
++ Weigh and store. Weigh the wet pellet against the tared bottle. Either proceed directly to lysis per the purification SOP, or flash-freeze and hold at -80 °C.
+
+  #note[\ Record the wet-cell mass per flask - it sets the lysis-buffer volume and is the first crude yield readout for the batch. A freeze–thaw of the pellet is fine and actually aids subsequent lysis.]
+
+#pagebreak()
+
+== Day 9: Cell extraction (resuspension, sonication, clarification)
+
+The frozen cell suspension from Day 8 - already resuspended in lysis buffer and held at -20 °C - is thawed, broken by sonication, cleared of nucleic acids with PEI, and centrifuged to a clarified lysate ready for Ni-affinity capture (Day 10). Bugbuster is not on hand, so lysis is mechanical (sonication), the protocol's stated alternative @sgc_protocol. All IMAC buffers share one HEPES base with the imidazole stepped up the column; 50 mM Na-phosphate may be substituted for HEPES per the SGC comment.
+
+#nb[\ Book and pre-chill the high-speed centrifuge + rotor (#clarify_rpm rpm at #clarify_temp_C °C) and chill all buffers before thawing the cells. Once the pellet thaws, everything stays on ice. TCEP and protease inhibitor go in *fresh* - never into a stored buffer bottle.]
+
+#checklist(
+  cols: 2,
+  [
+    #checkgroup(
+      title: "Equipment & Consumables",
+      [High-speed centrifuge + fixed-angle rotor (booked, pre-chilled to #clarify_temp_C °C)],
+      [Centrifuge tubes/bottles rated for #clarify_rpm rpm],
+      [Probe sonicator],
+      [Ice-water bath + ice bucket],
+      [Calibrated pH meter],
+      [Balance + weigh boats],
+      [Magnetic stirrer + stir bar],
+      [Beakers, graduated cylinders, volumetric flasks/bottles],
+      [0.22 μm bottle-top filter + labelled storage bottles],
+      [P1000/P200 + tips],
+      [Cold room / 4 °C bench space],
+      [Microtubes for SDS-PAGE samples (total + clarified)],
+    )
+  ],
+  [
+    #checkgroup(
+      title: "Reagents",
+      [Frozen cell suspension (Day 8, already in lysis buffer)],
+      [HEPES, free acid (#underline[_*_verify MW on bottle label_*_])],
+      [NaCl],
+      [Imidazole],
+      [TCEP, #tcep_stock_M M pre-neutralised stock],
+      [NaOH (pH adjustment)],
+      [Protease inhibitor, *EDTA-free* (100$times$ cocktail or Roche cOmplete)],
+      [Polyethylenimine (PEI), 50% stock (Sigma)],
+      [NaOH (buffer pH); HCl (PEI pH)],
+      [Milli-Q water],
+    )
+  ],
+)
+
+=== Buffers and reagents to make today
+
+All three IMAC buffers are the same HEPES base (#buf_hepes_mM mM HEPES, #buf_nacl_M M NaCl, pH #buf_pH) differing only in imidazole. Make them *salts only* - no TCEP, no protease inhibitor - so they keep for weeks at #clarify_temp_C °C as standing stocks. TCEP is spiked in fresh per run (#tcep_per_mL_uL μL of #tcep_stock_M M stock per mL of buffer used). There is *no separate lysis buffer* to make today: lysis buffer is a #lysis_aliquot_mL mL aliquot of the affinity buffer plus fresh TCEP and EDTA-free protease inhibitor, made up at the point of resuspension. For this run the cells were already resuspended in lysis buffer at harvest and frozen, so extraction begins at the thaw. Gel-filtration buffer (with glycerol, no imidazole) is a Day 10 SEC buffer and is not made today.
+
+Weigh the salts for each buffer together into a clean beaker:
+
+- *Affinity / load (1.1), #aff_make_mL mL* (the parent / standard buffer): #aff_hepes_g g HEPES, #aff_nacl_g g NaCl, #aff_imid_g g imidazole (#buf_imid_affinity_mM mM)
+- *Wash (1.5), #wash_make_mL mL:* #wash_hepes_g g HEPES, #wash_nacl_g g NaCl, #wash_imid_g g imidazole (#buf_imid_wash_mM mM)
+- *Elution (1.6), #elu_make_mL mL:* #elu_hepes_g g HEPES, #elu_nacl_g g NaCl, #elu_imid_g g imidazole (#buf_imid_elution_mM mM)
+
+Then, for each buffer in turn:
+
+1. Weigh its salts (above) into a clean beaker.
+
++ Add $tilde$80% of the final volume in Milli-Q water and stir until everything is fully dissolved.
+
++ Titrate to pH #buf_pH with NaOH, reading on a calibrated pH meter.
+
++ Bring up to the final volume mark with Milli-Q water.
+
++ Filter-sterilise through 0.22 μm; label (name, imidazole, date, initials) and store at #clarify_temp_C °C.
+
+Then make the PEI stock (it goes into the lysate, not onto the column):
+
+*PEI, #pei_working_pct% (w/v), #pei_make_mL mL.* A #pei_dilution_fold$times$ dilution of the #pei_stock_pct% Sigma stock, neutralised to pH #buf_pH.
+
+1. Pipette #pei_stock_mL mL of the #pei_stock_pct% PEI stock into $tilde$#calc.round(pei_make_mL * 0.7, digits: 0) mL Milli-Q water and stir. The #pei_stock_pct% stock is viscous - pipette slowly and rinse the tip.
+
++ Titrate to pH #buf_pH with *HCl* (the stock is strongly basic; this will take a fair amount of acid).
+
++ Bring to #pei_make_mL mL with Milli-Q water. Filter 0.22 μm, label, store at #clarify_temp_C °C.
+
+  #note[\ #pei_working_pct% PEI keeps for months at #clarify_temp_C °C, so #pei_make_mL mL is a long-lived standing reagent, not a per-run prep. At extraction it is dosed to #pei_final_pct% final (#pei_dose_per_mL_uL μL of #pei_working_pct% PEI per mL lysate) to precipitate nucleic acids @sgc_protocol.]
+
+=== Extraction procedure
+
+The cells are already in lysis buffer and frozen, so extraction starts at the thaw - the freeze-thaw itself helps crack the cells. Run the whole thaw-to-clarify stretch in the 4 °C cold room, with the stir plate, tubes, pipettes, PEI stock, and centrifuge rotor pre-chilled. Sonication is the exception: keep the tube in an ice-water bath and pulse on/off regardless, since it heats the sample locally whatever the room temperature.
+
+1. Thaw. Thaw the frozen cell suspension on ice (or briefly at room temperature, then straight onto ice). From here everything stays on ice. Vortex / pipette to a homogeneous, clump-free suspension and *note the total volume* - the PEI dose below is per mL of suspension.
+
++ No additives to spike. The #lysis_aliquot_mL mL of lysis buffer already contained #buf_tcep_mM mM TCEP and 1$times$ EDTA-free protease inhibitor when the cells were resuspended, so go straight to sonication. (Spare lysis buffer is in the freezer if you need to top up the volume.)
+
++ Sonicate. Lyse on ice. The protocol does not fix sonication settings @sgc_protocol - they are probe-specific.
+
+  #note[\ A safe starting point: keep the tube in an ice-water bath, pulse (e.g. 30-50% amplitude, $tilde$5 s on / 10 s off) for 2-5 min *process* time, until the lysate visibly thins and darkens. Avoid foaming and heat - both denature protein. Confirm against the lab's sonicator and adjust to the sample.]
+
++ Precipitate nucleic acids (PEI). With the lysate stirring on ice, add #pei_working_pct% PEI dropwise to #pei_final_pct% final - #pei_dose_per_mL_uL μL of #pei_working_pct% PEI per mL of lysate (read the total volume from the previous step). Stir 15 min on ice.
+
+  #note[\ PEI is a polycation: it complexes and drops out DNA/RNA that would otherwise inflate viscosity and foul the Ni column, *before* the clarifying spin rather than relying on it alone @sgc_protocol. Add slowly with stirring - a local excess co-precipitates target protein. The pH-#buf_pH, salts-matched stock keeps the lysate on-spec. For a #lysis_aliquot_mL mL lysate this is $tilde$#calc.round(pei_dose_per_mL_uL * lysis_aliquot_mL / 1000, digits: 2) mL of #pei_working_pct% PEI.]
+
++ Clarify. Centrifuge at max rpm for #clarify_min min at #clarify_temp_C °C.
+
++ Decant. Pour the clarified lysate into a clean, chilled tube and keep it on ice; discard the pellet (insoluble protein, nucleic acids, debris). Save a small aliquot of clarified lysate, plus a pre-spin "total" sample, for SDS-PAGE - the total-vs-soluble comparison is the first read on whether hCSE expressed solubly. The clarified lysate is the load for Ni-affinity capture (Day 10).
+
+== Day 10: Affinity capture, tag cleavage, and size-exclusion polish
+
+The clarified lysate from Day 9 is captured on Ni-IMAC, the His#sub[6] tag is removed with TEV protease, the tag and protease are stripped on a second (reverse) IMAC pass, and the cleaved protein is polished by SEC into the gel-filtration buffer. SEC-pure, tag-free tetrameric hCSE in #buf_hepes_gf_mM mM HEPES / #buf_nacl_M M NaCl / #buf_gf_glycerol_pct% glycerol is the canonical form carried into every downstream assay.
+
+#nb[\ Book and pre-chill the #sec_column and the #imac_column, the FPLC, and the cold cabinet. The whole day runs at #clarify_temp_C °C. TCEP is spiked *fresh* into every buffer at the point of use (#tcep_per_mL_uL μL of #tcep_stock_M M stock per mL), never into the stored bottles. TEV cleavage is an *overnight* step - plan Day 10 as capture + cleavage set-up, with reverse-IMAC and SEC the following day.]
+
+=== Buffer to make today: gel-filtration (SEC) buffer
+
+The three IMAC buffers carry over from Day 9. The only new buffer is the gel-filtration (SEC) buffer - lower HEPES, no imidazole, with glycerol (SGC 1.7). Make it *salts + glycerol only*; spike TCEP fresh when you run the column.
+
+*Gel-filtration / SEC (1.7), #gf_make_mL mL:* #gf_hepes_g g HEPES (#buf_hepes_gf_mM mM), #gf_nacl_g g NaCl, #gf_glycerol_mL mL glycerol (#buf_gf_glycerol_pct% v/v).
+
+1. Weigh the HEPES and NaCl into a clean beaker; add $tilde$700 mL Milli-Q water and stir to dissolve.
+
++ Add #gf_glycerol_mL mL glycerol (viscous - weigh $tilde$#calc.round(gf_glycerol_mL * 1.26, digits: 0) g if easier than pouring) and stir until homogeneous.
+
++ Titrate to pH #buf_pH with NaOH on a calibrated meter, then bring to #gf_make_mL mL with Milli-Q water.
+
++ Filter through 0.22 μm *and de-gas* - SEC on a #sec_column is intolerant of micro-bubbles. Label and store at #clarify_temp_C °C.
+
+  #note[\ TCEP, fresh at run time: #gf_tcep_uL μL of #tcep_stock_M M stock into the full #gf_make_mL mL (#tcep_per_mL_uL μL/mL of whatever you actually draw). This is the SEC *running* buffer at #buf_gf_glycerol_pct% glycerol; if you intend the same litre as the final flash-freeze storage buffer, raise glycerol to 10% in #raw("buf_gf_glycerol_pct") and re-derive.]
+
+#checklist(
+  cols: 2,
+  [
+    #checkgroup(
+      title: "Equipment",
+      [FPLC (booked, #clarify_temp_C °C)],
+      [#imac_column (equilibrated)],
+      [#sec_column (equilibrated, de-gassed buffer)],
+      [Loop / superloop ($<=$ #sec_inject_mL mL injection)],
+      [Spin concentrator (appropriate MWCO)],
+      [Fraction collector + tubes],
+      [Microtubes for SDS-PAGE fractions],
+    )
+  ],
+  [
+    #checkgroup(
+      title: "Reagents",
+      [Clarified lysate (Day 9 load)],
+      [Affinity, wash, elution buffers (Day 9)],
+      [Gel-filtration buffer (above)],
+      [TCEP, #tcep_stock_M M stock (fresh spike)],
+      [TEV protease (His-tagged), known concentration],
+      [Milli-Q water, 20% EtOH (column storage)],
+    )
+  ],
+)
+
+=== Ni-IMAC capture
+
+1. Equilibrate. Wash the #imac_column into affinity buffer (#buf_imid_affinity_mM mM imidazole, TCEP-spiked) until the UV and conductivity baselines are flat.
+
++ Load. Apply the clarified lysate at $tilde$#imac_flow_mL_min mL/min. The high flow rate is deliberate on the 5 mL column - it limits Ni#super[2+] leaching @sgc_protocol. Collect the flow-through (keep an SDS-PAGE aliquot - it reveals capture failure / overload).
+
++ Wash. Wash with wash buffer (#buf_imid_wash_mM mM imidazole) until baseline; #buf_imid_wash_mM mM clears most non-specific binders while hCSE stays bound.
+
++ Elute. Step to elution buffer (#buf_imid_elution_mM mM imidazole), collecting fractions across the A#sub[280] peak. Keep an aliquot of each pool for SDS-PAGE.
+
+  #note[\ A faint yellow eluate is a good sign - it is the PLP chromophore reporting holoenzyme. Confirm later by the A#sub[428]/A#sub[280] ratio, not by eye.]
+
+=== TEV cleavage (overnight)
+
+1. Condition for cleavage. The IMAC eluate is at #buf_imid_elution_mM mM imidazole; reverse IMAC needs $<=$ #tev_imidazole_max_mM mM. Buffer-exchange (desalt or dialyse) the pool into affinity buffer (#buf_imid_affinity_mM mM imidazole) - this both drops imidazole and supplies fresh TCEP for the protease.
+
++ Add TEV. Add His-tagged TEV at #tev_ratio_mol:1 (protein\:TEV, mol/mol). Mix gently.
+
++ Cleave overnight at #tev_temp_C °C.
+
+  #note[\ TEV removes the N-terminal His#sub[6] tag so the screened protein is tag-free - the rationale set out in §2 (no metal-mediated binding artefacts, sequence matched to the modelled species). Both the cleaved tag and the His-tagged TEV carry affinity handles, so the next step subtracts them together. The $<=$ #tev_imidazole_max_mM mM imidazole ceiling matters: too much and the cleaved protein never rebinds cleanly on the reverse pass.]
+
+=== Reverse IMAC and SEC polish
+
+1. Reverse IMAC. Pass the cleavage reaction back over a (re-equilibrated) #imac_column in affinity buffer. *Collect the flow-through* - cleaved, tag-free hCSE does not bind and flows past, while the His#sub[6] tag, His-tagged TEV, and uncut protein are retained. Strip and re-store the column afterwards.
+
+  #note[\ This inverts the logic of the capture step: here the *flow-through* is the product. A small SDS-PAGE check (flow-through vs. a high-imidazole strip) confirms the tag and TEV were actually subtracted.]
+
++ Concentrate. Concentrate the flow-through in a spin concentrator to $<=$ #sec_inject_mL mL for the #sec_column. Concentrate gently and check for precipitation; do not exceed the column's injection volume.
+
++ SEC. Inject onto the #sec_column equilibrated in gel-filtration buffer (TCEP-spiked) and run at #sec_flow_mL_min mL/min. Collect across the elution peak.
+
+  #note[\ hCSE is a $tilde$178 kDa D2 homotetramer; it should elute as a single, symmetric peak well inside the column's fractionation range. A leading shoulder or void-volume peak is aggregate - gate on monodispersity here, since the tetramer is non-negotiable for the activity and binding work. Pool only the clean tetramer fractions.]
+
++ Pool, QC, store. Pool the tetramer fractions, read A#sub[280] (and A#sub[428]/A#sub[280] for PLP occupancy), and run a final SDS-PAGE. This SEC-pure, tag-free tetramer in gel-filtration buffer is the canonical input for the AzMC activity assay, DSF, and the storage-stability arms (§Analytical Objectives). Aliquot, flash-freeze, and store at -80 °C, or keep working aliquots on ice.
+
 
 #bibliography(
   "protocols.bib",
   title: auto,
   style: "apa",
 )
+
+#pagebreak()
+== Supplement: TCEP top-up table
+
+TCEP is spiked fresh at the point of use - #tcep_per_mL_uL μL of #tcep_stock_M M stock per mL of buffer, for #buf_tcep_mM mM final. The rate is the same for every buffer (affinity, wash, elution, gel-filtration), so read the volume off here instead of recomputing each time.
+
+#align(center)[
+  #table(
+    columns: (auto, auto),
+    align: (right, right),
+    inset: 7pt,
+    stroke: 0.5pt + luma(200),
+    table.header(
+      [*Buffer volume (mL)*],
+      [*TCEP, #tcep_stock_M M stock (μL)*],
+    ),
+    ..range(5, 51, step: 5).map(v => (
+      [#v],
+      [#calc.round(v * tcep_per_mL_uL, digits: 0)],
+    )).flatten()
+  )
+]
