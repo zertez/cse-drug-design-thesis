@@ -394,3 +394,16 @@
 #let tev_ratio_mol = 20           // protein : TEV = 20 : 1 (mol/mol)
 #let tev_temp_C = 4
 #let tev_imidazole_max_mM = 30    // reverse-IMAC load needs <= 30-40 mM imidazole
+
+// Reusable dose table
+
+#let dose_table(rate, unit_label, dose_label, lo: 5, hi: 50, step: 5, digits: 0) = table(
+  columns: (auto, auto),
+  align: (right, right),
+  inset: 7pt,
+  stroke: 0.5pt + luma(200),
+  table.header([*#unit_label*], [*#dose_label*]),
+  ..range(lo, hi + 1, step: step).map(v => (
+    [#v], [#calc.round(v * rate, digits: digits)],
+  )).flatten()
+)

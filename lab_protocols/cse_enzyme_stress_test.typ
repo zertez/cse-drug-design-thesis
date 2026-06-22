@@ -1073,23 +1073,25 @@ The three IMAC buffers carry over from Day 9. The only new buffer is the gel-fil
 )
 
 #pagebreak()
-== Supplement: TCEP top-up table
+== Supplement top-up tables
 
-TCEP is spiked fresh at the point of use - #tcep_per_mL_uL μL of #tcep_stock_M M stock per mL of buffer, for #buf_tcep_mM mM final. The rate is the same for every buffer (affinity, wash, elution, gel-filtration), so read the volume off here instead of recomputing each time.
+Several reagents are added at a fixed rate per unit volume and spiked fresh at the point of use, never stored in the bulk buffer. These tables give the amount to add for common working volumes, so the dose is read off rather than recomputed each time. Each is generated from its per-mL rate in #raw("parameters.typ"), so the numbers track any change to a stock or final concentration.
 
 #align(center)[
-  #table(
+  #show figure.where(kind: table): set figure.caption(position: top)
+  #grid(
     columns: (auto, auto),
-    align: (right, right),
-    inset: 7pt,
-    stroke: 0.5pt + luma(200),
-    table.header(
-      [*Buffer volume (mL)*],
-      [*TCEP, #tcep_stock_M M stock (μL)*],
+    column-gutter: 28pt,
+    align: top,
+    figure(
+      dose_table(tcep_per_mL_uL, "Buffer volume (mL)", [TCEP, #tcep_stock_M M stock (μL)]),
+      caption: [TCEP to #buf_tcep_mM mM final, per buffer volume],
+      kind: table,
     ),
-    ..range(5, 51, step: 5).map(v => (
-      [#v],
-      [#calc.round(v * tcep_per_mL_uL, digits: 0)],
-    )).flatten()
+    figure(
+      dose_table(pei_dose_per_mL_uL, "Lysate volume (mL)", [#pei_working_pct% PEI (μL)]),
+      caption: [#pei_working_pct% PEI to #pei_final_pct% final, per lysate volume],
+      kind: table,
+    ),
   )
 ]
