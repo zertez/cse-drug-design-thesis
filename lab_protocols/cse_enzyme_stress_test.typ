@@ -172,7 +172,7 @@ Protein produced under this protocol feeds three downstream readouts:
 
 1. Baseline catalytic characterization by the AzMC fluorometric H$#sub[2]$S assay.
 + Batch-to-batch thermal stability monitoring by Differential Scanning Fluorimetry (DSF).
-+ Holoenzyme cofactor occupancy verification by A#sub[415]/A#sub[280] absorbance ratio.
++ Holoenzyme cofactor occupancy verification by A#sub[428]/A#sub[280] absorbance ratio.
 + Flash freeze and thawing
 + Oligomeric state and monodispersity by SEC-MALS (250 µg per condition), on fresh, on-ice, and flash-frozen aliquots.
 + Aggregation behaviour and hydrodynamic radius by dynamic light scattering (DLS, 50 µg per condition) on the same three storage conditions.
@@ -180,6 +180,8 @@ Protein produced under this protocol feeds three downstream readouts:
 + Intact mass and redox susceptibility by ESI-TOF mass spectrometry (5 µg).
 + Buffer-screen thermal stability by DSF across 3 pH values × 3 salt concentrations (90 µg total, full combinatorial matrix).
 + Sequence identity and proteolytic degradation by SDS-PAGE (5 µg), with band excision submitted for MALDI-TOF peptide mass fingerprinting.
+
+#note(title: "PLP is a reaction additive, not a buffer component")[\ Across all of these readouts, PLP is kept *out* of the purification, storage, and glycerol-free assay buffers: free PLP absorbs at $tilde$390-428 nm and would corrupt the A#sub[428]/A#sub[280] occupancy readout, so that buffer has to stay PLP-free for the measurement to mean anything. Saturating PLP is instead added *into the activity reaction*, fresh and alongside the cysteine substrate, so every monomer is holo at the moment of measurement regardless of how much loading survived purification. $tilde$1 mM final is comfortably saturating for the AzMC readout; published CSE H#sub[2]S assays sit in the 1-2 mM range.]
 
 #pagebreak()
 
@@ -870,6 +872,8 @@ Both expression flasks (#ind_n_flasks $times$ #ind_flask_volume_mL mL TB, pNIC28
 
   #note[\ Low-temperature induction slows the T7 transcription/translation rate so that folding and tetramer assembly keep pace - the regime that gives soluble, correctly PLP-loaded hCSE rather than inclusion bodies. The cool-down is part of the step: adding IPTG to hot medium defeats the purpose.]
 
+  #note(title: "PLP loading")[\ PLP is *not* added to the media - E. coli makes enough endogenous PLP to load recombinant CSE as it folds, so running the first round media-PLP-free was the right call. Whether loading was sufficient is read off the A#sub[428]/A#sub[280] ratio on the purified protein ($tilde$1:6 is fully loaded); a low ratio flags apoenzyme. If it comes up short, reconstitute the pool with a molar excess of PLP on ice and desalt the free PLP back out before re-checking. The activity assay re-saturates with PLP regardless, so turnover is never hostage to how much cofactor survived the prep.]
+
 + Induce. Add IPTG to #ind_iptg_final_mM mM final - #ind_iptg_per_flask_uL μL of the #ind_iptg_stock_M M stock per #ind_flask_volume_mL mL flask. Swirl to mix.
 
   #note[\ Calculation: #ind_iptg_final_mM mM from a #ind_iptg_stock_M M stock is a #ind_iptg_dilution_fold$times$ dilution, i.e. #ind_iptg_per_flask_uL μL into each #ind_flask_volume_mL mL flask. The #ind_iptg_per_flask_uL μL added is a < 0.05% volume change and is ignored. #ind_iptg_final_mM mM is the SGC platform induction level @sgc_protocol - the same pipeline that produced the deposited hCSE structures (PDB 2NMP, 3COG, 3ELP) from this exact construct, not a CSE-specific deviation.]
@@ -928,25 +932,45 @@ The frozen cell suspension from Day 8 - already resuspended in lysis buffer and 
 
 === Buffers and reagents to make today
 
-All three IMAC buffers are the same HEPES base (#buf_hepes_mM mM HEPES, #buf_nacl_M M NaCl, pH #buf_pH) differing only in imidazole. Make them *salts only* - no TCEP, no protease inhibitor - so they keep for weeks at #clarify_temp_C °C as standing stocks. TCEP is spiked in fresh per run (#tcep_per_mL_uL μL of #tcep_stock_M M stock per mL of buffer used). There is *no separate lysis buffer* to make today: lysis buffer is a #lysis_aliquot_mL mL aliquot of the affinity buffer plus fresh TCEP and EDTA-free protease inhibitor, made up at the point of resuspension. For this run the cells were already resuspended in lysis buffer at harvest and frozen, so extraction begins at the thaw. Gel-filtration buffer (with glycerol, no imidazole) is a Day 10 SEC buffer and is not made today.
+Everything is mixed from a small set of concentrated stocks, so the only weighing happens when a stock runs out, not every time a buffer is made. Make the stocks first, then the working IMAC and gel-filtration buffers from them; the PEI precipitant follows. The assay buffer is made later, on Day 11.
 
-Weigh the salts for each buffer together into a clean beaker:
+*Buffer stock solutions.* Each keeps for months (HEPES, NaCl, imidazole, glycerol at room temperature; phosphate at #clarify_temp_C °C).
 
-- *Affinity / load (1.1), #aff_make_mL mL* (the parent / standard buffer): #aff_hepes_g g HEPES, #aff_nacl_g g NaCl, #aff_imid_g g imidazole (#buf_imid_affinity_mM mM)
-- *Wash (1.5), #wash_make_mL mL:* #wash_hepes_g g HEPES, #wash_nacl_g g NaCl, #wash_imid_g g imidazole (#buf_imid_wash_mM mM)
-- *Elution (1.6), #elu_make_mL mL:* #elu_hepes_g g HEPES, #elu_nacl_g g NaCl, #elu_imid_g g imidazole (#buf_imid_elution_mM mM)
+- *#hepes_stock_M M HEPES, pH #buf_pH (#hepes_stock_make_mL mL):* dissolve #hepes_stock_mass_g g HEPES free acid in $tilde$80% of the volume, titrate to pH #buf_pH with NaOH, top to volume, filter 0.22 μm.
+- *#nacl_stock_M M NaCl (#nacl_stock_make_mL mL):* dissolve #nacl_stock_mass_g g NaCl to volume; filter. No pH step.
+- *#imid_stock_M M imidazole, pH #buf_pH (#imid_stock_make_mL mL):* dissolve #imid_stock_mass_g g imidazole in $tilde$80% of the volume, titrate *down* to pH #buf_pH with HCl (imidazole is basic), top to volume, filter. Store dark and discard if strongly yellow.
+- *#glycerol_stock_pct% (v/v) glycerol (#glycerol_stock_make_mL mL):* mix #calc.round(glycerol_stock_make_mL * glycerol_stock_pct / 100, digits: 0) mL molecular-biology glycerol with Milli-Q to #glycerol_stock_make_mL mL; autoclave or filter. Pipettes far more accurately than neat glycerol.
+- *#phos_stock_M M sodium phosphate dibasic (#phos_stock_make_mL mL):* dissolve #phos_stock_mass_g g Na#sub[2]HPO#sub[4]·2H#sub[2]O to volume; filter. Left unbuffered - pH is set when the assay buffer is diluted and titrated (Day 11).
 
-Then, for each buffer in turn:
+#note[\ Pre-titrating the HEPES and imidazole stocks to pH #buf_pH means each working buffer needs only a pH check, not a full titration. Mixing pre-pH'd stocks does not land exactly on target (ionic strength and the imidazole contribution shift it slightly), so still confirm the final pH on the meter.]
 
-1. Weigh its salts (above) into a clean beaker.
+*IMAC buffers (affinity, wash, elution).* All three are the same HEPES base (#buf_hepes_mM mM HEPES, #buf_nacl_M M NaCl, pH #buf_pH), differing only in imidazole. Make them *salts only* - no TCEP, no protease inhibitor - so they keep for weeks at #clarify_temp_C °C as standing stocks. TCEP is spiked in fresh per run (#tcep_per_mL_uL μL of #tcep_stock_M M stock per mL of buffer used). There is *no separate lysis buffer* to make today: lysis buffer is a #lysis_aliquot_mL mL aliquot of the affinity buffer plus fresh TCEP and EDTA-free protease inhibitor, made up at the point of resuspension. For this run the cells were already resuspended in lysis buffer at harvest and frozen, so extraction begins at the thaw.
 
-+ Add $tilde$80% of the final volume in Milli-Q water and stir until everything is fully dissolved.
+- *Affinity / load (1.1), #aff_make_mL mL* (the parent / standard buffer): #aff_hepes_mL mL #hepes_stock_M M HEPES, #aff_nacl_mL mL #nacl_stock_M M NaCl, #aff_imid_mL mL #imid_stock_M M imidazole (#buf_imid_affinity_mM mM)
+- *Wash (1.5), #wash_make_mL mL:* #wash_hepes_mL mL HEPES, #wash_nacl_mL mL NaCl, #wash_imid_mL mL imidazole (#buf_imid_wash_mM mM)
+- *Elution (1.6), #elu_make_mL mL:* #elu_hepes_mL mL HEPES, #elu_nacl_mL mL NaCl, #elu_imid_mL mL imidazole (#buf_imid_elution_mM mM)
 
-+ Titrate to pH #buf_pH with NaOH, reading on a calibrated pH meter.
+For each of the three IMAC buffers in turn:
+
+1. Pipette its stock volumes (above) into a clean beaker holding $tilde$80% of the final volume in Milli-Q water; stir.
+
++ Check pH on a calibrated meter and fine-tune to pH #buf_pH if needed - a small correction only, since the stocks are pre-titrated (NaOH up, HCl down).
 
 + Bring up to the final volume mark with Milli-Q water.
 
 + Filter-sterilise through 0.22 μm; label (name, imidazole, date, initials) and store at #clarify_temp_C °C.
+
+*Gel-filtration / SEC buffer (1.7), #gf_make_mL mL.* #gf_hepes_mL mL #hepes_stock_M M HEPES (#buf_hepes_gf_mM mM), #gf_nacl_mL mL #nacl_stock_M M NaCl, #gf_glycerol_stock_mL mL #glycerol_stock_pct% glycerol (#buf_gf_glycerol_pct% v/v final). Salts + glycerol only; spike TCEP fresh when you run the column.
+
+1. Pipette the HEPES and NaCl stocks into $tilde$700 mL Milli-Q water and stir.
+
++ Add #gf_glycerol_stock_mL mL of the #glycerol_stock_pct% glycerol stock and stir until homogeneous.
+
++ Check pH on a calibrated meter, fine-tune to pH #buf_pH if needed, then bring to #gf_make_mL mL with Milli-Q water.
+
++ Filter through 0.22 μm *and de-gas* - SEC on a #sec_column is intolerant of micro-bubbles. Label and store at #clarify_temp_C °C.
+
+  #note[\ TCEP is best fresh: #gf_tcep_uL μL of #tcep_stock_M M stock into the full #gf_make_mL mL (#tcep_per_mL_uL μL/mL of whatever you actually draw). This is the SEC *running* buffer at #buf_gf_glycerol_pct% glycerol; if you intend the same litre as the final flash-freeze storage buffer, raise glycerol to 10% in #raw("buf_gf_glycerol_pct") and re-derive.]
 
 Then make the PEI stock (it goes into the lysate, not onto the column):
 
@@ -988,82 +1012,111 @@ The clarified lysate from Day 9 is captured on Ni-IMAC, the His#sub[6] tag is re
 
 === Buffer to make today: gel-filtration (SEC) buffer
 
-The three IMAC buffers carry over from Day 9. The only new buffer is the gel-filtration (SEC) buffer - lower HEPES, no imidazole, with glycerol (SGC 1.7). Make it *salts + glycerol only*; spike TCEP fresh when you run the column.
+All buffers carry over from Day 9 - the three IMAC buffers and the gel-filtration / SEC buffer. Nothing new is made today; TCEP is spiked fresh into each at the point of use.
 
-*Gel-filtration / SEC (1.7), #gf_make_mL mL:* #gf_hepes_g g HEPES (#buf_hepes_gf_mM mM), #gf_nacl_g g NaCl, #gf_glycerol_mL mL glycerol (#buf_gf_glycerol_pct% v/v).
+=== Ni-IMAC capture (manual gravity Ni-NTA)
 
-1. Weigh the HEPES and NaCl into a clean beaker; add $tilde$700 mL Milli-Q water and stir to dissolve.
+A self-packed Ni-NTA gravity column replaces the FPLC/HisTrap step. Size the resin bed to the protein you expect (per case, SGC suggests 1-5 mL of 50% slurry per litre of culture). Volumes are counted in column volumes (CV) of the packed bed, run by gravity at 4 °C. Volumes used should be a per case use basis as it depends how much protein you have. 
 
-+ Add #gf_glycerol_mL mL glycerol (viscous - weigh $tilde$#calc.round(gf_glycerol_mL * 1.26, digits: 0) g if easier than pouring) and stir until homogeneous.
+1. Equilibrate. Settle the Ni-NTA resin in the column and equilibrate with $>=$ 5 CV affinity buffer (#buf_imid_affinity_mM mM imidazole, TCEP-spiked).
 
-+ Titrate to pH #buf_pH with NaOH on a calibrated meter, then bring to #gf_make_mL mL with Milli-Q water.
++ Bind. Add the equilibrated resin to the clarified lysate in a conical tube and tumble $tilde$60 min at #clarify_temp_C °C, then pour into the column and let it drain by gravity. Collect the flow-through (keep an SDS-PAGE aliquot - capture failure or overload shows here).
 
-+ Filter through 0.22 μm *and de-gas* - SEC on a #sec_column is intolerant of micro-bubbles. Label and store at #clarify_temp_C °C.
++ Wash. Wash with 10 CV affinity buffer, then 20 CV wash buffer (#buf_imid_wash_mM mM imidazole). The #buf_imid_wash_mM mM step clears most non-specific binders while hCSE stays bound.
 
-  #note[\ TCEP, fresh at run time: #gf_tcep_uL μL of #tcep_stock_M M stock into the full #gf_make_mL mL (#tcep_per_mL_uL μL/mL of whatever you actually draw). This is the SEC *running* buffer at #buf_gf_glycerol_pct% glycerol; if you intend the same litre as the final flash-freeze storage buffer, raise glycerol to 10% in #raw("buf_gf_glycerol_pct") and re-derive.]
++ Elute. Elute with 10 CV elution buffer (#buf_imid_elution_mM mM imidazole), collecting 0.5 CV fractions. Read each fraction's A#sub[280] off-line (NanoDrop drop), pool the protein-containing fractions, and keep an aliquot for SDS-PAGE.
 
-#checklist(
-  cols: 2,
-  [
-    #checkgroup(
-      title: "Equipment",
-      [FPLC (booked, #clarify_temp_C °C)],
-      [#imac_column (equilibrated)],
-      [#sec_column (equilibrated, de-gassed buffer)],
-      [Loop / superloop ($<=$ #sec_inject_mL mL injection)],
-      [Spin concentrator (appropriate MWCO)],
-      [Fraction collector + tubes],
-      [Microtubes for SDS-PAGE fractions],
-    )
-  ],
-  [
-    #checkgroup(
-      title: "Reagents",
-      [Clarified lysate (Day 9 load)],
-      [Affinity, wash, elution buffers (Day 9)],
-      [Gel-filtration buffer (above)],
-      [TCEP, #tcep_stock_M M stock (fresh spike)],
-      [TEV protease (His-tagged), known concentration],
-      [Milli-Q water, 20% EtOH (column storage)],
-    )
-  ],
-)
+  #note[\ A faint yellow eluate is a good sign - the PLP chromophore reporting holoenzyme. Confirm later by the A#sub[428]/A#sub[280] ratio, not by eye. With no in-line monitor, fraction A#sub[280] (or a Bradford spot test) is what tells you which fractions to pool.]
 
-=== Ni-IMAC capture
+=== Buffer exchange into gel-filtration buffer (Amicon Ultra)
 
-1. Equilibrate. Wash the #imac_column into affinity buffer (#buf_imid_affinity_mM mM imidazole, TCEP-spiked) until the UV and conductivity baselines are flat.
+The pooled IMAC eluate is exchanged into gel-filtration buffer and concentrated in one operation on a 50 mL Amicon Ultra, delivering the protein straight into its final buffer ahead of cleavage. Every spin uses a water-topped dummy 50 mL Amicon as a tare counterweight, re-balanced before each run, in the 4 °C centrifuge.
 
-+ Load. Apply the clarified lysate at $tilde$#imac_flow_mL_min mL/min. The high flow rate is deliberate on the 5 mL column - it limits Ni#super[2+] leaching @sgc_protocol. Collect the flow-through (keep an SDS-PAGE aliquot - it reveals capture failure / overload).
+1. Prime the filterm with gel-filtration buffer and spin 3 min at 4000 rpm at 4°C. Discard the flow-through, the membrane is now equilibrated into GF buffer.
 
-+ Wash. Wash with wash buffer (#buf_imid_wash_mM mM imidazole) until baseline; #buf_imid_wash_mM mM clears most non-specific binders while hCSE stays bound.
++ Then pool the A#sub[280]-positive elution fractions from the Ni-NTA step into the primed amicon filter. Use dummy tube as a balance, and spin 15 min at 4000 rpm.
 
-+ Elute. Step to elution buffer (#buf_imid_elution_mM mM imidazole), collecting fractions across the A#sub[280] peak. Keep an aliquot of each pool for SDS-PAGE.
++ Discard the flow-through. Pipette the retentate gently to homogeneity #underline[do not touch the filter sides], then top up with GF buffer, re-balance the dummy, and spin 15 min at 4000 rpm.
 
-  #note[\ A faint yellow eluate is a good sign - it is the PLP chromophore reporting holoenzyme. Confirm later by the A#sub[428]/A#sub[280] ratio, not by eye.]
++ Repeat this discard-mix-dilute-spin cycle until the retentate is at $tilde$ 1 mL in GF buffer (there is a volume indication on the filter).
 
-=== TEV cleavage (overnight)
 
-1. Condition for cleavage. The IMAC eluate is at #buf_imid_elution_mM mM imidazole; reverse IMAC needs $<=$ #tev_imidazole_max_mM mM. Buffer-exchange (desalt or dialyse) the pool into affinity buffer (#buf_imid_affinity_mM mM imidazole) - this both drops imidazole and supplies fresh TCEP for the protease.
 
-+ Add TEV. Add His-tagged TEV at #tev_ratio_mol:1 (protein\:TEV, mol/mol). Mix gently.
+=== TEV Cleavage
 
-+ Cleave overnight at #tev_temp_C °C.
+The retentate is read for concentration, then split into matched cleavage and control aliquots; the TEV amount is set from the 20:1 mol/mol ratio from the SGC protocol.
 
-  #note[\ TEV removes the N-terminal His#sub[6] tag so the screened protein is tag-free - the rationale set out in §2 (no metal-mediated binding artefacts, sequence matched to the modelled species). Both the cleaved tag and the His-tagged TEV carry affinity handles, so the next step subtracts them together. The $<=$ #tev_imidazole_max_mM mM imidazole ceiling matters: too much and the cleaved protein never rebinds cleanly on the reverse pass.]
+1. Transfer. Pipette the $tilde$1 mL retentate off the membrane into a 1.5 mL tube without touching the filter walls.
 
-=== Reverse IMAC and SEC polish
++ Get the extinction coefficient. Copy the amino acid sequence - it must include the 6x His-tag, TEV site, and protein of interest - and paste it into ProtParam to read off the extinction coefficient for the NanoDrop.
 
-1. Reverse IMAC. Pass the cleavage reaction back over a (re-equilibrated) #imac_column in affinity buffer. *Collect the flow-through* - cleaved, tag-free hCSE does not bind and flows past, while the His#sub[6] tag, His-tagged TEV, and uncut protein are retained. Strip and re-store the column afterwards.
++ Measure concentration on the NanoDrop. Protein A#sub[280] mode (check this setting). Blank against GF buffer.
 
-  #note[\ This inverts the logic of the capture step: here the *flow-through* is the product. A small SDS-PAGE check (flow-through vs. a high-imidazole strip) confirms the tag and TEV were actually subtracted.]
++ Split the 1 mL into two 500 μL aliquots in 1.5 mL tubes.
 
-+ Concentrate. Concentrate the flow-through in a spin concentrator to $<=$ #sec_inject_mL mL for the #sec_column. Concentrate gently and check for precipitation; do not exceed the column's injection volume.
++ Calculate the TEV volume (per 500 μL aliquot):
+  - mass = conc x 0.5 mL
+  - nmol monomer = mass / (monomer Da)
+  - nmol TEV = nmol monomer / 20
+  - TEV volume = nmol TEV / (TEV stock molarity)
 
-+ SEC. Inject onto the #sec_column equilibrated in gel-filtration buffer (TCEP-spiked) and run at #sec_flow_mL_min mL/min. Collect across the elution peak.
++ *Cleavage:* 500 μL CSE + TEV. *Control (tagged):* 500 μL CSE + the same volume of GF buffer (no TEV) - matches volume and concentration so TEV is the only variable. Flick to mix.
 
-  #note[\ hCSE is a $tilde$178 kDa D2 homotetramer; it should elute as a single, symmetric peak well inside the column's fractionation range. A leading shoulder or void-volume peak is aggregate - gate on monodispersity here, since the tetramer is non-negotiable for the activity and binding work. Pool only the clean tetramer fractions.]
++ Cleave overnight, static. Store the two capped tubes on ice with a lid in the cold room at #clarify_temp_C °C.
 
-+ Pool, QC, store. Pool the tetramer fractions, read A#sub[280] (and A#sub[428]/A#sub[280] for PLP occupancy), and run a final SDS-PAGE. This SEC-pure, tag-free tetramer in gel-filtration buffer is the canonical input for the AzMC activity assay, DSF, and the storage-stability arms (§Analytical Objectives). Aliquot, flash-freeze, and store at -80 °C, or keep working aliquots on ice.
+#pagebreak()
+
+== Day 11: Reverse Ni-NTA and SEC (tagged vs. cleaved)
+
+Both steps finish on the #sec_column (AKTA, GF buffer). The tagged control goes straight to SEC; the cleaved arm passes back over a second Ni-NTA column first, to subtract the freed His-tag and the (also His-tagged) TEV. Run the reverse Ni-NTA during the $tilde$1 h tagged SEC run.
+
+=== Tagged control (His-CSE)
+
+1. Take a small sample for SDS-PAGE.
+
++ Load 500 μL onto the #sec_column. The run takes $tilde$1 h.
+
+=== Tev
+
+1. Equilibrate the Ni-NTA column with GF buffer.
+
++ Load the cleavage reaction; take a small SDS-PAGE sample. Incubate 15 min on the resin.
+
++ Collect the flow-through - this is the cleaved, tag-free CSE.
+
++ Wash, monitoring A#sub[280] on the NanoDrop to baseline; combine the wash with the flow-through.
+
++ Elute the bound fraction (residual His-tag + His-tagged TEV) and take SDS-PAGE samples. Elution vs. flow-through reports how complete the cleavage was.
+
++ Up-concentrate the pooled flow-through + wash to 500 μL (Amicon, as on Day 10) and load onto the #sec_column.
+
+=== Pool and compare
+
+Pool the tetramer peak from each SEC run and normalise tagged and cleaved to the same concentration. Split the pool: the storage bulk is topped to 10% glycerol, aliquoted, flash-frozen, and stored at -80 °C; a working aliquot is carried into the second buffer exchange below. Assay tagged vs. cleaved specific activity side by side (AzMC, §Analytical Objectives) on the glycerol-free aliquot.
+
+== Protein Analysis
+
+=== Second buffer exchange: glycerol-free assay buffer
+The SEC pool sits in gel-filtration buffer (#buf_gf_glycerol_pct% glycerol, #buf_nacl_M M NaCl). Glycerol and high salt distort the instrument readouts: they shift the apparent nDSF transition and lift its baseline, and they damp the AzMC and methylene-blue activity signal. Exchange the *working aliquot* into the glycerol-free assay buffer before any machine work - Nasi et al. 2025 activity-assay conditions: #buf_phos_asy_mM mM sodium phosphate, pH #buf_asy_pH.
+  #note[\ Phosphate, not Tris. The activity reactions are spiked with $tilde$1 mM PLP, and Tris is a primary amine that condenses with the PLP 4'-aldehyde to a Schiff base, sequestering free cofactor over a multi-hour incubation and confounding the A#sub[428]/A#sub[280] loading readout. Phosphate is amine-free and leaves the spiked PLP intact. It also matches the reference PAM assay (Nasi 2025) and the field-standard hCSE activity work (Sun 2009 ran kinetics and ITC in phosphate, not Tris), so PAM data stay directly comparable to the ZHAWOC / norswertianolin series.]
+#nb[\ Do not freeze the glycerol-free aliquot. Glycerol is the cryoprotectant; CSE frozen without it risks aggregation on thaw. The -80 storage bulk stays in glycerol (topped to 10% before freezing); only the assay aliquot goes glycerol-free, and it is used the same day.]
+
+
+*Assay buffer (Nasi 2025), #asy_make_mL mL - phosphate only:* #asy_phos_mL mL of #phos_stock_M M sodium phosphate dibasic stock (Na#sub[2]HPO#sub[4]·2H#sub[2]O, to #buf_phos_asy_mM mM final).
+1. Dilute the #asy_phos_mL mL phosphate stock into $tilde$80% of the final volume of Milli-Q. Titrate down to pH #buf_asy_pH with phosphoric acid on a calibrated meter (#buf_phos_asy_mM mM dibasic alone sits near pH 9), bring to #asy_make_mL mL, filter through 0.22 μm, and store at #clarify_temp_C °C.
+  #note[\ Titrate with phosphoric acid to keep the buffer single-anion and low ionic strength. HCl is acceptable - the sub-mM chloride added to reach #buf_asy_pH is negligible.]
+  #note[\ Reductant is left out by default - thiol reductants (TCEP / DTT) reduce the AzMC azide and raise background. If a non-AzMC aliquot needs reductant for handling stability, spike #tcep_per_mL_uL μL/mL of #tcep_stock_M M TCEP fresh, exactly as in the IMAC and GF buffers.]
+  #note[\ EDTA is not in the base buffer (Nasi omits it and runs clean blanks). If the no-enzyme cysteine wells autoxidise high, spike 0.1-1 mM disodium EDTA - it chelates trace metals and does not touch PLP.]
+  #note(title: "nDSF")[\ Phosphate's pK#sub[a] shifts only about -0.003 per °C, roughly tenfold less than Tris (-0.028 per °C), so the *absolute* Tm in this buffer is trustworthy - one reason the melt buffer moved off Tris. Caveat: at pH #buf_asy_pH the buffer sits about 1 unit above phosphate's pK#sub[a2] ($tilde$7.2), so buffering capacity is modest at #buf_phos_asy_mM mM. Fine for nDSF capillaries and short fixed-endpoint wells; if a long kinetic run drifts, raise phosphate to 20-50 mM and note it on the trace.]
+
+*Exchange (Amicon Ultra, same dilute-spin logic as Day 10).* Use the smallest Amicon that holds the aliquot.
+1. Prime the membrane with assay buffer; spin and discard the flow-through.
++ Load the working aliquot, top up with assay buffer, and spin back to the starting volume.
++ Repeat the dilute-spin cycle $>=$ 5 times - each 10x dilution drops glycerol geometrically (#buf_gf_glycerol_pct% to $<$ 0.001% after five passes).
++ Recover the retentate. Read concentration on the NanoDrop (blank against assay buffer; use the tag-free extinction coefficient for the cleaved arm). The protein is ready for A#sub[280]/A#sub[428], AzMC, and nDSF.
+  #note[\ For a pure swap with no concentration target, a Zeba 7K or PD MiniTrap G-25 spin-desalting column is faster and gentler than repeated Amicon spins - one to two passes give near-complete exchange with better recovery on dilute samples. Amicon wins only when you also need to concentrate for nDSF or a readable A#sub[428].]
+
+  #note[\ For a pure swap with no concentration target, a Zeba 7K or PD MiniTrap G-25 spin-desalting column is faster and gentler than repeated Amicon spins - one to two passes give near-complete exchange with better recovery on dilute samples. Amicon wins only when you also need to concentrate for nDSF or a readable A#sub[428].]
 
 
 #bibliography(
