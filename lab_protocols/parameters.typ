@@ -29,6 +29,8 @@
 #let mw_edta_na2_2h2o = 372.24
 // Na2HPO4.2H2O - sodium phosphate dibasic dihydrate
 #let mw_na2hpo4_2h2o = 177.99
+// glycerol density (g/mL, ~99% grade at 20 C) - lets the 50% stock be weighed, not measured by volume
+#let rho_glycerol = 1.26
 
 
 
@@ -57,16 +59,19 @@
 
 //  Liquid broth media (autoclaved Day 1, stored ANTIBIOTIC-FREE at 4 C)
 
-// LB broth (Lennox) - starter / overnight cultures. Two bottles, one
-// earmarked per strain workflow; antibiotic added per culture at point of use.
+// LB broth (Lennox) - starter / overnight cultures. One bottle; antibiotic
+// added per culture at the point of use.
 #let lb_broth_volume_per_bottle_mL = 200
-#let n_lb_broth_bottles = 2
+#let n_lb_broth_bottles = 1
 // Sigma L7658 EZMix: 20.6 g/L
 #let lb_broth_g_per_L = 20.6
 
 // TB modified - high-density expression medium (used in a later document).
-// Glycerol is the carbon source and is added before autoclaving.
+// Six bottles, one per 500 mL expression flask. Glycerol is the carbon source,
+// added before autoclaving and weighed rather than pipetted (too viscous to
+// measure accurately by volume).
 #let tb_broth_volume_mL = 500
+#let n_tb_broth_bottles = 6
 // Sigma T0918: 47.6 g/L + 8 mL/L glycerol
 #let tb_broth_g_per_L = 47.6
 #let tb_glycerol_mL_per_L = 8
@@ -113,14 +118,25 @@
   lb_broth_g_per_L * lb_broth_volume_per_bottle_mL / 1000,
   digits: 2,
 )
+// TB powder per bottle
 #let tb_broth_mass_g = calc.round(
   tb_broth_g_per_L * tb_broth_volume_mL / 1000,
   digits: 2,
 )
+// TB powder across all bottles
+#let tb_broth_mass_total_g = calc.round(tb_broth_mass_g * n_tb_broth_bottles, digits: 2)
+// TB glycerol per bottle, as a volume (the 8 mL/L spec)
 #let tb_glycerol_mL = calc.round(
   tb_glycerol_mL_per_L * tb_broth_volume_mL / 1000,
   digits: 2,
 )
+// same glycerol as a weigh-out mass (neat glycerol, rho ~1.26 g/mL)
+#let tb_glycerol_g = calc.round(tb_glycerol_mL * rho_glycerol, digits: 2)
+// TB glycerol across all bottles, weigh-out mass
+#let tb_glycerol_total_g = calc.round(tb_glycerol_g * n_tb_broth_bottles, digits: 2)
+
+// total bottles through the autoclave in one Day 1 batch (agar + LB + TB)
+#let n_autoclave_bottles = n_agar_bottles + n_lb_broth_bottles + n_tb_broth_bottles
 
 //  Day 3 / Day 4 culture + stock sizing - derived
 // 4
@@ -441,17 +457,19 @@
 #let phos_stock_M = 0.5
 
 //  ---- stock batch sizes + weigh-once masses (made when a stock runs out) ----
-#let hepes_stock_make_mL = 500
+#let hepes_stock_make_mL = 250
 #let nacl_stock_make_mL = 500
-#let imid_stock_make_mL = 250
+#let imid_stock_make_mL = 100
 #let glycerol_stock_make_mL = 500
-#let phos_stock_make_mL = 250
+#let phos_stock_make_mL = 100
 #let hepes_stock_mass_g = calc.round(hepes_stock_M * hepes_stock_make_mL / 1000 * mw_hepes, digits: 1)
 #let nacl_stock_mass_g = calc.round(nacl_stock_M * nacl_stock_make_mL / 1000 * mw_nacl, digits: 1)
 #let imid_stock_mass_g = calc.round(imid_stock_M * imid_stock_make_mL / 1000 * mw_imidazole, digits: 1)
 #let phos_stock_mass_g = calc.round(phos_stock_M * phos_stock_make_mL / 1000 * mw_na2hpo4_2h2o, digits: 2)
-// neat glycerol to dilute into the 50% stock
+// neat glycerol for the 50% (v/v) stock: computed as volume, then converted to a
+// weigh-out mass (glycerol is too viscous to measure accurately by volume)
 #let glycerol_stock_neat_mL = calc.round(glycerol_stock_make_mL * glycerol_stock_pct / 100, digits: 0)
+#let glycerol_stock_neat_g = calc.round(glycerol_stock_neat_mL * rho_glycerol, digits: 0)
 
 //  ---- DERIVED: per-buffer stock volumes to pipette (replaces salt masses) ----
 //  mL of stock = final_mM x make_mL / (stock_M x 1000). NaCl is molar, so it

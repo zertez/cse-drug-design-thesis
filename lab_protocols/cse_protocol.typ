@@ -152,8 +152,7 @@
 - *Target protein:* Human cystathionine $gamma$-lyase (hCSE, gene: CTH, EC 4.4.1.1)
 - *Expression vector:* pNIC28-Bsa4 (Addgene #42365) | Kan#super[R]
 - *Expression Host:* *E. coli* BL21(DE3)-R3-pRARE2 (Addgene #26242) | Cam#super[R]
-- *Primary Scope:* Low-volume, high-purity production for baseline catalytic characterization, thermal stability profiling, and storage-stability validation
-- *Potential Essential Additives:* TCEP (reducing agent), 10% Glycerol (cryoprotectant), \ Pyridoxal-5'-phosphate (PLP cofactor)
+- *Primary Scope:* High-purity production for baseline catalytic characterization, thermal stability profiling, and storage-stability validation
 - *Methodological Basis:* Adapted from the SGC protocol @sgc_protocol and addgenes protocols.
 
 #note(title: "Laboratory Implementation")[\ This is the first SOP for hCSE production in the group, adapted from the SGC pipeline. Expect revisions as we run it more times. The goal is to move hCSE production from one-off troubleshooting to a routine, reproducible workflow.]
@@ -182,6 +181,54 @@ Protein produced under this protocol feeds three downstream readouts:
 + Sequence identity and proteolytic degradation by SDS-PAGE (5 µg), with band excision submitted for MALDI-TOF peptide mass fingerprinting.
 
 #note(title: "PLP is a reaction additive, not a buffer component")[\ Across all of these readouts, PLP is kept *out* of the purification, storage, and glycerol-free assay buffers: free PLP absorbs at $tilde$390-428 nm and would corrupt the A#sub[428]/A#sub[280] occupancy readout, so that buffer has to stay PLP-free for the measurement to mean anything. Saturating PLP is instead added *into the activity reaction*, fresh and alongside the cysteine substrate, so every monomer is holo at the moment of measurement regardless of how much loading survived purification. $tilde$1 mM final is comfortably saturating for the AzMC readout; published CSE H#sub[2]S assays sit in the 1-2 mM range.]
+
+#pagebreak()
+
+
+== Day 0: Stock solutions
+
+Every working buffer downstream is mixed from a small set of concentrated stocks, so the only weighing in the whole workflow happens here, once, when a stock runs out, not each time a buffer is made. All of these keep for months, so Day 0 is a do-ahead day: run it whenever is convenient ahead of the prep proper and the stocks sit on the shelf feeding every later step. Making them up front also front-loads the one titration each buffer would otherwise need.
+
+#note[\ Pre-titrating the HEPES and imidazole stocks to pH #buf_pH here means each working buffer (Days 9-11) needs only a quick pH check, not a full titration. Mixing pre-pH'd stocks does not land exactly on target (ionic strength and the imidazole contribution shift it slightly), so still confirm the final pH on the meter when you make each buffer.]
+
+#checklist(
+  cols: 2,
+  [
+    #checkgroup(
+      title: "Equipment & Consumables",
+      [Balance + weigh boats],
+      [Calibrated pH meter],
+      [Magnetic stirrer + stir bars],
+      [Beakers, graduated cylinders, volumetric flasks/bottles],
+      [0.22 μm bottle-top filters + labelled storage bottles],
+      [Autoclave (for the glycerol stock) or 0.22 μm filter],
+    )
+  ],
+  [
+    #checkgroup(
+      title: "Reagents",
+      [HEPES, free acid (#underline[_*_verify MW on bottle label_*_])],
+      [NaCl],
+      [Imidazole],
+      [Glycerol, molecular-biology grade],
+      [Na#sub[2]HPO#sub[4]·2H#sub[2]O (sodium phosphate dibasic dihydrate)],
+      [NaOH (HEPES pH); HCl (imidazole pH)],
+      [Milli-Q water],
+    )
+  ],
+)
+
+=== Stock solutions
+
+Each keeps for months (HEPES, NaCl, imidazole, glycerol at room temperature; phosphate at #clarify_temp_C °C).
+
+- *#hepes_stock_M M HEPES, pH #buf_pH (#hepes_stock_make_mL mL):* dissolve #hepes_stock_mass_g g HEPES free acid in $tilde$80% of the volume, titrate to pH #buf_pH with NaOH, top to volume, filter 0.22 μm.
+- *#nacl_stock_M M NaCl (#nacl_stock_make_mL mL):* dissolve #nacl_stock_mass_g g NaCl to volume; filter. No pH step.
+- *#imid_stock_M M imidazole, pH #buf_pH (#imid_stock_make_mL mL):* dissolve #imid_stock_mass_g g imidazole in $tilde$80% of the volume, titrate *down* to pH #buf_pH with HCl (imidazole is basic), top to volume, filter. Store dark and discard if strongly yellow.
+- *#glycerol_stock_pct% (v/v) glycerol (#glycerol_stock_make_mL mL):* weigh #glycerol_stock_neat_g g molecular-biology glycerol (= #glycerol_stock_neat_mL mL at #rho_glycerol g/mL) into the bottle, top to #glycerol_stock_make_mL mL with Milli-Q, mix, then autoclave or filter. Weighing beats measuring neat glycerol by volume: it is too viscous to pour or pipette accurately.
+- *#phos_stock_M M sodium phosphate dibasic (#phos_stock_make_mL mL):* dissolve #phos_stock_mass_g g Na#sub[2]HPO#sub[4]·2H#sub[2]O to volume; filter. Left unbuffered - pH is set when the assay buffer is diluted and titrated (Day 11).
+
+#note[\ The #glycerol_stock_pct% glycerol stock is the single source for every 50% glycerol use downstream: the Day 4A and Day 7 archival cryo-stocks and the Day 9/10 gel-filtration buffer. Autoclaving sterilises it for the cryo-stocks and leaves it clean for the buffer; glycerol is heat-stable. This is distinct from the neat glycerol weighed into the TB as a carbon source (Day 1).]
 
 #pagebreak()
 
@@ -243,32 +290,34 @@ All media that need sterilising are prepared in one session on Day 1. The autocl
 
 At #volume_per_plate_mL mL per plate, the #plates_per_antibiotic plates per condition require #agar_volume_required_mL mL of molten agar, make up #agar_volume_per_antibiotic_mL mL per bottle (#agar_volume_total_mL mL total across #n_agar_bottles bottles).
 
-
 == Day 1A: Prepare and autoclave all media
 
-Weigh out every medium first, then run them through the autoclave together (#{n_agar_bottles + n_lb_broth_bottles + 1} bottles: #n_agar_bottles agar, #n_lb_broth_bottles LB broth, 1 TB).
+Weigh out every medium first, then run them through the autoclave together (#n_autoclave_bottles bottles: #n_agar_bottles agar, #n_lb_broth_bottles LB broth, #n_tb_broth_bottles TB).
 
-1. LB agar ($times$#n_agar_bottles bottles: Kan, Cam, Kan+Cam). Weigh out #lb_agar_mass_g g LB-agar powder into each of #n_agar_bottles separate 500 mL bottles and add #agar_volume_per_antibiotic_mL mL sterile Milli-Q water to each. Swirl to a uniform suspension. Pre-label the bottles Kan, Cam, and Kan+Cam - they are identical until antibiotic is added at pouring.
+1. *LB agar* (×#n_agar_bottles bottles: Kan, Cam, Kan+Cam). Weigh out #lb_agar_mass_g g LB-agar powder into each of #n_agar_bottles separate 500 mL bottles and add #agar_volume_per_antibiotic_mL mL sterile Milli-Q water to each. Swirl to a uniform suspension. Pre-label the bottles Kan, Cam, and Kan+Cam - they are identical until antibiotic is added at pouring.
 
-  #note[\ Calculation: #lb_agar_g_per_L g/L $times$ #{agar_volume_per_antibiotic_mL / 1000} L = #lb_agar_mass_g g per bottle. The #agar_volume_per_antibiotic_mL mL volume targets #plates_per_antibiotic plates at #volume_per_plate_mL mL each with margin for bottle residue. The Kan+Cam (double-selection) bottle is selection medium for the eventual transformed expression clone, pouring it from a full identical bottle banks plates for the later transformation step. Do *not* add antibiotic here - it goes into the molten agar at the pouring step (Part B).]
-
-+ LB broth ( bottles). Weigh #lb_broth_mass_g g LB broth (Lennox) powder into each of #n_lb_broth_bottles separate 500 mL bottles and add #lb_broth_volume_per_bottle_mL mL sterile Milli-Q water. Swirl to dissolve.
-
-  #note[\ Calculation: #lb_broth_g_per_L g/L $times$ #{lb_broth_volume_per_bottle_mL / 1000} L = #lb_broth_mass_g g per bottle. Use 1 L bottles, not 500 mL - #lb_broth_volume_per_bottle_mL mL needs autoclave headroom. One bottle is earmarked per strain workflow, both are stored *antibiotic-free*.]
-
-+ TB broth ($times$2 bottle). Weigh #tb_broth_mass_g g TB modified powder into a 500 mL bottle, add #tb_broth_volume_mL mL sterile Milli-Q water and #tb_glycerol_mL mL glycerol, and swirl to dissolve.
-
-  #note[\ Calculation: #tb_broth_g_per_L g/L $times$ #{tb_broth_volume_mL / 1000} L = #tb_broth_mass_g g, plus glycerol at #tb_glycerol_mL_per_L mL/L = #tb_glycerol_mL mL. Glycerol is the TB carbon source and is heat-stable, so it goes in before autoclaving. Stored antibiotic-free, used for the expression culture in a later document.]
-
-+ Loosely cap every bottle (do #underline[*NOT*] seal airtight) and cover each cap with aluminium foil. Apply autoclave tape and label each with medium, volume, date, and initials.
-
-+ Find a water bottle that matches the biggest bottle inside of the autoclave. Place the integrated thermometer into this as this is the reference temperature for the autoclaver.
-
-+ Autoclave all bottles together at 121 °C, 20 psi, there is usually a programme named "liquids" for this.
-#v(10em)
-#align(center)[
-  *While the autoclave is running, set up the plate-pouring station near a burner for part B.*
+#note[
+  Calculation: #lb_agar_g_per_L g/L × #(agar_volume_per_antibiotic_mL / 1000) L = #lb_agar_mass_g g per bottle. The #agar_volume_per_antibiotic_mL mL volume targets #plates_per_antibiotic plates at #volume_per_plate_mL mL each with margin for bottle residue. The Kan+Cam (double-selection) bottle is selection medium for the eventual transformed expression clone; pouring it from a full identical bottle banks plates for the later transformation step. Do not add antibiotic here - it goes into the molten agar at the pouring step (Part B).
 ]
+
+2. *LB broth* (×#n_lb_broth_bottles bottle). Weigh #lb_broth_mass_g g LB broth (Lennox) powder into a 1 L bottle and add #lb_broth_volume_per_bottle_mL mL sterile Milli-Q water. Swirl to dissolve.
+
+#note[
+  Calculation: #lb_broth_g_per_L g/L × #(lb_broth_volume_per_bottle_mL / 1000) L = #lb_broth_mass_g g. Use a 1 L bottle, not 500 mL - #lb_broth_volume_per_bottle_mL mL needs autoclave headroom. Stored antibiotic-free; antibiotic is added per culture at the point of use.
+]
+
+3. *TB broth* (×#n_tb_broth_bottles bottles). For each bottle: weigh #tb_broth_mass_g g TB modified powder into a 1 L bottle, add #tb_broth_volume_mL mL sterile Milli-Q water and #tb_glycerol_g g glycerol, and swirl to dissolve.
+
+#note[
+  Calculation (per bottle): #tb_broth_g_per_L g/L × #(tb_broth_volume_mL / 1000) L = #tb_broth_mass_g g powder; glycerol at #tb_glycerol_mL_per_L mL/L × #(tb_broth_volume_mL / 1000) L = #tb_glycerol_mL mL, weighed as #tb_glycerol_g g (neat glycerol, density about #rho_glycerol g/mL, too viscous to pipette accurately so it is weighed like the 50% stock). Across #n_tb_broth_bottles bottles: #tb_broth_mass_total_g g TB powder + #tb_glycerol_total_g g glycerol for #(tb_broth_volume_mL * n_tb_broth_bottles / 1000) L total. Glycerol is the TB carbon source and is heat-stable, so it goes in before autoclaving. Stored antibiotic-free, used for the expression cultures in a later document.
+]
+
+4. Loosely cap every bottle (do NOT seal airtight) and cover each cap with aluminium foil. Apply autoclave tape and label each with medium, volume, date, and initials.
+
+5. Find a water bottle that matches the biggest bottle inside of the autoclave. Place the integrated thermometer into this as this is the reference temperature for the autoclave.
+
+6. Autoclave all bottles together at 121 °C, 20 psi; there is usually a programme named "liquids" for this. While the autoclave is running, set up the plate-pouring station near a burner for Part B.
+
 #pagebreak()
 == Day 1B: Pour antibiotic agar plates
 
@@ -767,21 +816,19 @@ _If you re-elute or re-measure the miniprep, update `tf_miniprep_ng_uL` in `para
 
 + Warm the plates. Take the Kan + Cam plates from 4 °C, bring to room temperature, and (optional) dry them at 37 °C so the surface takes up the liquid when you plate.
 
-+ Set up the reactions. Into each tube of #tf_cells_uL μL cells, pipette the planned volume of miniprep: #tf_dna_lo_uL μL, #tf_dna_mid_uL μL, #tf_dna_hi_uL μL, and nothing in the control tube. Mix by flicking the bottom of the tube gently a few times. Do not pipette up and down, and do not vortex.
++ Into each tube of #tf_cells_uL μL cells, pipette the planned volume of miniprep: #tf_dna_lo_uL μL, #tf_dna_mid_uL μL, #tf_dna_hi_uL μL, and nothing in the control tube. Mix by flicking the bottom of the tube gently a few times. Do not pipette up and down, and do not vortex.
 
-+ Ice. Hold the tubes on ice for #tf_ice_pre_min min.
++ Hold the tubes on ice for #tf_ice_pre_min min.
 
 + Heat shock. Put the lower half to two-thirds of each tube into the #tf_heatshock_C °C water bath for #tf_heatshock_s s, then move straight back to ice.
 
-+ Ice again. #tf_ice_post_min min on ice.
++ #tf_ice_post_min min on ice.
 
-+ Recover. Add #tf_recovery_LB_uL μL LB (no antibiotic) to each tube, giving $tilde$#tf_recovery_total_mL mL, and shake at 37 °C, $tilde$225 rpm, for #tf_recovery_min min. For decent aeration, recover in a 14 mL round-bottom tube, or lay a microcentrifuge tube on its side.
++ Add #tf_recovery_LB_uL μL LB (no antibiotic) to each tube, giving $tilde$#tf_recovery_total_mL mL, and shake at 37 °C, $tilde$225 rpm, for #tf_recovery_min min. For decent aeration, recover in a 14 mL round-bottom tube, or lay a microcentrifuge tube on its side.
 
-+ Plate. Spread #tf_plate_uL μL of each reaction on its own Kan + Cam plate (a fixed volume keeps the titration comparable), and plate the control the same way. If you expect few transformants, pellet the cells gently, pour off most of the LB, resuspend in $tilde$100 μL, and plate all of it, so there is not too much liquid on the agar. Let the liquid soak in before inverting.
++ Spread #tf_plate_uL μL of each reaction on its own Kan + Cam plate (a fixed volume keeps the titration comparable), and plate the control the same way. If you expect few transformants, pellet the cells gently, pour off most of the LB, resuspend in $tilde$100 μL, and plate all of it, so there is not too much liquid on the agar. Let the liquid soak in before inverting.
 
-+ Incubate. 37 °C overnight.
-
-#note(title: "Reading the result")[\ Transformants are colonies on the Kan + Cam plates; the no-DNA control should stay blank. Any growth on the control means contamination or non-selective plates, and the run is void. Pick well-separated colonies for the expression work. If you want to confirm the cells themselves were alive and still pRARE2-positive, streak a little of the no-DNA recovery on a Cam-only plate: growth there, with nothing on Kan + Cam, shows live pRARE2-bearing cells that simply did not take up the construct.]
++ Incubate at 37 °C overnight.
 
 #pagebreak()
 
@@ -876,15 +923,13 @@ Both expression flasks (#ind_n_flasks $times$ #ind_flask_volume_mL mL TB, pNIC28
 
 + Induce. Add IPTG to #ind_iptg_final_mM mM final - #ind_iptg_per_flask_uL μL of the #ind_iptg_stock_M M stock per #ind_flask_volume_mL mL flask. Swirl to mix.
 
-  #note[\ Calculation: #ind_iptg_final_mM mM from a #ind_iptg_stock_M M stock is a #ind_iptg_dilution_fold$times$ dilution, i.e. #ind_iptg_per_flask_uL μL into each #ind_flask_volume_mL mL flask. The #ind_iptg_per_flask_uL μL added is a < 0.05% volume change and is ignored. #ind_iptg_final_mM mM is the SGC platform induction level @sgc_protocol - the same pipeline that produced the deposited hCSE structures (PDB 2NMP, 3COG, 3ELP) from this exact construct, not a CSE-specific deviation.]
+  #note[\ Calculation: #ind_iptg_final_mM mM from a #ind_iptg_stock_M M stock is a #ind_iptg_dilution_fold$times$ dilution, i.e. #ind_iptg_per_flask_uL μL into each #ind_flask_volume_mL mL flask. The #ind_iptg_per_flask_uL μL added is a \< 0.05% volume change and is ignored. #ind_iptg_final_mM mM is the SGC platform induction level @sgc_protocol - the same pipeline that produced the deposited hCSE structures (PDB 2NMP, 3COG, 3ELP) from this exact construct, not a CSE-specific deviation.]
 
 + Express. Continue overnight at #ind_induction_temp_C °C / #ind_shake_rpm rpm.
 
 + Harvest (next morning). Spin the cultures at #ind_harvest_g $times$ g for #ind_harvest_min min at #ind_harvest_temp_C °C. Pour off and dispose of the supernatant.
 
-+ Weigh and store. Weigh the wet pellet against the tared bottle. Either proceed directly to lysis per the purification SOP, or flash-freeze and hold at -80 °C.
-
-  #note[\ Record the wet-cell mass per flask - it sets the lysis-buffer volume and is the first crude yield readout for the batch. A freeze–thaw of the pellet is fine and actually aids subsequent lysis.]
++ Weigh and store. Weigh the pellet. Either proceed directly to lysis per the purification SOP, or flash-freeze and hold at -80 °C.
 
 #pagebreak()
 
@@ -930,19 +975,10 @@ The frozen cell suspension from Day 8 - already resuspended in lysis buffer and 
   ],
 )
 
-=== Buffers and reagents to make today
 
-Everything is mixed from a small set of concentrated stocks, so the only weighing happens when a stock runs out, not every time a buffer is made. Make the stocks first, then the working IMAC and gel-filtration buffers from them; the PEI precipitant follows. The assay buffer is made later, on Day 11.
+=== Buffers to make today
 
-*Buffer stock solutions.* Each keeps for months (HEPES, NaCl, imidazole, glycerol at room temperature; phosphate at #clarify_temp_C °C).
-
-- *#hepes_stock_M M HEPES, pH #buf_pH (#hepes_stock_make_mL mL):* dissolve #hepes_stock_mass_g g HEPES free acid in $tilde$80% of the volume, titrate to pH #buf_pH with NaOH, top to volume, filter 0.22 μm.
-- *#nacl_stock_M M NaCl (#nacl_stock_make_mL mL):* dissolve #nacl_stock_mass_g g NaCl to volume; filter. No pH step.
-- *#imid_stock_M M imidazole, pH #buf_pH (#imid_stock_make_mL mL):* dissolve #imid_stock_mass_g g imidazole in $tilde$80% of the volume, titrate *down* to pH #buf_pH with HCl (imidazole is basic), top to volume, filter. Store dark and discard if strongly yellow.
-- *#glycerol_stock_pct% (v/v) glycerol (#glycerol_stock_make_mL mL):* mix #calc.round(glycerol_stock_make_mL * glycerol_stock_pct / 100, digits: 0) mL molecular-biology glycerol with Milli-Q to #glycerol_stock_make_mL mL; autoclave or filter. Pipettes far more accurately than neat glycerol.
-- *#phos_stock_M M sodium phosphate dibasic (#phos_stock_make_mL mL):* dissolve #phos_stock_mass_g g Na#sub[2]HPO#sub[4]·2H#sub[2]O to volume; filter. Left unbuffered - pH is set when the assay buffer is diluted and titrated (Day 11).
-
-#note[\ Pre-titrating the HEPES and imidazole stocks to pH #buf_pH means each working buffer needs only a pH check, not a full titration. Mixing pre-pH'd stocks does not land exactly on target (ionic strength and the imidazole contribution shift it slightly), so still confirm the final pH on the meter.]
+The IMAC and gel-filtration buffers are mixed from the Day 0 stock solutions, so nothing is weighed today: pipette the stocks into each working buffer, then make the PEI precipitant. The assay buffer is made later, on Day 11.
 
 *IMAC buffers (affinity, wash, elution).* All three are the same HEPES base (#buf_hepes_mM mM HEPES, #buf_nacl_M M NaCl, pH #buf_pH), differing only in imidazole. Make them *salts only* - no TCEP, no protease inhibitor - so they keep for weeks at #clarify_temp_C °C as standing stocks. TCEP is spiked in fresh per run (#tcep_per_mL_uL μL of #tcep_stock_M M stock per mL of buffer used). There is *no separate lysis buffer* to make today: lysis buffer is a #lysis_aliquot_mL mL aliquot of the affinity buffer plus fresh TCEP and EDTA-free protease inhibitor, made up at the point of resuspension. For this run the cells were already resuspended in lysis buffer at harvest and frozen, so extraction begins at the thaw.
 
@@ -954,7 +990,7 @@ For each of the three IMAC buffers in turn:
 
 1. Pipette its stock volumes (above) into a clean beaker holding $tilde$80% of the final volume in Milli-Q water; stir.
 
-+ Check pH on a calibrated meter and fine-tune to pH #buf_pH if needed - a small correction only, since the stocks are pre-titrated (NaOH up, HCl down).
++ Check pH on a calibrated meter and fine-tune to pH #buf_pH if needed - a small correction only, since the Day 0 stocks are pre-titrated (NaOH up, HCl down).
 
 + Bring up to the final volume mark with Milli-Q water.
 
@@ -962,7 +998,7 @@ For each of the three IMAC buffers in turn:
 
 *Gel-filtration / SEC buffer (1.7), #gf_make_mL mL.* #gf_hepes_mL mL #hepes_stock_M M HEPES (#buf_hepes_gf_mM mM), #gf_nacl_mL mL #nacl_stock_M M NaCl, #gf_glycerol_stock_mL mL #glycerol_stock_pct% glycerol (#buf_gf_glycerol_pct% v/v final). Salts + glycerol only; spike TCEP fresh when you run the column.
 
-1. Pipette the HEPES and NaCl stocks into $tilde$700 mL Milli-Q water and stir.
+1. Pipette the HEPES and NaCl stocks into $tilde$800 mL Milli-Q water and stir.
 
 + Add #gf_glycerol_stock_mL mL of the #glycerol_stock_pct% glycerol stock and stir until homogeneous.
 
@@ -972,7 +1008,7 @@ For each of the three IMAC buffers in turn:
 
   #note[\ TCEP is best fresh: #gf_tcep_uL μL of #tcep_stock_M M stock into the full #gf_make_mL mL (#tcep_per_mL_uL μL/mL of whatever you actually draw). This is the SEC *running* buffer at #buf_gf_glycerol_pct% glycerol; if you intend the same litre as the final flash-freeze storage buffer, raise glycerol to 10% in #raw("buf_gf_glycerol_pct") and re-derive.]
 
-Then make the PEI stock (it goes into the lysate, not onto the column):
+PEI stock:
 
 *PEI, #pei_working_pct% (w/v), #pei_make_mL mL.* A #pei_dilution_fold$times$ dilution of the #pei_stock_pct% Sigma stock, neutralised to pH #buf_pH.
 
@@ -982,21 +1018,21 @@ Then make the PEI stock (it goes into the lysate, not onto the column):
 
 + Bring to #pei_make_mL mL with Milli-Q water. Filter 0.22 μm, label, store at #clarify_temp_C °C.
 
-  #note[\ #pei_working_pct% PEI keeps for months at #clarify_temp_C °C, so #pei_make_mL mL is a long-lived standing reagent, not a per-run prep. At extraction it is dosed to #pei_final_pct% final (#pei_dose_per_mL_uL μL of #pei_working_pct% PEI per mL lysate) to precipitate nucleic acids @sgc_protocol.]
-
+  #note[\ #pei_working_pct% PEI keeps for months at #clarify_temp_C °C, so #pei_make_mL mL is a long-lived standing reagent, not a per-run prep. At extraction it is dosed to #pei_final_pct% final (#pei_dose_per_mL_uL μL of #pei_working_pct% PEI per mL lysate) to precipitate nucleic acids @sgc_protocol.] 
+  
 === Extraction procedure
 
 The cells are already in lysis buffer and frozen, so extraction starts at the thaw - the freeze-thaw itself helps crack the cells. Run the whole thaw-to-clarify stretch in the 4 °C cold room, with the stir plate, tubes, pipettes, PEI stock, and centrifuge rotor pre-chilled. Sonication is the exception: keep the tube in an ice-water bath and pulse on/off regardless, since it heats the sample locally whatever the room temperature.
 
-1. Thaw. Thaw the frozen cell suspension on ice (or briefly at room temperature, then straight onto ice). From here everything stays on ice. Vortex / pipette to a homogeneous, clump-free suspension and *note the total volume* - the PEI dose below is per mL of suspension.
+1. Thaw the frozen cell suspension on ice (or briefly at room temperature, then straight onto ice). From here everything stays on ice. Vortex / pipette to a homogeneous, clump-free suspension and *note the total volume* - the PEI dose below is per mL of suspension.
 
-+ No additives to spike. The #lysis_aliquot_mL mL of lysis buffer already contained #buf_tcep_mM mM TCEP and 1$times$ EDTA-free protease inhibitor when the cells were resuspended, so go straight to sonication. (Spare lysis buffer is in the freezer if you need to top up the volume.)
++ The #lysis_aliquot_mL mL of lysis buffer should already contain #buf_tcep_mM mM TCEP and 1$times$ EDTA-free protease inhibitor when the cells were resuspended, so go straight to sonication. (Spare lysis buffer is in the freezer if you need to top up the volume.)
 
 + Sonicate. Lyse on ice. The protocol does not fix sonication settings @sgc_protocol - they are probe-specific.
 
-  #note[\ A safe starting point: keep the tube in an ice-water bath, pulse (e.g. 30-50% amplitude, $tilde$5 s on / 10 s off) for 2-5 min *process* time, until the lysate visibly thins and darkens. Avoid foaming and heat - both denature protein. Confirm against the lab's sonicator and adjust to the sample.]
+  #note[\ A safe starting point: keep the tube in an ice-water bath, pulse (e.g. 30-50% amplitude, $tilde$5 s on / 10 s off) for 2-5 min process time, until the lysate visibly thins and darkens. Avoid foaming and heat - both denature protein. Confirm against the lab's sonicator and adjust to the sample.]
 
-+ Precipitate nucleic acids (PEI). With the lysate stirring on ice, add #pei_working_pct% PEI dropwise to #pei_final_pct% final - #pei_dose_per_mL_uL μL of #pei_working_pct% PEI per mL of lysate (read the total volume from the previous step). Stir 15 min on ice.
++ With the lysate stirring on ice, add #pei_working_pct% PEI dropwise to #pei_final_pct% final - #pei_dose_per_mL_uL μL of #pei_working_pct% PEI per mL of lysate (read the total volume from the previous step). Stir 15 min on ice.
 
   #note[\ PEI is a polycation: it complexes and drops out DNA/RNA that would otherwise inflate viscosity and foul the Ni column, *before* the clarifying spin rather than relying on it alone @sgc_protocol. Add slowly with stirring - a local excess co-precipitates target protein. The pH-#buf_pH, salts-matched stock keeps the lysate on-spec. For a #lysis_aliquot_mL mL lysate this is $tilde$#calc.round(pei_dose_per_mL_uL * lysis_aliquot_mL / 1000, digits: 2) mL of #pei_working_pct% PEI.]
 
@@ -1112,13 +1148,216 @@ The SEC pool sits in gel-filtration buffer (#buf_gf_glycerol_pct% glycerol, #buf
 *Exchange (Amicon Ultra, same dilute-spin logic as Day 10).* Use the smallest Amicon that holds the aliquot.
 1. Prime the membrane with assay buffer; spin and discard the flow-through.
 + Load the working aliquot, top up with assay buffer, and spin back to the starting volume.
-+ Repeat the dilute-spin cycle $>=$ 5 times - each 10x dilution drops glycerol geometrically (#buf_gf_glycerol_pct% to $<$ 0.001% after five passes).
++ Repeat the dilute-spin cycle $>=$ 5 times - each 10x dilution drops glycerol geometrically (#buf_gf_glycerol_pct% to $\<$ 0.001% after five passes).
 + Recover the retentate. Read concentration on the NanoDrop (blank against assay buffer; use the tag-free extinction coefficient for the cleaved arm). The protein is ready for A#sub[280]/A#sub[428], AzMC, and nDSF.
   #note[\ For a pure swap with no concentration target, a Zeba 7K or PD MiniTrap G-25 spin-desalting column is faster and gentler than repeated Amicon spins - one to two passes give near-complete exchange with better recovery on dilute samples. Amicon wins only when you also need to concentrate for nDSF or a readable A#sub[428].]
 
   #note[\ For a pure swap with no concentration target, a Zeba 7K or PD MiniTrap G-25 spin-desalting column is faster and gentler than repeated Amicon spins - one to two passes give near-complete exchange with better recovery on dilute samples. Amicon wins only when you also need to concentrate for nDSF or a readable A#sub[428].]
 
+#pagebreak()
 
+= Day 12: Buffer-screen thermal stability by DSF – RUBIC Buffer Screen (GloMelt)
+
+Thermal stability of hCSE is screened across the full 96-condition RUBIC Buffer Screen (MD1-96) using differential scanning fluorimetry with GloMelt. The assay is performed in a 384-well plate with each condition in triplicate. Liquid handling of protein and dye is done with the Mosquito robot.
+
+Final reaction volume is 10 µL. The *official RUBIC volume ratio* (option 1: 0.8 µL protein per well) is followed so that the final buffer concentrations match the values printed on the plate layout.
+
+
+== Protein preparation (critical)
+
+The protein comes off SEC in 500 mM NaCl, which has to come down before the screen. The exchange is done on Zeba spin columns into a buffer that already contains 150 mM NaCl - not into salt-free buffer with the salt added back afterwards.
+
+== Protein desalting into 150 mM NaCl (Zeba Spin Columns)
+
+The protein is supplied in 5 aliquots (250 μg each in 142 μL).
+Total protein = 1.25 mg in 710 μL of SEC buffer (10 mM HEPES pH 7.5, 500 mM NaCl, 5 % glycerol).
+
+Four Zeba Spin Desalting Columns (0.5 mL, 7K MWCO) will be used in two sequential rounds.
+
+=== Exchange buffer (make fresh)
+
+*Recipe for 20 mL* (more than enough for 4 columns)
+
+- 200 μL of 1 M HEPES pH 7.5 stock
+- 600 μL of 5 M NaCl stock
+- Make up to 20 mL with Milli-Q water
+- Filter 0.22 μm, chill on ice
+- Final = *10 mM HEPES pH 7.5, 150 mM NaCl*, no glycerol
+
+=== Procedure
+
+*1. Column preparation (4 columns)*
++ Remove bottom closure and loosen cap.
++ Place each column in a collection tube and centrifuge at 1500 × g for 1 min to remove storage solution.
++ Mark the high side of the resin bed and always orient this mark outward.
++ Equilibrate each column with 300 μL *exchange buffer (10 mM HEPES, 150 mM NaCl)* and centrifuge 1500 × g for 1 min. Discard flow-through.
++ Repeat the 300 μL wash three more times (total 4 washes per column).
+
+  #nb[\ These four washes are what sets the destination buffer. Do not substitute salt-free buffer at this step "to remove more salt" - the column exchanges into whatever is in the resin bed, and a salt-free bed is what caused the aggregation loss described above.]
+
+*2. First desalting round*
++ Pool the five protein aliquots.
++ Load approximately 110–120 μL onto each of the four columns.
++ Centrifuge at 1500 × g for 2 min and collect the eluate.
++ Keep the eluates on ice.
+
+*3. Re-equilibrate the same four columns*
++ Wash each column again with 3 × 300 μL exchange buffer (centrifuge 1 min each time).
+
+*4. Second desalting round*
++ Load the remaining protein volume onto the four columns.
++ Centrifuge at 1500 × g for 2 min and collect.
++ Pool all desalted eluates.
+
+*5. Concentration check and adjustment (target 2.5 mg/mL)*
+
+No salt adjustment is needed - the protein is already in 10 mM HEPES pH 7.5, 150 mM NaCl straight off the column. Only the concentration is set here.
+
++ Measure the recovered volume and read the concentration on the NanoDrop, blanking against the exchange buffer and using the tag-free extinction coefficient for the cleaved arm.
++ Work out how much stock the plate actually needs before concentrating anything:
+
+  $ V_"needed" = N_"wells" times 0.8 " μL" times 1.3 $
+
+  For $tilde$300 wells (288 RUBIC + controls) this is $tilde$310 μL, i.e. *$tilde$0.78 mg at 2.5 mg/mL*.
++ If the eluate is above 2.5 mg/mL, dilute with exchange buffer.
++ If it is below 2.5 mg/mL (the usual case - Zeba adds $tilde$10-15 % volume), concentrate on an Amicon Ultra 30K, pre-rinsed with exchange buffer, in short spins at 4 °C. Check the concentration between spins and stop *at* 2.5 mg/mL - do not overshoot and back-dilute, each extra spin costs recovery.
++ Spin out any visible precipitate (5 min, 16 000 × g, 4 °C) and re-read the concentration on the supernatant before setting up the plate.
+
+*6. Storage*
+Keep on ice and use the same day. Do not freeze.
+
+=== Expected outcome
+- Recovery is typically 85–90 % across the two Zeba rounds when the columns are equilibrated in 150 mM NaCl, so *$tilde$1.05–1.15 mg* should survive to the concentration step - comfortably above the $tilde$0.78 mg the plate needs.
+- Residual NaCl contributed to each 10 μL assay well ≈ 12 mM.
+
+=== Residual salt in the well
+
+The 150 mM NaCl stock is the minimum salt concentration that keeps hCSE soluble. When 0.8 µL of this stock is added to a 10 µL well, the residual NaCl contributed by the protein is:
+
+$ (0.8 \/ 10) times 150 "mM" = 12 "mM" $
+
+This is higher than the ideal upper limit suggested by the RUBIC datasheet, but is the lowest residual salt that still prevents precipitation of the protein. It is identical for every well, so it shifts the whole screen by a constant and does not distort the ranking between conditions.
+
+#note[
+  RUBIC datasheet recommendation:  
+  “Sample buffer should contain reagent to stabilize protein, we recommend not to exceed NaCl (\<200 µM), glycerol (\<10 %), reducing reagent (\<5 mM).”  
+  (Note: the value “\<200 µM” is almost certainly a typographical error and is generally interpreted as \<200 mM in the field.)
+]
+
+== Final composition per well (official RUBIC ratio)
+
+#table(
+  columns: 3,
+  align: (left, center, left),
+  inset: 8pt,
+  stroke: 0.5pt + luma(180),
+  table.header([*Component*], [*Volume*], [*Notes*]),
+  [RUBIC Buffer Screen], [8.4 µL], [Preserves exact labelled concentrations],
+  [Protein (2.5 mg/mL in 10 mM HEPES pH 7.5, 150 mM NaCl)], [0.8 µL], [Gives *0.2 mg per mL* final],
+  [GloMelt working stock (12.5×)], [0.8 µL], [1× final],
+  [*Total*], [*10 µL*], [],
+)
+
+Residual NaCl from protein ≈ 12 mM. Protein stock concentration is the only number that changed from the original 0.3 mg/mL version - the 8.4 : 0.8 : 0.8 ratio is unchanged, so the RUBIC conditions are still at their labelled concentrations.
+
+// ─────────────────────────────────────────────────────────────
+//  Day 12 - INSERT after the "Final composition per well" table
+//  and before "== GloMelt (200×) working stock"
+// ─────────────────────────────────────────────────────────────
+
+== Mosquito source plate and transfer scheme
+
+The 384-well assay plate is filled by Mosquito from a 96-well source plate. Only two source columns are used: *column 1 (A1–H1) = GloMelt 12.5× working stock*, *column 2 (A2–H2) = protein at 2.5 mg/mL*. The 8-tip head aspirates a whole column at once, so all eight wells of a column hold the same solution - the eight wells are a dispensing convenience, not eight different samples.
+
+Each tip aspirates *2.4 µL* and dispenses it as *3 × 0.8 µL*, which is exactly one condition in triplicate. One aspiration cycle therefore fills 8 tips × 3 dispenses = *24 destination wells*, and the 288 RUBIC wells come out as *12 cycles* with no remainder.
+
+
+=== Volume budget per source well
+
+#align(center)[
+  #table(
+    columns: (auto, auto, auto),
+    align: (left, center, left),
+    inset: 7pt,
+    stroke: 0.5pt + luma(180),
+    table.header([*Quantity*], [*Value*], [*Origin*]),
+    [RUBIC destination wells], [288], [96 conditions × 3 replicates],
+    [Dispenses per aspiration], [3], [one triplicate],
+    [Aspiration volume per tip], [2.4 µL], [3 × 0.8 µL],
+    [Destination wells per cycle], [24], [8 tips × 3],
+    [Aspiration cycles], [12], [288 ÷ 24],
+    [Destination wells per source well], [36], [288 ÷ 8],
+    [*Liquid actually drawn per source well*], [*28.8 µL*], [12 cycles × 2.4 µL],
+    [Dead-volume allowance], [10 µL], [see note],
+    [*Load per source well*], [*40 µL*], [28.8 + 10, rounded up],
+    [*Total per reagent (8 wells)*], [*320 µL*], [8 × 40 µL],
+  )
+]
+
+=== Protein source column (column 2)
+
+Starting material: 150 µL at 5.93 mg/mL = 889.5 µg.
+
+#align(center)[
+  #table(
+    columns: (auto, auto),
+    align: (left, right),
+    inset: 7pt,
+    stroke: 0.5pt + luma(180),
+    table.header([*Step*], [*Value*]),
+    [Protein in hand], [889.5 µg],
+    [Target stock concentration], [2.5 mg/mL],
+    [Volume at target ($889.5 \/ 2.5$)], [355.8 µL],
+    [Exchange buffer to add ($355.8 - 150$)], [205.8 µL $approx$ 206 µL],
+    [Required for source plate], [320 µL],
+    [Spare after loading], [$tilde$36 µL],
+  )
+]
+
+1. Add *206 µL* exchange buffer (10 mM HEPES pH 7.5, 150 mM NaCl) to the 150 µL of protein. Mix gently by pipetting, do not vortex.
++ Re-read the concentration on the NanoDrop and confirm it is 2.5 $plus.minus$ 0.1 mg/mL. Correct with a few µL of buffer or of the neat stock if it is off.
++ Spin 5 min, 16 000 × g, 4 °C and take the supernatant - any pellet at this point is aggregate and must not reach the source plate.
++ Dispense 40 µL into each of A2–H2. Keep the plate on ice, sealed, until it goes on the deck.
+
+=== GloMelt source column (column 1)
+
+Same volume budget: *320 µL of 12.5× working stock*. Make *400 µL* to cover the controls and pipetting loss:
+
+- *25 µL of 200× GloMelt + 375 µL exchange buffer* = 400 µL of 12.5×
+- Dispense *40 µL into each of A1–H1*
+- Keep on ice and protected from light; make it the same day
+
+=== Controls need a source well the current layout does not have
+
+With only columns 1 and 2 occupied there is no source for the *as-purified SEC-buffer control* - it is a different protein solution (500 mM NaCl, 5 % glycerol) and cannot come out of column 2. Two workable options:
+
++ *Partial-column pickup.* Put $tilde$15 µL of the reserved SEC material into *A3* and program a 1-tip aspiration of 2.4 µL into the three control wells. Cleanest, and keeps the control on the same instrument and the same 0.8 µL dispense as every screen well.
++ *Hand-pipette the control triplicate.* Make a 30 µL premix at the 8.4 : 0.8 : 0.8 ratio and pipette 10 µL into each of three wells. Simpler to set up, but the control is then pipetted differently from the screen and small volume errors are no longer common-mode.
+
+Dye-only and protein-only controls can both be drawn from the existing columns, so they need no extra source wells.
+
+
+== GloMelt (200×) working stock
+
+For the official ratio (0.8 µL per well) a 12.5× working stock is required.
+
+*Recipe (1 + 15)*
+- 1 volume of 200× GloMelt
+- 15 volumes of *exchange buffer* (10 mM HEPES pH 7.5, 150 mM NaCl)
+- Example: 10 µL of 200× + 150 µL buffer = 160 µL of 12.5× working stock
+
+Dilute the dye in the same buffer the protein is in, so the 0.8 µL of dye adds no new buffer species to the well. Prepare at least 25–30 % extra volume for Mosquito dead volume. Keep on ice and protected from light.
+
+== Current-buffer control (triplicate)
+
+A triplicate of the protein in the *pre-desalted* SEC buffer (500 mM NaCl, 10 mM HEPES, 5 % glycerol) + GloMelt is also included on the plate as the “as-purified” reference. Reserve $tilde$5 µL of the pooled SEC material *before* loading the Zeba columns and hold it on ice - once the prep is exchanged there is no way back to this condition.
+
+#note[\ Because the screen now runs at 0.2 mg/mL, run this control at 0.2 mg/mL too (dilute the reserved SEC material in SEC buffer if needed). A control at a different protein concentration is not comparable to the screen wells - GloMelt amplitude scales with protein, and matching the concentration is what makes the "did any RUBIC condition beat the buffer we already have" comparison valid.]
+
+
+#pagebreak()
+
+  
 #bibliography(
   "protocols.bib",
   title: auto,
@@ -1127,7 +1366,6 @@ The SEC pool sits in gel-filtration buffer (#buf_gf_glycerol_pct% glycerol, #buf
 
 #pagebreak()
 == Supplement top-up tables
-
 Several reagents are added at a fixed rate per unit volume and spiked fresh at the point of use, never stored in the bulk buffer. These tables give the amount to add for common working volumes, so the dose is read off rather than recomputed each time. Each is generated from its per-mL rate in #raw("parameters.typ"), so the numbers track any change to a stock or final concentration.
 
 #align(center)[
@@ -1147,4 +1385,46 @@ Several reagents are added at a fixed rate per unit volume and spiked fresh at t
       kind: table,
     ),
   )
+]
+
+=== GloMelt (200×) working dilutions
+
+Target final concentration in every well: *1×*.
+
+#align(center)[
+  #table(
+    columns: (auto, auto, auto, auto),
+    align: (left, center, center, left),
+    inset: 8pt,
+    stroke: 0.5pt + luma(180),
+    table.header(
+      [*Version*], [*GloMelt volume per well*], [*Working stock needed*], [*How to make it from 200×*]
+    ),
+    [Official ratio], [0.8 µL], [12.5×], [1 part 200× + 15 parts buffer],
+  )
+]
+
+==== How to make the working stocks (simple recipe)
+
+*12.5× working stock* (for the official 0.8 µL version)
+
+- Take *1 volume* of the 200× GloMelt stock  
+- Add *15 volumes* of buffer  
+- Mix well  
+
+Example:  
+10 µL of 200× + 150 µL buffer = 160 µL of 12.5× working stock
+
+*6.67× working stock* (for the salt-safe 1.5 µL version)
+
+- Take *1 volume* of the 200× GloMelt stock  
+- Add *29 volumes* of buffer  
+- Mix well  
+
+Example:  
+10 µL of 200× + 290 µL buffer = 300 µL of 6.67× working stock
+
+#note[
+  Always prepare at least 25–30 % extra volume for Mosquito dead volume and pipetting losses.  
+  Keep the working stock on ice and protected from light.
 ]

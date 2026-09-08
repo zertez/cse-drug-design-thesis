@@ -38,6 +38,7 @@
 #include "chapters/04-results.typ"
 #include "chapters/05-discussion.typ"
 
+
 // -- References --
 // Uncomment once you have a .bib file:
 #bibliography(
@@ -46,3 +47,8 @@
 
   style: "apa",
 )
+
+#[
+  #show: appendix
+  #include "chapters/06-appendix.typ"
+]
