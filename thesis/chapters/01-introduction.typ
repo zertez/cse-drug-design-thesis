@@ -5,14 +5,6 @@
 
 == Background on Hydrogen Sulfide Signalling
 
-
-== Cystathionine Beta-Synthase (CBS)
-
-#lorem(150)
-
-// In-text citations
-CBS is the dominant H#sub[2]S-producing enzyme in brain parenchyma.
-
 == Cystathionine Gamma-Lyase (CSE)
 
 #lorem(150)

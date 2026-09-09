@@ -57,3 +57,7 @@ env/
 *.tmp
 .maestro/
 phase_screen_*.log
+
+# Local thesis backups and reproducibility snapshot
+/thesis/reproducibility/backups/
+/thesis/reproducibility/ph74_2026-09-08/

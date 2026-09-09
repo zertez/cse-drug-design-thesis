@@ -9,8 +9,7 @@
 #register-glossary(glossary-entries)
 
 #show: uib-thesis.with(
-  title: "Targeting Hydrogen Sulfide Biogenesis: A Structure-Based Study on CSE Enzymes Relevant to Alzheimer's and Parkinson's Disease",
-  // subtitle: "A Computational and Experimental Approach",
+  title: "De Novo Design of Positive Allosteric Modulators of Human Cystathionine γ-Lyase: Targeting a Potential Therapeutic Pathway in Neurodegeneration",
   author: "Marcus Dalaker Figenschou",
   study-track: "Molecular Medicine",
   department: "Department of Biomedicine",
@@ -49,6 +48,7 @@
 )
 
 #[
-  #show: appendix
+  #counter(heading).update(0)
+  #set heading(numbering: "A.1")
   #include "chapters/06-appendix.typ"
 ]

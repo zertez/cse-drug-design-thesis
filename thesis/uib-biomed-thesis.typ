@@ -51,7 +51,7 @@
   )
 
   show math.equation: set text(font: "STIX Two Math")
-  
+
   set par(
     leading: 0.75em,
     first-line-indent: 0pt,
